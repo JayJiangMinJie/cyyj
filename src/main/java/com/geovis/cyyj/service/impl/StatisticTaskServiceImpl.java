@@ -15,6 +15,7 @@ import com.geovis.cyyj.mapper.DataReportMapper;
 import com.geovis.cyyj.mapper.StatisticTaskMapper;
 import com.geovis.cyyj.mapper.NoticeReceiveMapper;
 import com.geovis.cyyj.po.DataReportPO;
+import com.geovis.cyyj.po.PublicServerPO;
 import com.geovis.cyyj.po.StatisticTaskPO;
 import com.geovis.cyyj.service.IStatisticTaskService;
 import com.geovis.cyyj.vo.StatisticTaskVO;
@@ -56,6 +57,7 @@ public class StatisticTaskServiceImpl extends ServiceImpl<StatisticTaskMapper, S
     private LambdaQueryWrapper<StatisticTaskPO> buildQueryWrapper(StatisticTaskDTO statisticTaskDTO) {
         LambdaQueryWrapper<StatisticTaskPO> lqw = Wrappers.lambdaQuery();
         lqw.eq(StringUtils.isNotBlank(statisticTaskDTO.getKeyWord()), StatisticTaskPO::getTitle, statisticTaskDTO.getKeyWord());
+        lqw.eq(StringUtils.isNotBlank(statisticTaskDTO.getUserId()), StatisticTaskPO::getUserId, statisticTaskDTO.getUserId());
         lqw.eq(StringUtils.isNotBlank(statisticTaskDTO.getStatus()), StatisticTaskPO::getStatus, statisticTaskDTO.getStatus());
         lqw.ge(statisticTaskDTO.getStartTime() != null, StatisticTaskPO::getFillTime, statisticTaskDTO.getStartTime());
         lqw.lt(statisticTaskDTO.getEndTime() != null, StatisticTaskPO::getFillTime, statisticTaskDTO.getEndTime());

@@ -40,6 +40,22 @@ public class DataReportDTO implements Serializable {
     private Integer statisticTaskId;
     @ApiModelProperty(value = "接收单位")
     private String reciveUnit ;
+    @ApiModelProperty(value = "用户标识")
+    private String userId;
+    @ApiModelProperty(value = "上级用户标识")
+    private String parentUserId;
+
+    public String getParentUserId() {
+        return parentUserId;
+    }
+
+    public void setParentUserId(String parentUserId) {
+        this.parentUserId = parentUserId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
 
     public String getTitle() {
         return title;

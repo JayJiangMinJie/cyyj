@@ -1,6 +1,5 @@
 package com.geovis.cyyj.controller;
 
-
 import com.geovis.cyyj.common.core.controller.BaseController;
 import com.geovis.cyyj.common.core.domain.PageQuery;
 import com.geovis.cyyj.common.core.domain.R;

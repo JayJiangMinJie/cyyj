@@ -14,7 +14,9 @@ import com.geovis.cyyj.mapper.NoticeDistributeMapper;
 import com.geovis.cyyj.mapper.NoticeReceiveMapper;
 import com.geovis.cyyj.po.NoticeDistributePO;
 import com.geovis.cyyj.po.NoticeReceivePO;
+import com.geovis.cyyj.po.PublicServerPO;
 import com.geovis.cyyj.service.INoticeDistributeService;
+import com.geovis.cyyj.service.INoticeReceiveService;
 import com.geovis.cyyj.vo.NoticeDistributeVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +44,9 @@ public class NoticeDistributeServiceImpl extends ServiceImpl<NoticeDistributeMap
 
     @Autowired
     private final NoticeReceiveMapper noticeReceiveMapper;
+
+    @Autowired
+    private INoticeReceiveService iNoticeReceiveService;
     /**
      * 分页查询通知下发列表
      */
@@ -55,6 +60,7 @@ public class NoticeDistributeServiceImpl extends ServiceImpl<NoticeDistributeMap
     private LambdaQueryWrapper<NoticeDistributePO> buildQueryWrapper(NoticeDistributeDTO noticeDistributeDTO) {
         LambdaQueryWrapper<NoticeDistributePO> lqw = Wrappers.lambdaQuery();
         lqw.eq(StringUtils.isNotBlank(noticeDistributeDTO.getKeyWord()), NoticeDistributePO::getTitle, noticeDistributeDTO.getKeyWord());
+        lqw.eq(StringUtils.isNotBlank(noticeDistributeDTO.getUserId()), NoticeDistributePO::getUserId, noticeDistributeDTO.getUserId());
         lqw.ge(noticeDistributeDTO.getStartTime() != null, NoticeDistributePO::getStartTime, noticeDistributeDTO.getStartTime());
         lqw.lt(noticeDistributeDTO.getEndTime() != null, NoticeDistributePO::getEndTime, noticeDistributeDTO.getEndTime());
         return lqw;
@@ -64,9 +70,16 @@ public class NoticeDistributeServiceImpl extends ServiceImpl<NoticeDistributeMap
      * 发布通知
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Boolean deliverNotice(DeliverNoticeDTO deliverNoticeDTO) {
         NoticeDistributePO noticeDistributePO = BeanCopyUtils.copy(deliverNoticeDTO, NoticeDistributePO.class);
-        return noticeDistributeMapper.insertOrUpdate(noticeDistributePO);
+        Boolean insertNoticeDistributeResult = noticeDistributeMapper.insertOrUpdate(noticeDistributePO);
+        if(insertNoticeDistributeResult){
+            return iNoticeReceiveService.deliverNotice(deliverNoticeDTO);
+        }else {
+            log.error("insertNoticeDistributeResult is false, user_id = " + deliverNoticeDTO.getUserId());
+            return false;
+        }
     }
 
     /**

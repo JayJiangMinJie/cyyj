@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ZipUtil;
 import com.geovis.cyyj.common.core.domain.FileReturn;
 import com.geovis.cyyj.common.core.domain.R;
+import com.geovis.cyyj.common.utils.Html2WorldUtil;
 import com.geovis.cyyj.common.utils.file.FileUtils;
 import com.geovis.cyyj.dto.FileGenerateDTO;
 import com.geovis.cyyj.service.file.FileService;
@@ -43,55 +44,84 @@ public class FileController {
 
     @PostMapping("/upload")
     @ApiOperation("上传文件")
-    public FileReturn uploadFile(@RequestParam("uploadFile") MultipartFile multipartFile,
-                                 @RequestParam("noticeCode") int noticeCode,
-                                 @RequestParam("operatePerson") String operatePerson){
-        return fileService.uploadFile(multipartFile, noticeCode, operatePerson);
+    public FileReturn uploadFile(@RequestParam("uploadFile") MultipartFile multipartFile){
+        return fileService.uploadFile(multipartFile);
     }
 
-    @ApiOperation("生成通知word文件")
-    @PostMapping("/createPackage")
-    public ResponseEntity<String> createPackage(@Valid @RequestBody FileGenerateDTO fileGenerate, @RequestParam("noticeCode") int noticeCode) {
-        // 生成word，返回相对（根）路径
-        String rootDir = taskPath.replaceFirst("/? *", "/");
-        String wordFile = generateFileName("fileGenerate/", noticeCode);
-        WordTmpUtils.use.fillToDocx(rootDir + "template/通知.docx", rootDir + wordFile, fileGenerate);
-        return ResponseEntity.ok(wordFile);
-    }
+//    @ApiOperation("生成通知word文件")
+//    @PostMapping("/createWord")
+//    public ResponseEntity<String> createPackage(@Valid @RequestBody FileGenerateDTO fileGenerate, @RequestParam("noticeCode") int noticeCode) {
+//        // 生成word，返回相对（根）路径
+//        String rootDir = taskPath.replaceFirst("/? *", "/");
+//        String wordFile = generateFileName("fileGenerate/", noticeCode);
+//        WordTmpUtils.use.fillToDocx(rootDir + "template/通知.docx", rootDir + wordFile, fileGenerate);
+//        return ResponseEntity.ok(wordFile);
+//    }
 
-    /**
-     * 生成Word文件名
-     *
+//    /**
+//     * 生成Word文件名
+//     *
+//     * @param relDir 相对路径
+//     */
+//    private String generateFileName(String relDir, Integer noticeCode) {
+//        return Optional.ofNullable(relDir)
+//                .map(s -> s.replaceFirst("^ */?", ""))
+//                .map(s -> s.replaceFirst("/? *$", "/")).orElse("") + noticeCode + "_" +
+////                LocalDateTime.now().format(formatter) +
+//                UUID.randomUUID().toString().replace("-", "") + ".docx";
+//    }
+
+
+     /**
+      * * 生成Word文件名
      * @param relDir 相对路径
      */
-    private String generateFileName(String relDir, Integer noticeCode) {
-        return Optional.ofNullable(relDir)
-                .map(s -> s.replaceFirst("^ */?", ""))
-                .map(s -> s.replaceFirst("/? *$", "/")).orElse("") + noticeCode + "_" +
+    private String generateFileName(String relDir) {
+        return relDir +
 //                LocalDateTime.now().format(formatter) +
-                UUID.randomUUID().toString().replace("-", "") + ".docx";
+                UUID.randomUUID().toString().replace("-", "") + ".doc";
     }
+
+    @ApiOperation("根据html生成word文件")
+    @PostMapping("/createByHtml")
+    public ResponseEntity<String> reportCreate(@RequestParam("htmlString") String htmlString
+                                               ) {
+        String fileRoad = "";
+        // 生成word，返回相对（根）路径
+        long startTime = System.currentTimeMillis();
+        try {
+            String wordFile = generateFileName("fileGenerate\\");
+            fileRoad = Html2WorldUtil.writeWordFile(htmlString, taskPath + "fileGenerate", taskPath + wordFile);
+        } catch (Exception e) {
+            log.warn("html to file failed and html is " + htmlString);
+            throw new RuntimeException(e);
+        }
+        log.info("转换结束，耗时：{}ms",System.currentTimeMillis() - startTime);
+        return ResponseEntity.ok(fileRoad);
+    }
+
+
 
     @PostMapping("/downloadZip")
     @ApiOperation("下载打包文件")
-    public void exportWord(@RequestHeader Integer noticeCode, HttpServletResponse response) {
+    public void exportWord(HttpServletResponse response,
+                           @RequestParam("wordPath") String wordFilesPath,
+                           @RequestParam("annexFilePath") String annexFilesPath) {
         try {
-            // 压缩到的位置
-            File zipFile = new File(taskPath + "zipPath\\" + noticeCode + ".zip");
-            //总文件及附件读取
-            List<File> reportFiles = getFiles(taskPath + "fileGenerate/");
-            List<File> annexFiles = getFiles(filePath);
-            // 压缩文件中包含的文件列表,此处为测试代码,实际为自己需要的文件列表
+            // 压缩文件中包含的文件列表
             List<File> fileList = CollUtil.newArrayList();
-            for(File reportFile : reportFiles){
-                if(reportFile.getName().contains(String.valueOf(noticeCode))){
-                    fileList.add(reportFile);
-                }
+            // 压缩到的位置
+            File zipFile = new File(taskPath + "zipPath\\" + UUID.randomUUID() + ".zip");
+            //总文件及附件读取
+            List<String> reportFilesList = Arrays.asList(wordFilesPath.split(";"));
+            List<String> annexFilesList = Arrays.asList(annexFilesPath.split(";"));
+            for(String report : reportFilesList){
+                List<File> reportFiles = getFiles(report);
+                fileList.addAll(reportFiles);
             }
-            for(File annexFile : annexFiles){
-                if(annexFile.getName().contains(String.valueOf(noticeCode))){
-                    fileList.add(annexFile);
-                }
+            for(String annex : annexFilesList){
+                List<File> annexFiles = getFiles(annex);
+                fileList.addAll(annexFiles);
             }
             // 压缩多个文件,压缩后会将压缩临时文件删除
             ZipUtil.zip(zipFile, false, fileList.toArray(new File[fileList.size()]));
@@ -127,17 +157,9 @@ public class FileController {
      * 删除路径下文件名所覆盖的文件
      * @Param fileName 文件名
      */
-    @ApiOperation("根据文件名删除文件")
+    @ApiOperation("根据文件路径删除文件")
     @PostMapping("/delete")
-    private Boolean deleteFileByFileName(@RequestParam("fileName") String fileName,
-                                         @RequestParam("fileType")String fileType){
-        String deleteFilePath = "";
-        if("通知".equals(fileType)){
-            deleteFilePath = taskPath + "fileGenerate/" + fileName;
-        } else if ("附件".equals(fileType)) {
-            deleteFilePath = filePath + fileName;
-        }
-
+    private Boolean deleteFileByFileName(@RequestParam("fileName") String deleteFilePath){
         try {
             // 实例化一个File对象
             File file = new File(deleteFilePath);

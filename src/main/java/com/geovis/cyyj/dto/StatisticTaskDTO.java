@@ -38,6 +38,16 @@ public class StatisticTaskDTO implements Serializable {
     @ApiModelProperty(value = "结束日期",notes = "结束日期")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endTime;
+    @ApiModelProperty(value = "用户标识")
+    private String userId;
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
 
     public String getStatus() {
         return status;

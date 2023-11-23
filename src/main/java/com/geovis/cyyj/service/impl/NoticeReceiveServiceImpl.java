@@ -1,28 +1,25 @@
 package com.geovis.cyyj.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.geovis.cyyj.common.core.domain.PageQuery;
 import com.geovis.cyyj.common.core.page.TableDataInfo;
 import com.geovis.cyyj.common.utils.BeanCopyUtils;
 import com.geovis.cyyj.common.utils.StringUtils;
 import com.geovis.cyyj.dto.DeliverNoticeDTO;
-import com.geovis.cyyj.dto.NoticeReceiveDTO;
+import com.geovis.cyyj.dto.NoticeReceiveQueryDTO;
 import com.geovis.cyyj.dto.NoticeReceiveStatusDTO;
 import com.geovis.cyyj.mapper.NoticeReceiveMapper;
 import com.geovis.cyyj.po.NoticeReceivePO;
-import com.geovis.cyyj.po.ProgressFeedbackPO;
+import com.geovis.cyyj.po.PublicServerPO;
 import com.geovis.cyyj.service.INoticeReceiveService;
 import com.geovis.cyyj.vo.NoticeReceiveVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -47,18 +44,19 @@ public class NoticeReceiveServiceImpl extends ServiceImpl<NoticeReceiveMapper, N
      * 分页查询通知下发列表
      */
     @Override
-    public TableDataInfo<NoticeReceiveVO> queryMainList(NoticeReceiveDTO noticeReceiveDTO, PageQuery pageQuery) {
-        LambdaQueryWrapper<NoticeReceivePO> lqw = buildQueryWrapper(noticeReceiveDTO);
+    public TableDataInfo<NoticeReceiveVO> queryMainList(NoticeReceiveQueryDTO noticeReceiveQueryDTO, PageQuery pageQuery) {
+        LambdaQueryWrapper<NoticeReceivePO> lqw = buildQueryWrapper(noticeReceiveQueryDTO);
         Page<NoticeReceiveVO> result = noticeReceiveMapper.selectVoPage(pageQuery.build(), lqw);
         return TableDataInfo.build(result);
     }
 
-    private LambdaQueryWrapper<NoticeReceivePO> buildQueryWrapper(NoticeReceiveDTO noticeReceiveDTO) {
+    private LambdaQueryWrapper<NoticeReceivePO> buildQueryWrapper(NoticeReceiveQueryDTO noticeReceiveQueryDTO) {
         LambdaQueryWrapper<NoticeReceivePO> lqw = Wrappers.lambdaQuery();
-        lqw.eq(StringUtils.isNotBlank(noticeReceiveDTO.getKeyWord()), NoticeReceivePO::getTitle, noticeReceiveDTO.getKeyWord());
-        lqw.eq(StringUtils.isNotBlank(noticeReceiveDTO.getStatus()), NoticeReceivePO::getStatus, noticeReceiveDTO.getStatus());
-        lqw.ge(noticeReceiveDTO.getStartTime() != null, NoticeReceivePO::getStartTime, noticeReceiveDTO.getStartTime());
-        lqw.lt(noticeReceiveDTO.getEndTime() != null, NoticeReceivePO::getEndTime, noticeReceiveDTO.getEndTime());
+        lqw.eq(StringUtils.isNotBlank(noticeReceiveQueryDTO.getKeyWord()), NoticeReceivePO::getTitle, noticeReceiveQueryDTO.getKeyWord());
+        lqw.eq(StringUtils.isNotBlank(noticeReceiveQueryDTO.getUserId()), NoticeReceivePO::getUserId, noticeReceiveQueryDTO.getUserId());
+        lqw.eq(StringUtils.isNotBlank(noticeReceiveQueryDTO.getStatus()), NoticeReceivePO::getStatus, noticeReceiveQueryDTO.getStatus());
+        lqw.ge(noticeReceiveQueryDTO.getStartTime() != null, NoticeReceivePO::getStartTime, noticeReceiveQueryDTO.getStartTime());
+        lqw.lt(noticeReceiveQueryDTO.getEndTime() != null, NoticeReceivePO::getEndTime, noticeReceiveQueryDTO.getEndTime());
         return lqw;
     }
 

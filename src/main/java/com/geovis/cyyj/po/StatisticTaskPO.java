@@ -26,6 +26,23 @@ public class StatisticTaskPO implements Serializable,Cloneable{
     private String editor;
     private String issuer;
     private String reciveUnit;
+    private String userId;
+    private String parentUserId;
+
+    public String getParentUserId() {
+        return parentUserId;
+    }
+
+    public void setParentUserId(String parentUserId) {
+        this.parentUserId = parentUserId;
+    }
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public Integer getId() {
         return id;

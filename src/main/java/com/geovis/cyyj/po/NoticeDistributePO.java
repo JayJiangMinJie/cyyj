@@ -25,6 +25,32 @@ public class NoticeDistributePO implements Serializable,Cloneable{
     private String status ;
     private String receiveUnit ;
     private String filePath;
+    private String noticeContent;
+    private String userId;
+    private String parentUserId;
+
+    public String getParentUserId() {
+        return parentUserId;
+    }
+
+    public void setParentUserId(String parentUserId) {
+        this.parentUserId = parentUserId;
+    }
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getNoticeContent() {
+        return noticeContent;
+    }
+
+    public void setNoticeContent(String noticeContent) {
+        this.noticeContent = noticeContent;
+    }
 
     public Integer getId() {
         return id;

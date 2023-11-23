@@ -1,7 +1,9 @@
 package com.geovis.cyyj.controller;
 
 import com.geovis.cyyj.common.core.domain.R;
+import com.geovis.cyyj.service.IDistrictListPersonService;
 import com.geovis.cyyj.service.IDistrictListService;
+import com.geovis.cyyj.vo.DistrictListPersonVO;
 import com.geovis.cyyj.vo.DistrictListVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -9,7 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value="/district")
@@ -19,6 +24,9 @@ public class DistrictController {
 
     @Autowired
     private IDistrictListService iDistrictListService;
+
+    @Autowired
+    private IDistrictListPersonService iDistrictListPersonService;
 
     /**
      * 查询行政树
@@ -35,6 +43,31 @@ public class DistrictController {
             districtList.get(i).setChildren(city);
         }
         return R.ok(districtList);
+    }
+
+    /**
+     * 查询行政区划人员
+     */
+    @ApiOperation(value = "查询行政区划人员", notes = "查询行政区划人员")
+    @GetMapping("/districtPerson")
+    public R queryDistrictPerson() {
+        Map<String, List<String>> districtPersonMap = new HashMap<>();
+        //查询区县及人员
+        List<DistrictListPersonVO> districtPersonList = iDistrictListPersonService.getDistrictPerson();
+        List<String> userList;
+        for(DistrictListPersonVO districtListPersonVO : districtPersonList){
+            String userName = districtListPersonVO.getUserName();
+            String orgName = districtListPersonVO.getOrgName();
+            if(districtPersonMap.containsKey(orgName)){
+                userList = districtPersonMap.get(orgName);
+                userList.add(userName);
+            }else {
+                userList = new ArrayList<>();
+                userList.add(userName);
+                districtPersonMap.put(orgName, userList);
+            }
+        }
+        return R.ok(districtPersonMap);
     }
 
 }

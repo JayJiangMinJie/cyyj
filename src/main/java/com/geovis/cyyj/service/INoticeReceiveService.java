@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.geovis.cyyj.common.core.domain.PageQuery;
 import com.geovis.cyyj.common.core.page.TableDataInfo;
 import com.geovis.cyyj.dto.DeliverNoticeDTO;
-import com.geovis.cyyj.dto.NoticeReceiveDTO;
+import com.geovis.cyyj.dto.NoticeReceiveQueryDTO;
 import com.geovis.cyyj.dto.NoticeReceiveStatusDTO;
 import com.geovis.cyyj.po.NoticeReceivePO;
 import com.geovis.cyyj.vo.NoticeReceiveVO;
@@ -23,7 +23,7 @@ public interface INoticeReceiveService extends IService<NoticeReceivePO> {
     /**
      * 分页查询通知下发数据
      */
-    TableDataInfo<NoticeReceiveVO> queryMainList(NoticeReceiveDTO noticeReceiveDTO, PageQuery pageQuery);
+    TableDataInfo<NoticeReceiveVO> queryMainList(NoticeReceiveQueryDTO noticeReceiveQueryDTO, PageQuery pageQuery);
 
     /**
      * 发布通知

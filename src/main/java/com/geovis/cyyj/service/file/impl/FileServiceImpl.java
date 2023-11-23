@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 @Service
 public class FileServiceImpl implements FileService {
@@ -28,51 +25,39 @@ public class FileServiceImpl implements FileService {
     FileMapper fileMapper;
 
     @Override
-    public FileReturn uploadFile(MultipartFile multipartFile, int noticeCode, String operatePerson) {
+    public FileReturn uploadFile(MultipartFile multipartFile) {
 //        文件名
-        File file = new File(filePath + noticeCode + "_" + multipartFile.getOriginalFilename());
+        File file = new File(filePath + multipartFile.getOriginalFilename());
         FileOutputStream fileOutputStream = null;
-
+       InputStream inputStream = null;
         try {
             fileOutputStream = new FileOutputStream(file);
-            IOUtils.copy(multipartFile.getInputStream(),fileOutputStream);
+            inputStream = multipartFile.getInputStream();
+            IOUtils.copy(inputStream,fileOutputStream);
             logger.info("===========file upload success=======: " + file.getName());
-            Boolean fileSave = fileSave(filePath + multipartFile.getOriginalFilename() + "-" + noticeCode, operatePerson, noticeCode);
-            if(fileSave == true){
-                logger.info("===========file save to database success=======: " + file.getName());
-            }else {
-                logger.warn("===========file save to database failed=======: " + file.getName());
-            }
         } catch (IOException e) {
             e.printStackTrace();
-            logger.error("文件上传错误：" + noticeCode, e);
         } finally {
-            try {
-//                关闭
-                fileOutputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-                logger.error("文件关闭错误",e);
-            }
+//          关闭
+            IOUtils.closeQuietly(inputStream);
+            IOUtils.closeQuietly(fileOutputStream);
         }
-
         return new FileReturn<>(1,"文件上传成功",file);
     }
 
-    @Override
-    public Boolean fileSave(String fileName, String operatePerson, int noticeCode) {
-        FilePO filePO = new FilePO();
-        filePO.setFileName(fileName);
-        filePO.setNoticeDistributeId(noticeCode);
-        filePO.setOperatePerson(operatePerson);
-        int fileSaveResult = fileMapper.insert(filePO);
-        if(fileSaveResult == 1){
-            return true;
-        }else {
-            return false;
-        }
+//    @Override
+//    public Boolean fileSave(String fileName) {
+//        FilePO filePO = new FilePO();
+//        filePO.setFileName(fileName);
+//        filePO.setNoticeDistributeId(noticeCode);
+//        filePO.setOperatePerson(operatePerson);
+//        int fileSaveResult = fileMapper.insert(filePO);
+//        if(fileSaveResult == 1){
+//            return true;
+//        }else {
+//            return false;
+//        }
 
     }
 
-}
 

@@ -1,0 +1,40 @@
+# Spring 配置相关
+spring:
+  # 数据源配置
+  datasource:
+    url: jdbc:p6spy:postgresql://10.1.109.150:5432/geovis-fire-product
+    username: postgres
+    password: Hiko@20201204
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+  # redis配置
+  redis:
+    host: 127.0.0.1
+    password: 123456
+# swaager增强功能
+knife4j:
+  enable: true
+
+# 底层架构配置
+geovis:
+  swagger:
+    # 开启Swagger
+    enabled: true
+    # 解析路径
+    base-package: com.geovis
+    title: 中科星图智慧科技有限公司 Swagger API
+    description: 火情监测管理系统
+    version: 'V1'
+    license: Powered By 中科星图智慧科技有限公司
+    contact:
+      email:
+      name: Jay
+      url:
+  log:
+    scan-url-list:
+      - '/fire/api/**'
+  socket:
+    host-name: 10.1.109.150
+    port: 9998
+#  task:
+#    task-item-list:
+#      - {task-id: "1001",expression: "0/5 * * * * ?",bean-class-name: "com.geovis.cyyj.bs.service.IFirePointService",methodName: "socketNotifyCount",params:[]}

@@ -24,6 +24,15 @@ public class NoticeReceiveVO implements Serializable,Cloneable{
     private String receiveUnit ;
     private String filePath;
     private String receiveType;
+    private String parentUserId;
+
+    public String getParentUserId() {
+        return parentUserId;
+    }
+
+    public void setParentUserId(String parentUserId) {
+        this.parentUserId = parentUserId;
+    }
 
     public String getReceiveType() {
         return receiveType;

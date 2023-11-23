@@ -41,6 +41,16 @@ public class DataReportSearchDTO implements Serializable {
     @ApiModelProperty(value = "结束发布时间",notes = "结束发布时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endReleaseTime;
+    @ApiModelProperty(value = "用户标识")
+    private String userId;
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
 
     public String getKeyWord() {
         return keyWord;

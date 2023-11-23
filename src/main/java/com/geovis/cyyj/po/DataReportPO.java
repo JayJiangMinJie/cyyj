@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -25,6 +26,24 @@ public class DataReportPO implements Serializable,Cloneable{
     private Integer statisticTaskId;
     private String reciveUnit ;
     private LocalDateTime createTime ;
+    private String userId;
+    private String parentUserId;
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getParentUserId() {
+        return parentUserId;
+    }
+
+    public void setParentUserId(String parentUserId) {
+        this.parentUserId = parentUserId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
 
     public LocalDateTime getCreateTime() {
         return createTime;

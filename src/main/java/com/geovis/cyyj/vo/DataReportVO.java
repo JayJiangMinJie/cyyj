@@ -1,6 +1,7 @@
 package com.geovis.cyyj.vo;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -20,6 +21,24 @@ public class DataReportVO implements Serializable,Cloneable{
     private Integer statisticTaskId;
     private String reciveUnit ;
     private LocalDateTime createTime;
+    private String userId;
+    private String parentUserId;
+
+    public String getParentUserId() {
+        return parentUserId;
+    }
+
+    public void setParentUserId(String parentUserId) {
+        this.parentUserId = parentUserId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
 
     public Integer getId() {
         return id;

@@ -3,6 +3,7 @@ package com.geovis.cyyj.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.geovis.cyyj.po.DistrictListPO;
+import com.geovis.cyyj.vo.DistrictListPersonVO;
 import com.geovis.cyyj.vo.DistrictListVO;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
 public interface IDistrictListService extends IService<DistrictListPO> {
 
     /**
-     * 分页查询通知下发数据
+     * 查询区划树
      */
     List<DistrictListVO> getDistrict(String level);
 

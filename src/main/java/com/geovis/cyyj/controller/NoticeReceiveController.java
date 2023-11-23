@@ -6,15 +6,10 @@ import com.geovis.cyyj.common.core.domain.PageQuery;
 import com.geovis.cyyj.common.core.domain.R;
 import com.geovis.cyyj.common.core.page.TableDataInfo;
 import com.geovis.cyyj.dto.DeliverNoticeDTO;
-import com.geovis.cyyj.dto.NoticeDistributeDTO;
-import com.geovis.cyyj.dto.NoticeReceiveDTO;
+import com.geovis.cyyj.dto.NoticeReceiveQueryDTO;
 import com.geovis.cyyj.dto.NoticeReceiveStatusDTO;
-import com.geovis.cyyj.service.INoticeDistributeService;
 import com.geovis.cyyj.service.INoticeReceiveService;
-import com.geovis.cyyj.service.IProgressFeedbackService;
-import com.geovis.cyyj.vo.NoticeDistributeVO;
 import com.geovis.cyyj.vo.NoticeReceiveVO;
-import com.geovis.cyyj.vo.ProgressFeedbackVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -47,8 +42,8 @@ public class NoticeReceiveController extends BaseController {
      */
     @ApiOperation(value = "分页查询通知接收列表", notes = "分页查询通知接收列表")
     @GetMapping("/queryMainList")
-    public TableDataInfo<NoticeReceiveVO> queryMainList(NoticeReceiveDTO noticeReceiveDTO, PageQuery pageQuery) {
-        return iNoticeReceiveService.queryMainList(noticeReceiveDTO, pageQuery);
+    public TableDataInfo<NoticeReceiveVO> queryMainList(NoticeReceiveQueryDTO noticeReceiveQueryDTO, PageQuery pageQuery) {
+        return iNoticeReceiveService.queryMainList(noticeReceiveQueryDTO, pageQuery);
     }
 
     @ApiOperation(value = "发布通知", notes = "发布通知")

@@ -42,8 +42,36 @@ public class DeliverNoticeDTO implements Serializable {
     private String filePath;
     @ApiModelProperty(value = "通知下发id")
     private Integer noticeDistributeId;
-    @ApiModelProperty(value = "接受类别")
-    private String receiveType;
+    @ApiModelProperty(value = "通知内容")
+    private String noticeContent;
+    @ApiModelProperty(value = "用户标识")
+    private String userId;
+    @ApiModelProperty(value = "上级用户标识")
+    private String parentUserId;
+
+    public String getParentUserId() {
+        return parentUserId;
+    }
+
+    public void setParentUserId(String parentUserId) {
+        this.parentUserId = parentUserId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getNoticeContent() {
+        return noticeContent;
+    }
+
+    public void setNoticeContent(String noticeContent) {
+        this.noticeContent = noticeContent;
+    }
 
     public Integer getNoticeDistributeId() {
         return noticeDistributeId;
@@ -51,14 +79,6 @@ public class DeliverNoticeDTO implements Serializable {
 
     public void setNoticeDistributeId(Integer noticeDistributeId) {
         this.noticeDistributeId = noticeDistributeId;
-    }
-
-    public String getReceiveType() {
-        return receiveType;
-    }
-
-    public void setReceiveType(String receiveType) {
-        this.receiveType = receiveType;
     }
 
     public String getTitle() {

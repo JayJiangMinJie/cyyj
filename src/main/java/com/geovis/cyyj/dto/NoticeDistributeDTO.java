@@ -35,6 +35,17 @@ public class NoticeDistributeDTO implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endTime;
 
+    @ApiModelProperty(value = "用户标识")
+    private String userId;
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
     public String getKeyWord() {
         return keyWord;
     }

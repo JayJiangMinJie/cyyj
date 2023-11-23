@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.geovis.cyyj.common.utils.BeanCopyUtils;
 import com.geovis.cyyj.mapper.DistrictListMapper;
 import com.geovis.cyyj.po.DistrictListPO;
+import com.geovis.cyyj.po.DistrictListPersonPO;
 import com.geovis.cyyj.service.IDistrictListService;
+import com.geovis.cyyj.vo.DistrictListPersonVO;
 import com.geovis.cyyj.vo.DistrictListVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,5 +55,4 @@ public class DistrictListServiceImpl extends ServiceImpl<DistrictListMapper, Dis
         }
         return districtListVOS;
     }
-
 }

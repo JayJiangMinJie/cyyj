@@ -27,6 +27,24 @@ public class NoticeReceivePO implements Serializable,Cloneable{
     private String receiveUnit ;
     private String filePath;
     private String receiveType;
+    private String parentUserId;
+    private String userId ;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getParentUserId() {
+        return parentUserId;
+    }
+
+    public void setParentUserId(String parentUserId) {
+        this.parentUserId = parentUserId;
+    }
 
     public LocalDateTime getCreateTime() {
         return createTime;

@@ -1,0 +1,19 @@
+2023-11-23 09:45:31.378 [main] INFO  com.geovis.cyyj.GeovisStartApplication - Starting GeovisStartApplication using Java 1.8.0_333 on DESKTOP-ENMGKRP with PID 7180 (E:\IdeaProjectWorkSpace\geovis-cyyj-fzjz\target\classes started by DELL in E:\IdeaProjectWorkSpace\geovis-cyyj-fzjz)
+2023-11-23 09:45:31.419 [main] INFO  com.geovis.cyyj.GeovisStartApplication - The following 1 profile is active: "dev"
+2023-11-23 09:45:33.612 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 10908 (http)
+2023-11-23 09:45:33.618 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-10908"]
+2023-11-23 09:45:33.618 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-11-23 09:45:33.619 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.74]
+2023-11-23 09:45:33.794 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-11-23 09:45:33.794 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2305 ms
+2023-11-23 09:45:33.978 [main] INFO  com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure - Init DruidDataSource
+2023-11-23 09:45:34.310 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2023-11-23 09:45:35.403 [main] INFO  com.geovis.cyyj.common.config.JacksonConfig - 初始化 jackson 配置
+2023-11-23 09:45:35.711 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-10908"]
+2023-11-23 09:45:35.728 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 10908 (http) with context path ''
+2023-11-23 09:45:36.057 [main] INFO  com.geovis.cyyj.GeovisStartApplication - Started GeovisStartApplication in 5.319 seconds (JVM running for 6.311)
+2023-11-23 09:45:39.355 [http-nio-10908-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-11-23 09:45:39.355 [http-nio-10908-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-11-23 09:45:39.356 [http-nio-10908-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-11-23 09:49:08.994 [SpringApplicationShutdownHook] INFO  org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2023-11-23 09:49:09.096 [tomcat-shutdown] INFO  org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete

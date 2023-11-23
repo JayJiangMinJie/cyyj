@@ -45,6 +45,24 @@ public class ProgressFeedbackDTO implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "反馈时间")
     private LocalDateTime feedbackTime ;
+    private String filePath;
+    private String operatePerson;
+
+    public String getOperatePerson() {
+        return operatePerson;
+    }
+
+    public void setOperatePerson(String operatePerson) {
+        this.operatePerson = operatePerson;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
 
     public Integer getId() {
         return id;

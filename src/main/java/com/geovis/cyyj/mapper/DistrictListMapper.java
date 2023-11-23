@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
- * 通知下发表 Mapper 接口
+ * 区划人员表 Mapper 接口
  * </p>
  *
  * @author Jay

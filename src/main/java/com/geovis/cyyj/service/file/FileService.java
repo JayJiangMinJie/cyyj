@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface FileService {
 
-    FileReturn uploadFile(MultipartFile multipartFile, int noticeCode, String operatePerson);
+    FileReturn uploadFile(MultipartFile multipartFile);
 
-    Boolean fileSave(String fileName, String operatePerson, int noticeCode);
+//    Boolean fileSave(String fileName, String operatePerson, int noticeCode);
 
 }
