@@ -36,18 +36,18 @@ public class GroupManagementController {
     @PostMapping({"/addOrUpdateGroup"})
     public R addOrUpdateGroup(@Validated @RequestBody GroupInsertDTO groupInsertDTO) {
         if(iGroupManagementService.addOrUpdateGroup(groupInsertDTO)){
-            return R.ok("新增进度反馈成功");
+            return R.ok("新增更新群组成功");
         }
-        return R.fail("新增进度反馈失败");
+        return R.fail("新增更新群组失败");
     }
 
     @ApiOperation(value = "删除群组", notes = "删除群组")
     @PostMapping({"/deleteGroup"})
     public R deleteGroup(@RequestParam("id") Integer id) {
         if(iGroupManagementService.deleteGroup(id)){
-            return R.ok("通知发布成功");
+            return R.ok("删除群组成功");
         }
-        return R.fail("通知发布失败");
+        return R.fail("删除群组失败");
     }
 
 }

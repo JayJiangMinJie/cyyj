@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
 @ApiModel(value = "GroupInsertDTO", description = "新增群组DTO")
 public class GroupInsertDTO implements Serializable {
     @ApiModelProperty(value = "id")
-    private String id ;
+    private Integer id ;
     @ApiModelProperty(value = "标题")
     private String name ;
     @ApiModelProperty(value = "群组人数")
@@ -37,11 +37,11 @@ public class GroupInsertDTO implements Serializable {
     @ApiModelProperty(value = "用户标识")
     private String userId;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
