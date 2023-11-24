@@ -51,18 +51,18 @@ public class WarningProgressFeedbackServiceImpl extends ServiceImpl<WarningProgr
     public Boolean addOrUpdateWarningProgressFeedback(WarningProgressFeedbackDTO warningProgressFeedbackDTO) {
         WarningProgressFeedbackPO warningProgressFeedbackPO = BeanCopyUtils.copy(warningProgressFeedbackDTO, WarningProgressFeedbackPO.class);
         LocalDateTime now = LocalDateTime.now();
-        String status;
-        if(warningProgressFeedbackDTO.getIsRead()){
-
-            if(now.isBefore(warningProgressFeedbackDTO.getEndTime())){
-                status = "按时反馈";
-            }else {
-                status = "超时反馈";
-            }
-        }else {
-            status = "未反馈";
-        }
-        warningProgressFeedbackDTO.setFeedbackStatus(status);
+//        String status;
+//        if(warningProgressFeedbackDTO.getIsRead()){
+//
+//            if(now.isBefore(warningProgressFeedbackDTO.getEndTime())){
+//                status = "按时反馈";
+//            }else {
+//                status = "超时反馈";
+//            }
+//        }else {
+//            status = "未反馈";
+//        }
+//        warningProgressFeedbackPO.set(status);
         return warningProgressFeedbackMapper.insertOrUpdate(warningProgressFeedbackPO);
     }
 

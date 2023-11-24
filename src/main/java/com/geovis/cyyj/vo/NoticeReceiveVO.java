@@ -23,8 +23,26 @@ public class NoticeReceiveVO implements Serializable,Cloneable{
     private Integer noticeDistributeId;
     private String receiveUnit ;
     private String filePath;
-    private String receiveType;
+    private String type;
+    private String userId;
     private String parentUserId;
+    private String noticeContent;
+
+    public String getNoticeContent() {
+        return noticeContent;
+    }
+
+    public void setNoticeContent(String noticeContent) {
+        this.noticeContent = noticeContent;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getParentUserId() {
         return parentUserId;
@@ -34,12 +52,12 @@ public class NoticeReceiveVO implements Serializable,Cloneable{
         this.parentUserId = parentUserId;
     }
 
-    public String getReceiveType() {
-        return receiveType;
+    public String getType() {
+        return type;
     }
 
-    public void setReceiveType(String receiveType) {
-        this.receiveType = receiveType;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public void setNoticeDistributeId(Integer noticeDistributeId) {

@@ -48,6 +48,16 @@ public class DeliverNoticeDTO implements Serializable {
     private String userId;
     @ApiModelProperty(value = "上级用户标识")
     private String parentUserId;
+    @ApiModelProperty(value = "操作人")
+    private String operatePerson;
+
+    public String getOperatePerson() {
+        return operatePerson;
+    }
+
+    public void setOperatePerson(String operatePerson) {
+        this.operatePerson = operatePerson;
+    }
 
     public String getParentUserId() {
         return parentUserId;

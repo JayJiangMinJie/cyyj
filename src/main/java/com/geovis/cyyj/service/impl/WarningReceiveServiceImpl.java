@@ -82,7 +82,7 @@ public class WarningReceiveServiceImpl extends ServiceImpl<WarningReceiveMapper,
         }else {
             status = "未反馈";
         }
-        warningReceiveStatusDTO.setStatus(status);
+        warningReceivePO.setStatus(status);
         return warningReceiveMapper.insertOrUpdate(warningReceivePO);
     }
 

@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -49,12 +50,14 @@ public class NoticeProgressFeedbackServiceImpl extends ServiceImpl<NoticeProgres
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Boolean addOrUpdateNoticeProgressFeedback(NoticeProgressFeedbackDTO noticeProgressFeedbackDTO) {
         NoticeProgressFeedbackPO noticeProgressFeedbackPO = BeanCopyUtils.copy(noticeProgressFeedbackDTO, NoticeProgressFeedbackPO.class);
         LocalDateTime now = LocalDateTime.now();
         String status;
-        if(noticeProgressFeedbackDTO.getIsRead()){
-
+        if(noticeProgressFeedbackDTO.getIsRead() == null){
+            status = "";
+        }else if(noticeProgressFeedbackDTO.getIsRead()){
             if(now.isBefore(noticeProgressFeedbackDTO.getEndTime())){
                 status = "按时反馈";
             }else {
@@ -63,7 +66,7 @@ public class NoticeProgressFeedbackServiceImpl extends ServiceImpl<NoticeProgres
         }else {
             status = "未反馈";
         }
-        noticeProgressFeedbackDTO.setFeedbackStatus(status);
+        noticeProgressFeedbackPO.setFeedbackStatus(status);
         return noticeProgressFeedbackMapper.insertOrUpdate(noticeProgressFeedbackPO);
     }
 

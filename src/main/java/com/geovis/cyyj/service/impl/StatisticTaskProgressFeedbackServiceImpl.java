@@ -62,7 +62,7 @@ public class StatisticTaskProgressFeedbackServiceImpl extends ServiceImpl<Statis
         }else {
             status = "未反馈";
         }
-        statisticTaskProgressFeedbackDTO.setFeedbackStatus(status);
+        statisticTaskProgressFeedbackPO.setFeedbackStatus(status);
         return statisticTaskProgressFeedbackMapper.insertOrUpdate(statisticTaskProgressFeedbackPO);
     }
 

@@ -1,6 +1,6 @@
 server:
   # 服务端口
-  port: 10908
+  port: 10909
   tomcat:
     max-http-post-size: 100MB  #请求参数长度
     max-http-form-post-size: 100MB #form表单长度

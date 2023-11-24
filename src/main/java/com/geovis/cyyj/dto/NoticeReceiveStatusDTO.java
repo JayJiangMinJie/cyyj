@@ -26,13 +26,41 @@ import java.time.LocalDateTime;
 public class NoticeReceiveStatusDTO implements Serializable {
     @ApiModelProperty(value = "id(更新传)")
     private Integer id ;
+    private Integer noticeDistributeId ;
+    private String userId ;
     @ApiModelProperty(value = "状态(不传)")
     private String status ;
+    @ApiModelProperty(value = "通知类型")
+    private String type ;
     @ApiModelProperty(value = "已读状态")
     private Boolean isRead ;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "截止时间")
     private LocalDateTime endTime ;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Integer getNoticeDistributeId() {
+        return noticeDistributeId;
+    }
+
+    public void setNoticeDistributeId(Integer noticeDistributeId) {
+        this.noticeDistributeId = noticeDistributeId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public Integer getId() {
         return id;

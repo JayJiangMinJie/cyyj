@@ -26,7 +26,7 @@ public class NoticeReceivePO implements Serializable,Cloneable{
     private LocalDateTime createTime;
     private String receiveUnit ;
     private String filePath;
-    private String receiveType;
+    private String type;
     private String parentUserId;
     private String userId ;
     private String noticeContent;
@@ -63,12 +63,12 @@ public class NoticeReceivePO implements Serializable,Cloneable{
         this.createTime = createTime;
     }
 
-    public String getReceiveType() {
-        return receiveType;
+    public String getType() {
+        return type;
     }
 
-    public void setReceiveType(String receiveType) {
-        this.receiveType = receiveType;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getReceiveUnit() {

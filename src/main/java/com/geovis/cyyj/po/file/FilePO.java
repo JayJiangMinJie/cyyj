@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * 上传文件信息表;
@@ -18,8 +19,17 @@ public class FilePO implements Serializable,Cloneable{
     @TableId(type = IdType.AUTO)
     private int id;
     private String operatePerson ;
-    private String fileName ;
+    private String filePath;
     private int noticeDistributeId ;
+    private LocalDateTime createTime;
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
 
     public int getId() {
         return id;
@@ -37,12 +47,12 @@ public class FilePO implements Serializable,Cloneable{
         this.operatePerson = operatePerson;
     }
 
-    public String getFileName() {
-        return fileName;
+    public String getFilePath() {
+        return filePath;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 
     public int getNoticeDistributeId() {

@@ -1,6 +1,7 @@
 package com.geovis.cyyj.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -9,9 +10,13 @@ import com.geovis.cyyj.common.core.page.TableDataInfo;
 import com.geovis.cyyj.common.utils.BeanCopyUtils;
 import com.geovis.cyyj.common.utils.StringUtils;
 import com.geovis.cyyj.dto.DeliverNoticeDTO;
+import com.geovis.cyyj.dto.NoticeProgressFeedbackDTO;
 import com.geovis.cyyj.dto.NoticeReceiveQueryDTO;
 import com.geovis.cyyj.dto.NoticeReceiveStatusDTO;
+import com.geovis.cyyj.mapper.NoticeProgressFeedbackMapper;
 import com.geovis.cyyj.mapper.NoticeReceiveMapper;
+import com.geovis.cyyj.po.DisasterWarningPO;
+import com.geovis.cyyj.po.NoticeProgressFeedbackPO;
 import com.geovis.cyyj.po.NoticeReceivePO;
 import com.geovis.cyyj.po.PublicServerPO;
 import com.geovis.cyyj.service.INoticeReceiveService;
@@ -39,6 +44,9 @@ public class NoticeReceiveServiceImpl extends ServiceImpl<NoticeReceiveMapper, N
 
     @Autowired
     private final NoticeReceiveMapper noticeReceiveMapper;
+
+    @Autowired
+    private final NoticeProgressFeedbackMapper noticeProgressFeedbackMapper;
 
     /**
      * 分页查询通知下发列表
@@ -73,18 +81,44 @@ public class NoticeReceiveServiceImpl extends ServiceImpl<NoticeReceiveMapper, N
     public Boolean changeStatus(NoticeReceiveStatusDTO noticeReceiveStatusDTO) {
         NoticeReceivePO noticeReceivePO = BeanCopyUtils.copy(noticeReceiveStatusDTO, NoticeReceivePO.class);
         LocalDateTime now = LocalDateTime.now();
+        String receiveStatus = "未读";
         String status;
         if(noticeReceiveStatusDTO.getIsRead()){
-            if(now.isBefore(noticeReceiveStatusDTO.getEndTime())){
-                status = "按时反馈";
+            if(noticeReceiveStatusDTO.getType().equals("0")){
+                if(now.isBefore(noticeReceiveStatusDTO.getEndTime())){
+                    status = "按时反馈";
+                }else {
+                    status = "超时反馈";
+                }
             }else {
-                status = "超时反馈";
+                if(now.isBefore(noticeReceiveStatusDTO.getEndTime())){
+                    status = "待上传";
+                }else {
+                    status = "未反馈";
+                }
             }
+            receiveStatus = "已读";
         }else {
             status = "未反馈";
         }
-        noticeReceiveStatusDTO.setStatus(status);
-        return noticeReceiveMapper.insertOrUpdate(noticeReceivePO);
+        noticeReceivePO.setStatus(status);
+        Boolean insertOrUpdateNoticeReceiveResult = noticeReceiveMapper.insertOrUpdate(noticeReceivePO);
+        if(!insertOrUpdateNoticeReceiveResult){
+            throw new RuntimeException("insertOrUpdate NoticeReceive Result failed, userid is : " + noticeReceivePO.getUserId() + " parentid is : " + noticeReceivePO.getParentUserId());
+        }
+        //顺带也要更新反馈列表
+        LambdaQueryWrapper<NoticeProgressFeedbackPO> lambdaQueryWrapper = new LambdaQueryWrapper();
+        lambdaQueryWrapper.eq(NoticeProgressFeedbackPO::getNoticeDistributeId, noticeReceiveStatusDTO.getNoticeDistributeId());
+        lambdaQueryWrapper.eq(NoticeProgressFeedbackPO::getUserId, noticeReceiveStatusDTO.getUserId());
+        NoticeProgressFeedbackPO noticeProgressFeedbackPO = noticeProgressFeedbackMapper.selectOne(lambdaQueryWrapper);
+        //先查询后更新
+        noticeProgressFeedbackPO.setFeedbackStatus(status);
+        noticeProgressFeedbackPO.setReceiveStatus(receiveStatus);
+        int resultUpdateNoticeFeedback = noticeProgressFeedbackMapper.updateById(noticeProgressFeedbackPO);
+        if(resultUpdateNoticeFeedback <= 0){
+            throw new RuntimeException("resultUpdateNoticeFeedback Result failed, userid is : " + noticeReceivePO.getUserId() );
+        }
+        return true;
     }
 
 }

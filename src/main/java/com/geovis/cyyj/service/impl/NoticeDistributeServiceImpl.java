@@ -10,6 +10,7 @@ import com.geovis.cyyj.common.utils.BeanCopyUtils;
 import com.geovis.cyyj.common.utils.StringUtils;
 import com.geovis.cyyj.dto.DeliverNoticeDTO;
 import com.geovis.cyyj.dto.NoticeDistributeQueryDTO;
+import com.geovis.cyyj.dto.NoticeProgressFeedbackDTO;
 import com.geovis.cyyj.mapper.DistrictListPersonMapper;
 import com.geovis.cyyj.mapper.NoticeDistributeMapper;
 import com.geovis.cyyj.mapper.NoticeReceiveMapper;
@@ -17,6 +18,7 @@ import com.geovis.cyyj.po.DistrictListPersonPO;
 import com.geovis.cyyj.po.NoticeDistributePO;
 import com.geovis.cyyj.po.NoticeReceivePO;
 import com.geovis.cyyj.service.INoticeDistributeService;
+import com.geovis.cyyj.service.INoticeProgressFeedbackService;
 import com.geovis.cyyj.service.INoticeReceiveService;
 import com.geovis.cyyj.vo.NoticeDistributeVO;
 import lombok.RequiredArgsConstructor;
@@ -52,6 +54,9 @@ public class NoticeDistributeServiceImpl extends ServiceImpl<NoticeDistributeMap
 
     @Autowired
     private INoticeReceiveService iNoticeReceiveService;
+
+    @Autowired
+    private INoticeProgressFeedbackService iNoticeProgressFeedbackService;
 
     @Autowired
     private final DistrictListPersonMapper districtListPersonMapper;
@@ -92,22 +97,31 @@ public class NoticeDistributeServiceImpl extends ServiceImpl<NoticeDistributeMap
         }
         NoticeDistributePO insertNoticeDistributeResult = noticeDistributeMapper.selectById(noticeDistributePO.getId());
         if(insertNoticeDistributeResult != null){
-            //如果下发新增成功了，
+            //如果下发新增成功了，先生成通知接收的
             DeliverNoticeDTO deliverNotice2ReceiveDTO = new DeliverNoticeDTO();
             deliverNotice2ReceiveDTO.setTitle(insertNoticeDistributeResult.getTitle());
             deliverNotice2ReceiveDTO.setStartTime(insertNoticeDistributeResult.getStartTime());
             deliverNotice2ReceiveDTO.setEndTime(insertNoticeDistributeResult.getEndTime());
             deliverNotice2ReceiveDTO.setType(insertNoticeDistributeResult.getType());
-            //根据通知类别更改初始状态
-            if("通知".equals(insertNoticeDistributeResult.getType())){
+            //根据通知类别更改初始状态: 0-通知 1-带附件通知
+            if("0".equals(insertNoticeDistributeResult.getType())){
                 deliverNotice2ReceiveDTO.setStatus("待反馈");
             }
             deliverNotice2ReceiveDTO.setStatus("待上传");
-            deliverNotice2ReceiveDTO.setReceiveUnit("");
-            deliverNotice2ReceiveDTO.setFilePath("");
+            deliverNotice2ReceiveDTO.setType(insertNoticeDistributeResult.getType());
             deliverNotice2ReceiveDTO.setNoticeContent(insertNoticeDistributeResult.getNoticeContent());
             deliverNotice2ReceiveDTO.setParentUserId(insertNoticeDistributeResult.getUserId());
             deliverNotice2ReceiveDTO.setNoticeDistributeId(noticeDistributePO.getId());
+            //再生成进度反馈的数据
+            NoticeProgressFeedbackDTO noticeProgressFeedbackDTO = new NoticeProgressFeedbackDTO();
+            noticeProgressFeedbackDTO.setNoticeDistributeId(noticeDistributePO.getId());
+            noticeProgressFeedbackDTO.setEndTime(insertNoticeDistributeResult.getEndTime());
+            noticeProgressFeedbackDTO.setCity("青岛市");
+            noticeProgressFeedbackDTO.setCounty("城阳区");
+            noticeProgressFeedbackDTO.setDept("城阳区应急管理局");
+            noticeProgressFeedbackDTO.setOperatePerson(deliverNoticeDTO.getOperatePerson());
+            noticeProgressFeedbackDTO.setReceiveStatus("未读");
+            noticeProgressFeedbackDTO.setParentUserId(insertNoticeDistributeResult.getUserId());
             //这里暂时查询本地表人员
             //用查询到的接收单位list找出该给哪些单位发信息
             LambdaQueryWrapper<DistrictListPersonPO> lambdaQueryWrapper = new LambdaQueryWrapper();
@@ -122,12 +136,19 @@ public class NoticeDistributeServiceImpl extends ServiceImpl<NoticeDistributeMap
             //给各个接收单位发通知
             for(Map.Entry<String, String> entry : revceiveMap.entrySet()){
                 deliverNotice2ReceiveDTO.setUserId(entry.getValue());
-                Boolean insertResult = iNoticeReceiveService.deliverNotice(deliverNotice2ReceiveDTO);
-                if(!insertResult){
-//                    log.error("insert into receive unit failed, userid is : " + deliverNotice2ReceiveDTO.getUserId() + " parentid is : " + deliverNotice2ReceiveDTO.getParentUserId());
+                Boolean insertReceiveResult = iNoticeReceiveService.deliverNotice(deliverNotice2ReceiveDTO);
+                if(!insertReceiveResult){
                     throw new RuntimeException("insert into receive unit failed, userid is : " + deliverNotice2ReceiveDTO.getUserId() + " parentid is : " + deliverNotice2ReceiveDTO.getParentUserId());
                 }
+                //进度反馈也要给各个单位默认发一个
+                noticeProgressFeedbackDTO.setUserId(entry.getValue());
+                Boolean insertFeedbackResult = iNoticeProgressFeedbackService.addOrUpdateNoticeProgressFeedback(noticeProgressFeedbackDTO);
+                if(!insertFeedbackResult){
+                    throw new RuntimeException("insert into feedback failed, userid is : " + deliverNotice2ReceiveDTO.getUserId() + " parentid is : " + deliverNotice2ReceiveDTO.getParentUserId());
+                }
             }
+
+
             return true;
         }else {
             log.error("通知下发 insertNoticeDistributeResult is false, user_id = " + deliverNoticeDTO.getUserId());

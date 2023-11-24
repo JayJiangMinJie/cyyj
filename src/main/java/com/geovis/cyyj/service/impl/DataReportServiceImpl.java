@@ -81,7 +81,7 @@ public class DataReportServiceImpl extends ServiceImpl<DataReportMapper, DataRep
         }else {
             status = "未反馈";
         }
-        dataReportStatusDTO.setStatus(status);
+        dataReportPO.setStatus(status);
         return dataReportMapper.insertOrUpdate(dataReportPO);
     }
 

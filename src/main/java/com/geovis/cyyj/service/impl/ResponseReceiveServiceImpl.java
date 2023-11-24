@@ -82,7 +82,7 @@ public class ResponseReceiveServiceImpl extends ServiceImpl<ResponseReceiveMappe
         }else {
             status = "未反馈";
         }
-        responseReceiveStatusDTO.setStatus(status);
+        responseReceivePO.setStatus(status);
         return responseReceiveMapper.insertOrUpdate(responseReceivePO);
     }
 

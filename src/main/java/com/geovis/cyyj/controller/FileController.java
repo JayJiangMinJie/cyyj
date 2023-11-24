@@ -3,12 +3,14 @@ package com.geovis.cyyj.controller;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ZipUtil;
 import com.geovis.cyyj.common.core.domain.FileReturn;
+import com.geovis.cyyj.common.core.domain.PageQuery;
 import com.geovis.cyyj.common.core.domain.R;
+import com.geovis.cyyj.common.core.page.TableDataInfo;
 import com.geovis.cyyj.common.utils.Html2WorldUtil;
 import com.geovis.cyyj.common.utils.file.FileUtils;
-import com.geovis.cyyj.dto.FileGenerateDTO;
+import com.geovis.cyyj.dto.FileQueryDTO;
 import com.geovis.cyyj.service.file.FileService;
-import com.geovis.cyyj.common.utils.WordTmpUtils;
+import com.geovis.cyyj.vo.FileVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.io.File;
 import java.util.*;
 
@@ -48,28 +49,22 @@ public class FileController {
         return fileService.uploadFile(multipartFile);
     }
 
-//    @ApiOperation("生成通知word文件")
-//    @PostMapping("/createWord")
-//    public ResponseEntity<String> createPackage(@Valid @RequestBody FileGenerateDTO fileGenerate, @RequestParam("noticeCode") int noticeCode) {
-//        // 生成word，返回相对（根）路径
-//        String rootDir = taskPath.replaceFirst("/? *", "/");
-//        String wordFile = generateFileName("fileGenerate/", noticeCode);
-//        WordTmpUtils.use.fillToDocx(rootDir + "template/通知.docx", rootDir + wordFile, fileGenerate);
-//        return ResponseEntity.ok(wordFile);
-//    }
+    @PostMapping("/save")
+    @ApiOperation("保存文件")
+    public Boolean fileSave(@RequestParam("filePath") String filePath,
+                                 @RequestParam("noticeCode") int noticeCode,
+                                 @RequestParam("operatePerson") String operatePerson){
+        return fileService.fileSave(filePath, noticeCode, operatePerson);
+    }
 
-//    /**
-//     * 生成Word文件名
-//     *
-//     * @param relDir 相对路径
-//     */
-//    private String generateFileName(String relDir, Integer noticeCode) {
-//        return Optional.ofNullable(relDir)
-//                .map(s -> s.replaceFirst("^ */?", ""))
-//                .map(s -> s.replaceFirst("/? *$", "/")).orElse("") + noticeCode + "_" +
-////                LocalDateTime.now().format(formatter) +
-//                UUID.randomUUID().toString().replace("-", "") + ".docx";
-//    }
+    /**
+     * 分页查询数据库文件列表
+     */
+    @ApiOperation(value = "分页查询数据库文件列表", notes = "分页查询数据库文件列表")
+    @GetMapping("/queryFileMainList")
+    public TableDataInfo<FileVO> queryFileMainList(FileQueryDTO fileQueryDTO, PageQuery pageQuery) {
+        return fileService.queryFileMainList(fileQueryDTO, pageQuery);
+    }
 
 
      /**
@@ -135,7 +130,7 @@ public class FileController {
     }
 
     @PostMapping("/searchFiles")
-    @ApiOperation("查询文件列表")
+    @ApiOperation("查询本地文件列表")
     public R exportWord() {
         Map<String, List<String>> fileMap = new HashMap<>();
         List<String> reportFileList = new ArrayList<>();

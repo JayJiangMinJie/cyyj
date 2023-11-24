@@ -51,18 +51,18 @@ public class ResponseProgressFeedbackServiceImpl extends ServiceImpl<ResponsePro
     public Boolean addOrUpdateResponseProgressFeedback(ResponseProgressFeedbackDTO responseProgressFeedbackDTO) {
         ResponseProgressFeedbackPO responseProgressFeedbackPO = BeanCopyUtils.copy(responseProgressFeedbackDTO, ResponseProgressFeedbackPO.class);
         LocalDateTime now = LocalDateTime.now();
-        String status;
-        if(responseProgressFeedbackDTO.getIsRead()){
-
-            if(now.isBefore(responseProgressFeedbackDTO.getEndTime())){
-                status = "按时反馈";
-            }else {
-                status = "超时反馈";
-            }
-        }else {
-            status = "未反馈";
-        }
-        responseProgressFeedbackDTO.setFeedbackStatus(status);
+//        String status;
+//        if(responseProgressFeedbackDTO.getIsRead()){
+//
+//            if(now.isBefore(responseProgressFeedbackDTO.getEndTime())){
+//                status = "按时反馈";
+//            }else {
+//                status = "超时反馈";
+//            }
+//        }else {
+//            status = "未反馈";
+//        }
+//        responseProgressFeedbackPO.setFeedbackStatus(status);
         return responseProgressFeedbackMapper.insertOrUpdate(responseProgressFeedbackPO);
     }
 

@@ -2,7 +2,9 @@ package com.geovis.cyyj.mapper.file;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.geovis.cyyj.common.core.mapper.BaseMapperPlus;
 import com.geovis.cyyj.po.file.FilePO;
+import com.geovis.cyyj.vo.FileVO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -14,6 +16,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2023-10-18
  */
 @Mapper
-public interface FileMapper extends BaseMapper<FilePO> {
+public interface FileMapper extends BaseMapperPlus<FileMapper, FilePO, FileVO> {
 
 }

@@ -3,6 +3,7 @@ package com.geovis.cyyj.controller;
 import com.geovis.cyyj.common.core.domain.R;
 import com.geovis.cyyj.service.IDistrictListPersonService;
 import com.geovis.cyyj.service.IDistrictListService;
+import com.geovis.cyyj.vo.DistrictListPersonResultVO;
 import com.geovis.cyyj.vo.DistrictListPersonVO;
 import com.geovis.cyyj.vo.DistrictListVO;
 import io.swagger.annotations.Api;
@@ -51,12 +52,20 @@ public class DistrictController {
     @ApiOperation(value = "查询行政区划人员", notes = "查询行政区划人员")
     @GetMapping("/districtPerson")
     public R queryDistrictPerson() {
+        //城阳区级别数据
+        DistrictListPersonResultVO districtListPersonResultVO = new DistrictListPersonResultVO();
+        Map<String, String> countyMap = new HashMap<>();
+        //总体数据
         Map<String, List<Map<String, String>>> districtPersonMap = new HashMap<>();
         //查询区县及人员
         List<DistrictListPersonVO> districtPersonList = iDistrictListPersonService.getDistrictPerson();
         List<Map<String, String>> userMapList;
         Map<String, String> userMap;
         for(DistrictListPersonVO districtListPersonVO : districtPersonList){
+            if(("城阳区").equals(districtListPersonVO.getOrgName())){
+                countyMap.put(districtListPersonVO.getUserName(), districtListPersonVO.getUserId());
+                continue;
+            }
             String userName = districtListPersonVO.getUserName();
             String userId = districtListPersonVO.getUserId();
             String orgName = districtListPersonVO.getOrgName();
@@ -71,7 +80,10 @@ public class DistrictController {
                 districtPersonMap.put(orgName, userMapList);
             }
         }
-        return R.ok(districtPersonMap);
+        districtListPersonResultVO.setOrgName("城阳区");
+        districtListPersonResultVO.setTownMap(districtPersonMap);
+        districtListPersonResultVO.setUserMap(countyMap);
+        return R.ok(districtListPersonResultVO);
     }
 
 }
