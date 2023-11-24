@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.geovis.cyyj.mapper.StatisticTaskMapper">
+
+    <insert id="insertStatisticTask" parameterType="com.geovis.cyyj.po.StatisticTaskPO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO statistic_task (title,status,fill_template,editor,issuer,receive_unit, user_id,parent_user_id,release_time,last_fill_time)
+        VALUES (#{statisticTaskPO.title},#{statisticTaskPO.status},#{statisticTaskPO.fillTemplate},#{statisticTaskPO.editor},#{statisticTaskPO.issuer},#{statisticTaskPO.receiveUnit},
+                #{statisticTaskPO.userId},#{statisticTaskPO.parentUserId},#{statisticTaskPO.releaseTime},#{statisticTaskPO.lastFillTime});
+</insert>
+
+</mapper>

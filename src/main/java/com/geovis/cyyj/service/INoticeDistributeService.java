@@ -5,11 +5,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.geovis.cyyj.common.core.domain.PageQuery;
 import com.geovis.cyyj.common.core.page.TableDataInfo;
 import com.geovis.cyyj.dto.DeliverNoticeDTO;
-import com.geovis.cyyj.dto.NoticeDistributeDTO;
+import com.geovis.cyyj.dto.NoticeDistributeQueryDTO;
 import com.geovis.cyyj.po.NoticeDistributePO;
-import com.geovis.cyyj.po.ProgressFeedbackPO;
 import com.geovis.cyyj.vo.NoticeDistributeVO;
-import com.geovis.cyyj.vo.ProgressFeedbackVO;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -25,7 +23,7 @@ public interface INoticeDistributeService extends IService<NoticeDistributePO> {
     /**
      * 分页查询通知下发数据
      */
-    TableDataInfo<NoticeDistributeVO> queryMainList(NoticeDistributeDTO noticeDistributeDTO, PageQuery pageQuery);
+    TableDataInfo<NoticeDistributeVO> queryMainList(NoticeDistributeQueryDTO noticeDistributeQueryDTO, PageQuery pageQuery);
 
     /**
      * 发布通知

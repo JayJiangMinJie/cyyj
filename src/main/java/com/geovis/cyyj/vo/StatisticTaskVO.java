@@ -1,43 +1,49 @@
 package com.geovis.cyyj.vo;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 通知下发;
+ * 统计任务;
  * @author : jay
  * @date : 2023-10-18
  */
-@ApiModel(value = "通知下发",description = "")
+@ApiModel(value = "统计任务",description = "")
 public class StatisticTaskVO implements Serializable,Cloneable{
     private Integer id;
+    @ApiModelProperty(value = "标题",notes = "标题")
     private String title ;
-    private LocalDateTime fillTime ;
-    private String type ;
+    @ApiModelProperty(value = "状态",notes = "状态")
     private String status ;
-    private LocalDateTime createTime;
+    @ApiModelProperty(value = "填报模板",notes = "填报模板")
     private String fillTemplate ;
+    @ApiModelProperty(value = "签发人",notes = "签发人")
+    private String issuer ;
+    @ApiModelProperty(value = "接收单位",notes = "接收单位")
+    private String receiveUnit ;
+    @ApiModelProperty(value = "编辑人",notes = "编辑人")
     private String editor;
-    private String issuer;
-    private String reciveUnit;
+    @ApiModelProperty(value = "用户标识")
     private String userId;
+    @ApiModelProperty(value = "父用户标识")
     private String parentUserId;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "最新填报时间")
+    private LocalDateTime lastFillTime ;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "发布时间")
+    private LocalDateTime releaseTime ;
 
-    public String getParentUserId() {
-        return parentUserId;
+    public LocalDateTime getReleaseTime() {
+        return releaseTime;
     }
 
-    public void setParentUserId(String parentUserId) {
-        this.parentUserId = parentUserId;
-    }
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setReleaseTime(LocalDateTime releaseTime) {
+        this.releaseTime = releaseTime;
     }
 
     public Integer getId() {
@@ -56,36 +62,12 @@ public class StatisticTaskVO implements Serializable,Cloneable{
         this.title = title;
     }
 
-    public LocalDateTime getFillTime() {
-        return fillTime;
-    }
-
-    public void setFillTime(LocalDateTime fillTime) {
-        this.fillTime = fillTime;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public LocalDateTime getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
     }
 
     public String getFillTemplate() {
@@ -96,14 +78,6 @@ public class StatisticTaskVO implements Serializable,Cloneable{
         this.fillTemplate = fillTemplate;
     }
 
-    public String getEditor() {
-        return editor;
-    }
-
-    public void setEditor(String editor) {
-        this.editor = editor;
-    }
-
     public String getIssuer() {
         return issuer;
     }
@@ -112,11 +86,43 @@ public class StatisticTaskVO implements Serializable,Cloneable{
         this.issuer = issuer;
     }
 
-    public String getReciveUnit() {
-        return reciveUnit;
+    public String getReceiveUnit() {
+        return receiveUnit;
     }
 
-    public void setReciveUnit(String reciveUnit) {
-        this.reciveUnit = reciveUnit;
+    public void setReceiveUnit(String receiveUnit) {
+        this.receiveUnit = receiveUnit;
+    }
+
+    public String getEditor() {
+        return editor;
+    }
+
+    public void setEditor(String editor) {
+        this.editor = editor;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getParentUserId() {
+        return parentUserId;
+    }
+
+    public void setParentUserId(String parentUserId) {
+        this.parentUserId = parentUserId;
+    }
+
+    public LocalDateTime getLastFillTime() {
+        return lastFillTime;
+    }
+
+    public void setLastFillTime(LocalDateTime lastFillTime) {
+        this.lastFillTime = lastFillTime;
     }
 }

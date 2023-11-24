@@ -52,7 +52,7 @@ public class PublicServerServiceImpl extends ServiceImpl<PublicServerMapper, Pub
         lqw.eq(StringUtils.isNotBlank(publicServerQueryDTO.getKeyWord()), PublicServerPO::getTitle, publicServerQueryDTO.getKeyWord());
         lqw.eq(StringUtils.isNotBlank(publicServerQueryDTO.getUserId()), PublicServerPO::getUserId, publicServerQueryDTO.getUserId());
         lqw.ge(publicServerQueryDTO.getStartTime() != null, PublicServerPO::getCreateTime, publicServerQueryDTO.getStartTime());
-        lqw.lt(publicServerQueryDTO.getEndTime() != null, PublicServerPO::getCreateTime, publicServerQueryDTO.getEndTime());
+        lqw.le(publicServerQueryDTO.getEndTime() != null, PublicServerPO::getCreateTime, publicServerQueryDTO.getEndTime());
         return lqw;
     }
 

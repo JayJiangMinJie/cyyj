@@ -9,14 +9,14 @@ import com.geovis.cyyj.common.core.domain.PageQuery;
 import com.geovis.cyyj.common.core.page.TableDataInfo;
 import com.geovis.cyyj.common.utils.BeanCopyUtils;
 import com.geovis.cyyj.common.utils.StringUtils;
+import com.geovis.cyyj.dto.DataReportDTO;
 import com.geovis.cyyj.dto.DeliverTaskDTO;
-import com.geovis.cyyj.dto.StatisticTaskDTO;
+import com.geovis.cyyj.dto.StatisticTaskQueryDTO;
 import com.geovis.cyyj.mapper.DataReportMapper;
+import com.geovis.cyyj.mapper.DistrictListPersonMapper;
 import com.geovis.cyyj.mapper.StatisticTaskMapper;
-import com.geovis.cyyj.mapper.NoticeReceiveMapper;
-import com.geovis.cyyj.po.DataReportPO;
-import com.geovis.cyyj.po.PublicServerPO;
-import com.geovis.cyyj.po.StatisticTaskPO;
+import com.geovis.cyyj.po.*;
+import com.geovis.cyyj.service.IDataReportService;
 import com.geovis.cyyj.service.IStatisticTaskService;
 import com.geovis.cyyj.vo.StatisticTaskVO;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +24,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -44,23 +48,29 @@ public class StatisticTaskServiceImpl extends ServiceImpl<StatisticTaskMapper, S
 
     @Autowired
     private final DataReportMapper dataReportMapper;
+
+    @Autowired
+    private final DistrictListPersonMapper districtListPersonMapper;
+
+    @Autowired
+    IDataReportService iDataReportService;
     /**
      * 分页查询统计任务列表
      */
     @Override
-    public TableDataInfo<StatisticTaskVO> queryMainList(StatisticTaskDTO statisticTaskDTO, PageQuery pageQuery) {
-        LambdaQueryWrapper<StatisticTaskPO> lqw = buildQueryWrapper(statisticTaskDTO);
+    public TableDataInfo<StatisticTaskVO> queryMainList(StatisticTaskQueryDTO statisticTaskQueryDTO, PageQuery pageQuery) {
+        LambdaQueryWrapper<StatisticTaskPO> lqw = buildQueryWrapper(statisticTaskQueryDTO);
         Page<StatisticTaskVO> result = statisticTaskMapper.selectVoPage(pageQuery.build(), lqw);
         return TableDataInfo.build(result);
     }
 
-    private LambdaQueryWrapper<StatisticTaskPO> buildQueryWrapper(StatisticTaskDTO statisticTaskDTO) {
+    private LambdaQueryWrapper<StatisticTaskPO> buildQueryWrapper(StatisticTaskQueryDTO statisticTaskQueryDTO) {
         LambdaQueryWrapper<StatisticTaskPO> lqw = Wrappers.lambdaQuery();
-        lqw.eq(StringUtils.isNotBlank(statisticTaskDTO.getKeyWord()), StatisticTaskPO::getTitle, statisticTaskDTO.getKeyWord());
-        lqw.eq(StringUtils.isNotBlank(statisticTaskDTO.getUserId()), StatisticTaskPO::getUserId, statisticTaskDTO.getUserId());
-        lqw.eq(StringUtils.isNotBlank(statisticTaskDTO.getStatus()), StatisticTaskPO::getStatus, statisticTaskDTO.getStatus());
-        lqw.ge(statisticTaskDTO.getStartTime() != null, StatisticTaskPO::getFillTime, statisticTaskDTO.getStartTime());
-        lqw.lt(statisticTaskDTO.getEndTime() != null, StatisticTaskPO::getFillTime, statisticTaskDTO.getEndTime());
+        lqw.eq(StringUtils.isNotBlank(statisticTaskQueryDTO.getKeyWord()), StatisticTaskPO::getTitle, statisticTaskQueryDTO.getKeyWord());
+        lqw.eq(StringUtils.isNotBlank(statisticTaskQueryDTO.getUserId()), StatisticTaskPO::getUserId, statisticTaskQueryDTO.getUserId());
+        lqw.eq(StringUtils.isNotBlank(statisticTaskQueryDTO.getStatus()), StatisticTaskPO::getStatus, statisticTaskQueryDTO.getStatus());
+        lqw.ge(statisticTaskQueryDTO.getStartTime() != null, StatisticTaskPO::getLastFillTime, statisticTaskQueryDTO.getStartTime());
+        lqw.le(statisticTaskQueryDTO.getEndTime() != null, StatisticTaskPO::getLastFillTime, statisticTaskQueryDTO.getEndTime());
         return lqw;
     }
 
@@ -69,8 +79,62 @@ public class StatisticTaskServiceImpl extends ServiceImpl<StatisticTaskMapper, S
      */
     @Override
     public Boolean deliverTask(DeliverTaskDTO deliverTaskDTO) {
+        if(StringUtils.isEmpty(deliverTaskDTO.getReceiveUnit())){
+            log.error("发布任务 receiveUnit is null, userid : " + deliverTaskDTO.getUserId());
+            return false;
+        }
         StatisticTaskPO statisticTaskPO = BeanCopyUtils.copy(deliverTaskDTO, StatisticTaskPO.class);
-        return statisticTaskMapper.insertOrUpdate(statisticTaskPO);
+        int statisticTask = statisticTaskMapper.insertStatisticTask(statisticTaskPO);
+        if(statisticTask < 1){
+            log.error("发布任务insert into statisticTask failed, userid : " + deliverTaskDTO.getUserId());
+            return false;
+        }
+        StatisticTaskPO insertStatisticTaskResult = statisticTaskMapper.selectById(statisticTaskPO.getId());
+        if(insertStatisticTaskResult != null){
+            //如果下发新增成功了，
+            DeliverTaskDTO deliverTask2ReportDTO = new DeliverTaskDTO();
+            deliverTask2ReportDTO.setTitle(insertStatisticTaskResult.getTitle());
+            deliverTask2ReportDTO.setStatus(insertStatisticTaskResult.getStatus());
+            deliverTask2ReportDTO.setFillTemplate(insertStatisticTaskResult.getFillTemplate());
+            deliverTask2ReportDTO.setEditor(insertStatisticTaskResult.getEditor());
+            deliverTask2ReportDTO.setIssuer(insertStatisticTaskResult.getIssuer());
+            deliverTask2ReportDTO.setReceiveUnit("");
+            deliverTask2ReportDTO.setUserId("");
+            deliverTask2ReportDTO.setParentUserId(insertStatisticTaskResult.getParentUserId());
+            deliverTask2ReportDTO.setReleaseTime(insertStatisticTaskResult.getReleaseTime());
+            deliverTask2ReportDTO.setLastFillTime(insertStatisticTaskResult.getLastFillTime());
+            //这里暂时查询本地表人员
+            //用查询到的接收单位list找出该给哪些单位发信息
+            LambdaQueryWrapper<DistrictListPersonPO> lambdaQueryWrapper = new LambdaQueryWrapper();
+            lambdaQueryWrapper.eq(DistrictListPersonPO::getOrgName, deliverTaskDTO.getReceiveUnit());
+            List<DistrictListPersonPO> districtListPersonPOList = districtListPersonMapper.selectList(lambdaQueryWrapper);
+            Map<String, String> revceiveMap = new HashMap<>();
+            for(DistrictListPersonPO districtListPersonPO : districtListPersonPOList){
+                if(districtListPersonPO.getOrgName().equals(deliverTaskDTO.getReceiveUnit())){
+                    revceiveMap.put(districtListPersonPO.getUserName(), districtListPersonPO.getUserId());
+                }
+            }
+            //给各个接收单位发通知
+            for(Map.Entry<String, String> entry : revceiveMap.entrySet()){
+                DataReportDTO dataReportDTO = new DataReportDTO();
+                dataReportDTO.setUserId(entry.getValue());
+                dataReportDTO.setStatisticTaskId(statisticTaskPO.getId());
+                dataReportDTO.setLastFillTime(deliverTask2ReportDTO.getLastFillTime());
+                dataReportDTO.setStatus(deliverTask2ReportDTO.getStatus());
+                dataReportDTO.setParentUserId(deliverTaskDTO.getUserId());
+                dataReportDTO.setReleaseTime(deliverTask2ReportDTO.getReleaseTime());
+                dataReportDTO.setTitle(deliverTask2ReportDTO.getTitle());
+                Boolean insertResult = iDataReportService.dataReport(dataReportDTO);
+                if(!insertResult){
+//                    log.error("insert into receive unit failed, userid is : " + deliverNotice2ReceiveDTO.getUserId() + " parentid is : " + deliverNotice2ReceiveDTO.getParentUserId());
+                    throw new RuntimeException("insert into receive unit failed, userid is : " + deliverTask2ReportDTO.getUserId() + " parentid is : " + deliverTask2ReportDTO.getParentUserId());
+                }
+            }
+            return true;
+        }else {
+            log.error("发布任务 insertStatisticTaskResult is false, user_id = " + deliverTaskDTO.getUserId());
+            return false;
+        }
     }
 
     /**

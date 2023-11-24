@@ -1,32 +1,24 @@
 package com.geovis.cyyj.controller;
 
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.ObjectUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.geovis.cyyj.common.core.controller.BaseController;
 import com.geovis.cyyj.common.core.domain.PageQuery;
 import com.geovis.cyyj.common.core.domain.R;
 import com.geovis.cyyj.common.core.page.TableDataInfo;
 import com.geovis.cyyj.dto.DeliverNoticeDTO;
-import com.geovis.cyyj.dto.NoticeDistributeDTO;
-import com.geovis.cyyj.dto.ProgressFeedbackDTO;
+import com.geovis.cyyj.dto.NoticeDistributeQueryDTO;
+import com.geovis.cyyj.dto.NoticeProgressFeedbackDTO;
 import com.geovis.cyyj.service.INoticeDistributeService;
-import com.geovis.cyyj.service.IProgressFeedbackService;
+import com.geovis.cyyj.service.INoticeProgressFeedbackService;
 import com.geovis.cyyj.vo.NoticeDistributeVO;
-import com.geovis.cyyj.vo.ProgressFeedbackVO;
+import com.geovis.cyyj.vo.NoticeProgressFeedbackVO;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.constraints.NotNull;
-import java.util.Set;
 
 /**
  * <p>
@@ -48,30 +40,30 @@ public class NoticeDistributeController extends BaseController {
     private INoticeDistributeService iNoticeDistributeService;
 
     @Autowired
-    private IProgressFeedbackService iProgressFeedbackService;
+    private INoticeProgressFeedbackService iNoticeProgressFeedbackService;
 
     /**
      * 分页查询通知下发列表
      */
     @ApiOperation(value = "分页查询通知下发列表", notes = "分页查询通知下发列表")
     @GetMapping("/queryMainList")
-    public TableDataInfo<NoticeDistributeVO> queryMainList(NoticeDistributeDTO noticeDistributeDTO, PageQuery pageQuery) {
-        return iNoticeDistributeService.queryMainList(noticeDistributeDTO, pageQuery);
+    public TableDataInfo<NoticeDistributeVO> queryMainList(NoticeDistributeQueryDTO noticeDistributeQueryDTO, PageQuery pageQuery) {
+        return iNoticeDistributeService.queryMainList(noticeDistributeQueryDTO, pageQuery);
     }
 
     /**
      * 分页查询进度反馈列表
      */
     @ApiOperation(value = "分页查询进度反馈列表", notes = "分页查询进度反馈列表")
-    @GetMapping("/queryProgressFeedbackList")
-    public TableDataInfo<ProgressFeedbackVO> queryProgressFeedbackList(@RequestParam("noticeDistributeId") int noticeDistributeId, PageQuery pageQuery) {
-        return iProgressFeedbackService.queryProgressFeedbackList(noticeDistributeId, pageQuery);
+    @GetMapping("/queryNoticeProgressFeedbackList")
+    public TableDataInfo<NoticeProgressFeedbackVO> queryNoticeProgressFeedbackList(@RequestParam("noticeDistributeId") int noticeDistributeId, PageQuery pageQuery) {
+        return iNoticeProgressFeedbackService.queryNoticeProgressFeedbackList(noticeDistributeId, pageQuery);
     }
 
     @ApiOperation(value = "新增更新进度反馈", notes = "新增更新进度反馈")
-    @PostMapping({"/addOrUpdateProgressFeedback"})
-    public R addOrUpdateProgressFeedback(@Validated @RequestBody ProgressFeedbackDTO progressFeedbackDTO) {
-        if(iProgressFeedbackService.addOrUpdateProgressFeedback(progressFeedbackDTO)){
+    @PostMapping({"/addOrUpdateNoticeProgressFeedback"})
+    public R addOrUpdateNoticeProgressFeedback(@Validated @RequestBody NoticeProgressFeedbackDTO noticeProgressFeedbackDTO) {
+        if(iNoticeProgressFeedbackService.addOrUpdateNoticeProgressFeedback(noticeProgressFeedbackDTO)){
             return R.ok("新增进度反馈成功");
         }
         return R.fail("新增进度反馈失败");

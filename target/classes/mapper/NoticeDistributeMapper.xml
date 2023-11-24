@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.geovis.cyyj.mapper.NoticeDistributeMapper">
+
+    <insert id="insertNoticeDistribute" parameterType="com.geovis.cyyj.po.NoticeDistributePO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO notice_distribute (title,start_time,end_time,type,status,receive_unit,file_path,notice_content,user_id,parent_user_id)
+        VALUES (#{noticeDistributePO.title},#{noticeDistributePO.startTime},#{noticeDistributePO.endTime},#{noticeDistributePO.type},#{noticeDistributePO.status},#{noticeDistributePO.receiveUnit},
+                #{noticeDistributePO.filePath},#{noticeDistributePO.noticeContent},#{noticeDistributePO.userId},#{noticeDistributePO.parentUserId});
+</insert>
+
+</mapper>

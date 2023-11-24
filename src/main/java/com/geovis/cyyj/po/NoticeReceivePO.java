@@ -29,6 +29,15 @@ public class NoticeReceivePO implements Serializable,Cloneable{
     private String receiveType;
     private String parentUserId;
     private String userId ;
+    private String noticeContent;
+
+    public String getNoticeContent() {
+        return noticeContent;
+    }
+
+    public void setNoticeContent(String noticeContent) {
+        this.noticeContent = noticeContent;
+    }
 
     public String getUserId() {
         return userId;

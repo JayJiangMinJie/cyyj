@@ -9,7 +9,6 @@ import com.geovis.cyyj.dto.*;
 import com.geovis.cyyj.service.IStatisticDataService;
 import com.geovis.cyyj.service.IStatisticTaskProgressFeedbackService;
 import com.geovis.cyyj.service.IStatisticTaskService;
-import com.geovis.cyyj.service.IProgressFeedbackService;
 import com.geovis.cyyj.vo.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -51,8 +50,8 @@ public class StatisticTaskController extends BaseController {
      */
     @ApiOperation(value = "分页查询统计任务列表", notes = "分页查询统计任务列表")
     @GetMapping("/queryMainList")
-    public TableDataInfo<StatisticTaskVO> queryMainList(StatisticTaskDTO statisticTaskDTO, PageQuery pageQuery) {
-        return iStatisticTaskService.queryMainList(statisticTaskDTO, pageQuery);
+    public TableDataInfo<StatisticTaskVO> queryMainList(StatisticTaskQueryDTO statisticTaskQueryDTO, PageQuery pageQuery) {
+        return iStatisticTaskService.queryMainList(statisticTaskQueryDTO, pageQuery);
     }
 
 //    /**

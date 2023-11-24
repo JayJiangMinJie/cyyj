@@ -21,7 +21,7 @@ public interface IDataReportService extends IService<DataReportPO> {
     /**
      * 分页查询数据上传数据
      */
-    TableDataInfo<DataReportVO> queryMainList(DataReportSearchDTO dataReportSearchDTO, PageQuery pageQuery);
+    TableDataInfo<DataReportVO> queryMainList(DataReportQueryDTO dataReportQueryDTO, PageQuery pageQuery);
 
     /**
      * 数据上传

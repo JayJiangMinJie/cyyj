@@ -5,8 +5,10 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -24,16 +26,58 @@ import java.io.Serializable;
 public class DeliverTaskDTO implements Serializable {
     @ApiModelProperty(value = "标题",notes = "标题")
     private String title ;
+    @ApiModelProperty(value = "状态",notes = "状态")
+    private String status ;
     @ApiModelProperty(value = "填报模板",notes = "填报模板")
     private String fillTemplate ;
     @ApiModelProperty(value = "签发人",notes = "签发人")
     private String issuer ;
     @ApiModelProperty(value = "接收单位",notes = "接收单位")
-    private String reciveUnit ;
+    private String receiveUnit ;
     @ApiModelProperty(value = "编辑人",notes = "编辑人")
     private String editor;
     @ApiModelProperty(value = "用户标识")
     private String userId;
+    @ApiModelProperty(value = "父用户标识")
+    private String parentUserId;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "最新填报时间")
+    private LocalDateTime lastFillTime ;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "发布时间")
+    private LocalDateTime releaseTime ;
+
+    public LocalDateTime getReleaseTime() {
+        return releaseTime;
+    }
+
+    public void setReleaseTime(LocalDateTime releaseTime) {
+        this.releaseTime = releaseTime;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getParentUserId() {
+        return parentUserId;
+    }
+
+    public void setParentUserId(String parentUserId) {
+        this.parentUserId = parentUserId;
+    }
+
+    public LocalDateTime getLastFillTime() {
+        return lastFillTime;
+    }
+
+    public void setLastFillTime(LocalDateTime lastFillTime) {
+        this.lastFillTime = lastFillTime;
+    }
 
     public String getUserId() {
         return userId;
@@ -67,12 +111,12 @@ public class DeliverTaskDTO implements Serializable {
         this.issuer = issuer;
     }
 
-    public String getReciveUnit() {
-        return reciveUnit;
+    public String getReceiveUnit() {
+        return receiveUnit;
     }
 
-    public void setReciveUnit(String reciveUnit) {
-        this.reciveUnit = reciveUnit;
+    public void setReceiveUnit(String receiveUnit) {
+        this.receiveUnit = receiveUnit;
     }
 
     public String getEditor() {

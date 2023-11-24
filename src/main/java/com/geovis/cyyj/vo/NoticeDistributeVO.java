@@ -1,6 +1,7 @@
 package com.geovis.cyyj.vo;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -23,6 +24,15 @@ public class NoticeDistributeVO implements Serializable,Cloneable{
     private String noticeContent;
     private String userId;
     private String parentUserId;
+    private String filePath;
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
 
     public String getParentUserId() {
         return parentUserId;

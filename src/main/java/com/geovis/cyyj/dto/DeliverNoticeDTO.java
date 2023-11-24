@@ -37,7 +37,7 @@ public class DeliverNoticeDTO implements Serializable {
     @ApiModelProperty(value = "状态")
     private String status ;
     @ApiModelProperty(value = "接收单位")
-    private String reciveUnit ;
+    private String receiveUnit ;
     @ApiModelProperty(value = "文件路径")
     private String filePath;
     @ApiModelProperty(value = "通知下发id")
@@ -121,12 +121,12 @@ public class DeliverNoticeDTO implements Serializable {
         this.status = status;
     }
 
-    public String getReciveUnit() {
-        return reciveUnit;
+    public String getReceiveUnit() {
+        return receiveUnit;
     }
 
-    public void setReciveUnit(String reciveUnit) {
-        this.reciveUnit = reciveUnit;
+    public void setReceiveUnit(String receiveUnit) {
+        this.receiveUnit = receiveUnit;
     }
 
     public String getFilePath() {

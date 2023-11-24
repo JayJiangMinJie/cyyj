@@ -56,7 +56,7 @@ public class NoticeReceiveServiceImpl extends ServiceImpl<NoticeReceiveMapper, N
         lqw.eq(StringUtils.isNotBlank(noticeReceiveQueryDTO.getUserId()), NoticeReceivePO::getUserId, noticeReceiveQueryDTO.getUserId());
         lqw.eq(StringUtils.isNotBlank(noticeReceiveQueryDTO.getStatus()), NoticeReceivePO::getStatus, noticeReceiveQueryDTO.getStatus());
         lqw.ge(noticeReceiveQueryDTO.getStartTime() != null, NoticeReceivePO::getStartTime, noticeReceiveQueryDTO.getStartTime());
-        lqw.lt(noticeReceiveQueryDTO.getEndTime() != null, NoticeReceivePO::getEndTime, noticeReceiveQueryDTO.getEndTime());
+        lqw.le(noticeReceiveQueryDTO.getEndTime() != null, NoticeReceivePO::getEndTime, noticeReceiveQueryDTO.getEndTime());
         return lqw;
     }
 

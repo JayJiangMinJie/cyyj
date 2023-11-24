@@ -51,20 +51,24 @@ public class DistrictController {
     @ApiOperation(value = "查询行政区划人员", notes = "查询行政区划人员")
     @GetMapping("/districtPerson")
     public R queryDistrictPerson() {
-        Map<String, List<String>> districtPersonMap = new HashMap<>();
+        Map<String, List<Map<String, String>>> districtPersonMap = new HashMap<>();
         //查询区县及人员
         List<DistrictListPersonVO> districtPersonList = iDistrictListPersonService.getDistrictPerson();
-        List<String> userList;
+        List<Map<String, String>> userMapList;
+        Map<String, String> userMap;
         for(DistrictListPersonVO districtListPersonVO : districtPersonList){
             String userName = districtListPersonVO.getUserName();
+            String userId = districtListPersonVO.getUserId();
             String orgName = districtListPersonVO.getOrgName();
+            userMap = new HashMap<>();
+            userMap.put(userName, userId);
             if(districtPersonMap.containsKey(orgName)){
-                userList = districtPersonMap.get(orgName);
-                userList.add(userName);
+                userMapList = districtPersonMap.get(orgName);
+                userMapList.add(userMap);
             }else {
-                userList = new ArrayList<>();
-                userList.add(userName);
-                districtPersonMap.put(orgName, userList);
+                userMapList = new ArrayList<>();
+                userMapList.add(userMap);
+                districtPersonMap.put(orgName, userMapList);
             }
         }
         return R.ok(districtPersonMap);

@@ -1,0 +1,96 @@
+package com.geovis.cyyj.vo;
+
+import io.swagger.annotations.ApiModel;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+/**
+ * 进度反馈;
+ * @author : jay
+ * @date : 2023-10-18
+ */
+@ApiModel(value = "进度反馈",description = "")
+public class WarningProgressFeedbackVO implements Serializable,Cloneable{
+    private Integer id;
+    private LocalDateTime updateTime ;
+    private LocalDateTime createTime ;
+    private LocalDateTime feedbackTime ;
+    private Integer disasterWarningId;
+    private String filePath;
+    private String content;
+    private String userId;
+    private String parentUserId;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(LocalDateTime updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public LocalDateTime getFeedbackTime() {
+        return feedbackTime;
+    }
+
+    public void setFeedbackTime(LocalDateTime feedbackTime) {
+        this.feedbackTime = feedbackTime;
+    }
+
+    public Integer getDisasterWarningId() {
+        return disasterWarningId;
+    }
+
+    public void setDisasterWarningId(Integer disasterWarningId) {
+        this.disasterWarningId = disasterWarningId;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getParentUserId() {
+        return parentUserId;
+    }
+
+    public void setParentUserId(String parentUserId) {
+        this.parentUserId = parentUserId;
+    }
+}

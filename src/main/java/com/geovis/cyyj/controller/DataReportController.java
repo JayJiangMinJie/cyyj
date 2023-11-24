@@ -39,8 +39,8 @@ public class DataReportController extends BaseController {
      */
     @ApiOperation(value = "分页查询数据上传列表", notes = "分页查询数据上传列表")
     @GetMapping("/queryMainList")
-    public TableDataInfo<DataReportVO> queryMainList(DataReportSearchDTO dataReportSearchDTO, PageQuery pageQuery) {
-        return iDataReportService.queryMainList(dataReportSearchDTO, pageQuery);
+    public TableDataInfo<DataReportVO> queryMainList(DataReportQueryDTO dataReportQueryDTO, PageQuery pageQuery) {
+        return iDataReportService.queryMainList(dataReportQueryDTO, pageQuery);
     }
 
     @ApiOperation(value = "数据上传", notes = "数据上传")

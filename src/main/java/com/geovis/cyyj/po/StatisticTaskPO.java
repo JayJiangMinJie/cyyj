@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -19,31 +21,23 @@ public class StatisticTaskPO implements Serializable,Cloneable{
     @TableId(type = IdType.AUTO)
     private Integer id;
     private String title ;
-    private LocalDateTime fillTime ;
-    private String type ;
     private String status ;
     private String fillTemplate ;
+    private String issuer ;
+    private String receiveUnit ;
     private String editor;
-    private String issuer;
-    private String reciveUnit;
     private String userId;
     private String parentUserId;
+    private LocalDateTime lastFillTime ;
+    private LocalDateTime releaseTime ;
 
-    public String getParentUserId() {
-        return parentUserId;
+    public LocalDateTime getReleaseTime() {
+        return releaseTime;
     }
 
-    public void setParentUserId(String parentUserId) {
-        this.parentUserId = parentUserId;
+    public void setReleaseTime(LocalDateTime releaseTime) {
+        this.releaseTime = releaseTime;
     }
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -58,22 +52,6 @@ public class StatisticTaskPO implements Serializable,Cloneable{
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public LocalDateTime getFillTime() {
-        return fillTime;
-    }
-
-    public void setFillTime(LocalDateTime fillTime) {
-        this.fillTime = fillTime;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getStatus() {
@@ -92,14 +70,6 @@ public class StatisticTaskPO implements Serializable,Cloneable{
         this.fillTemplate = fillTemplate;
     }
 
-    public String getEditor() {
-        return editor;
-    }
-
-    public void setEditor(String editor) {
-        this.editor = editor;
-    }
-
     public String getIssuer() {
         return issuer;
     }
@@ -108,11 +78,43 @@ public class StatisticTaskPO implements Serializable,Cloneable{
         this.issuer = issuer;
     }
 
-    public String getReciveUnit() {
-        return reciveUnit;
+    public String getReceiveUnit() {
+        return receiveUnit;
     }
 
-    public void setReciveUnit(String reciveUnit) {
-        this.reciveUnit = reciveUnit;
+    public void setReceiveUnit(String receiveUnit) {
+        this.receiveUnit = receiveUnit;
+    }
+
+    public String getEditor() {
+        return editor;
+    }
+
+    public void setEditor(String editor) {
+        this.editor = editor;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getParentUserId() {
+        return parentUserId;
+    }
+
+    public void setParentUserId(String parentUserId) {
+        this.parentUserId = parentUserId;
+    }
+
+    public LocalDateTime getLastFillTime() {
+        return lastFillTime;
+    }
+
+    public void setLastFillTime(LocalDateTime lastFillTime) {
+        this.lastFillTime = lastFillTime;
     }
 }

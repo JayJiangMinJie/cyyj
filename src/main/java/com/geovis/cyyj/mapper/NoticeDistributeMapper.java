@@ -3,13 +3,13 @@ package com.geovis.cyyj.mapper;
 
 import com.geovis.cyyj.common.core.mapper.BaseMapperPlus;
 import com.geovis.cyyj.po.NoticeDistributePO;
-import com.geovis.cyyj.po.ProgressFeedbackPO;
 import com.geovis.cyyj.vo.NoticeDistributeVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
- * 通知下发表 Mapper 接口
+ * 通知录入表 Mapper 接口
  * </p>
  *
  * @author Jay
@@ -18,13 +18,10 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface NoticeDistributeMapper extends BaseMapperPlus<NoticeDistributeMapper, NoticeDistributePO, NoticeDistributeVO> {
 
-//    /**
-//     * 分页查询
-//     *
-//     * @param page    分页参数
-//     * @param wrapper
-//     * @return 返回用户分页
-//     */
-//    IPage<NoticeDistributeVO> selectByPage(@Param("page") IPage<NoticeDistributeDTO> page, @Param(Constants.WRAPPER) Wrapper<Object> wrapper);
+    /**
+     * 录入通知
+     */
+    int  insertNoticeDistribute(@Param("noticeDistributePO") NoticeDistributePO noticeDistributePO);
+
 
 }

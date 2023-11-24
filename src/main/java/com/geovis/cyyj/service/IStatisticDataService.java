@@ -2,18 +2,10 @@ package com.geovis.cyyj.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.geovis.cyyj.common.core.domain.PageQuery;
-import com.geovis.cyyj.common.core.page.TableDataInfo;
-import com.geovis.cyyj.dto.DeliverTaskDTO;
 import com.geovis.cyyj.dto.StatisticDataDTO;
-import com.geovis.cyyj.dto.StatisticTaskDTO;
 import com.geovis.cyyj.po.StatisticDataPO;
-import com.geovis.cyyj.po.StatisticTaskPO;
 import com.geovis.cyyj.vo.StatisticDataVO;
-import com.geovis.cyyj.vo.StatisticTaskFeedbackListVO;
 import com.geovis.cyyj.vo.StatisticTaskFeedbackVO;
-import com.geovis.cyyj.vo.StatisticTaskVO;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

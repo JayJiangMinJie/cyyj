@@ -9,13 +9,10 @@ import com.geovis.cyyj.common.core.page.TableDataInfo;
 import com.geovis.cyyj.common.utils.BeanCopyUtils;
 import com.geovis.cyyj.common.utils.StringUtils;
 import com.geovis.cyyj.dto.DataReportDTO;
-import com.geovis.cyyj.dto.DataReportSearchDTO;
+import com.geovis.cyyj.dto.DataReportQueryDTO;
 import com.geovis.cyyj.dto.DataReportStatusDTO;
-import com.geovis.cyyj.dto.NoticeReceiveStatusDTO;
 import com.geovis.cyyj.mapper.DataReportMapper;
 import com.geovis.cyyj.po.DataReportPO;
-import com.geovis.cyyj.po.NoticeReceivePO;
-import com.geovis.cyyj.po.PublicServerPO;
 import com.geovis.cyyj.service.IDataReportService;
 import com.geovis.cyyj.vo.DataReportVO;
 import lombok.RequiredArgsConstructor;
@@ -46,8 +43,8 @@ public class DataReportServiceImpl extends ServiceImpl<DataReportMapper, DataRep
      * 分页查询数据上传列表
      */
     @Override
-    public TableDataInfo<DataReportVO> queryMainList(DataReportSearchDTO dataReportSearchDTO, PageQuery pageQuery) {
-        LambdaQueryWrapper<DataReportPO> lqw = buildQueryWrapper(dataReportSearchDTO);
+    public TableDataInfo<DataReportVO> queryMainList(DataReportQueryDTO dataReportQueryDTO, PageQuery pageQuery) {
+        LambdaQueryWrapper<DataReportPO> lqw = buildQueryWrapper(dataReportQueryDTO);
         Page<DataReportVO> result = dataReportMapper.selectVoPage(pageQuery.build(), lqw);
         return TableDataInfo.build(result);
     }
@@ -58,15 +55,15 @@ public class DataReportServiceImpl extends ServiceImpl<DataReportMapper, DataRep
         return dataReportMapper.insertOrUpdate(dataReportPO);
     }
 
-    private LambdaQueryWrapper<DataReportPO> buildQueryWrapper(DataReportSearchDTO dataReportSearchDTO) {
+    private LambdaQueryWrapper<DataReportPO> buildQueryWrapper(DataReportQueryDTO dataReportQueryDTO) {
         LambdaQueryWrapper<DataReportPO> lqw = Wrappers.lambdaQuery();
-        lqw.eq(StringUtils.isNotBlank(dataReportSearchDTO.getKeyWord()), DataReportPO::getTitle, dataReportSearchDTO.getKeyWord());
-        lqw.eq(StringUtils.isNotBlank(dataReportSearchDTO.getUserId()), DataReportPO::getUserId, dataReportSearchDTO.getUserId());
-        lqw.eq(StringUtils.isNotBlank(dataReportSearchDTO.getStatus()), DataReportPO::getStatus, dataReportSearchDTO.getStatus());
-        lqw.ge(dataReportSearchDTO.getStartReleaseTime() != null, DataReportPO::getReleaseTime, dataReportSearchDTO.getStartReleaseTime());
-        lqw.lt(dataReportSearchDTO.getEndReleaseTime() != null, DataReportPO::getReleaseTime, dataReportSearchDTO.getEndReleaseTime());
-        lqw.ge(dataReportSearchDTO.getStartLastFillTime() != null, DataReportPO::getLastFillTime, dataReportSearchDTO.getStartLastFillTime());
-        lqw.lt(dataReportSearchDTO.getEndLastFillTime() != null, DataReportPO::getLastFillTime, dataReportSearchDTO.getEndLastFillTime());
+        lqw.eq(StringUtils.isNotBlank(dataReportQueryDTO.getKeyWord()), DataReportPO::getTitle, dataReportQueryDTO.getKeyWord());
+        lqw.eq(StringUtils.isNotBlank(dataReportQueryDTO.getUserId()), DataReportPO::getUserId, dataReportQueryDTO.getUserId());
+        lqw.eq(StringUtils.isNotBlank(dataReportQueryDTO.getStatus()), DataReportPO::getStatus, dataReportQueryDTO.getStatus());
+        lqw.ge(dataReportQueryDTO.getStartReleaseTime() != null, DataReportPO::getReleaseTime, dataReportQueryDTO.getStartReleaseTime());
+        lqw.le(dataReportQueryDTO.getEndReleaseTime() != null, DataReportPO::getReleaseTime, dataReportQueryDTO.getEndReleaseTime());
+        lqw.ge(dataReportQueryDTO.getStartLastFillTime() != null, DataReportPO::getLastFillTime, dataReportQueryDTO.getStartLastFillTime());
+        lqw.le(dataReportQueryDTO.getEndLastFillTime() != null, DataReportPO::getLastFillTime, dataReportQueryDTO.getEndLastFillTime());
         return lqw;
     }
 

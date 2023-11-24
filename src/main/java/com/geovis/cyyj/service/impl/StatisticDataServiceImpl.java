@@ -1,18 +1,10 @@
 package com.geovis.cyyj.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.geovis.cyyj.common.core.domain.PageQuery;
-import com.geovis.cyyj.common.core.page.TableDataInfo;
 import com.geovis.cyyj.common.utils.BeanCopyUtils;
 import com.geovis.cyyj.dto.StatisticDataDTO;
 import com.geovis.cyyj.mapper.StatisticDataMapper;
-import com.geovis.cyyj.po.ProgressFeedbackPO;
 import com.geovis.cyyj.po.StatisticDataPO;
-import com.geovis.cyyj.po.StatisticTaskPO;
-import com.geovis.cyyj.po.StatisticTaskProgressFeedbackPO;
 import com.geovis.cyyj.service.IStatisticDataService;
 import com.geovis.cyyj.vo.*;
 import lombok.RequiredArgsConstructor;

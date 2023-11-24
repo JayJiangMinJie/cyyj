@@ -9,12 +9,13 @@ import com.geovis.cyyj.common.core.page.TableDataInfo;
 import com.geovis.cyyj.common.utils.BeanCopyUtils;
 import com.geovis.cyyj.common.utils.StringUtils;
 import com.geovis.cyyj.dto.DeliverNoticeDTO;
-import com.geovis.cyyj.dto.NoticeDistributeDTO;
+import com.geovis.cyyj.dto.NoticeDistributeQueryDTO;
+import com.geovis.cyyj.mapper.DistrictListPersonMapper;
 import com.geovis.cyyj.mapper.NoticeDistributeMapper;
 import com.geovis.cyyj.mapper.NoticeReceiveMapper;
+import com.geovis.cyyj.po.DistrictListPersonPO;
 import com.geovis.cyyj.po.NoticeDistributePO;
 import com.geovis.cyyj.po.NoticeReceivePO;
-import com.geovis.cyyj.po.PublicServerPO;
 import com.geovis.cyyj.service.INoticeDistributeService;
 import com.geovis.cyyj.service.INoticeReceiveService;
 import com.geovis.cyyj.vo.NoticeDistributeVO;
@@ -24,6 +25,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -47,22 +52,25 @@ public class NoticeDistributeServiceImpl extends ServiceImpl<NoticeDistributeMap
 
     @Autowired
     private INoticeReceiveService iNoticeReceiveService;
+
+    @Autowired
+    private final DistrictListPersonMapper districtListPersonMapper;
     /**
      * 分页查询通知下发列表
      */
     @Override
-    public TableDataInfo<NoticeDistributeVO> queryMainList(NoticeDistributeDTO noticeDistributeDTO, PageQuery pageQuery) {
-        LambdaQueryWrapper<NoticeDistributePO> lqw = buildQueryWrapper(noticeDistributeDTO);
+    public TableDataInfo<NoticeDistributeVO> queryMainList(NoticeDistributeQueryDTO noticeDistributeQueryDTO, PageQuery pageQuery) {
+        LambdaQueryWrapper<NoticeDistributePO> lqw = buildQueryWrapper(noticeDistributeQueryDTO);
         Page<NoticeDistributeVO> result = noticeDistributeMapper.selectVoPage(pageQuery.build(), lqw);
         return TableDataInfo.build(result);
     }
 
-    private LambdaQueryWrapper<NoticeDistributePO> buildQueryWrapper(NoticeDistributeDTO noticeDistributeDTO) {
+    private LambdaQueryWrapper<NoticeDistributePO> buildQueryWrapper(NoticeDistributeQueryDTO noticeDistributeQueryDTO) {
         LambdaQueryWrapper<NoticeDistributePO> lqw = Wrappers.lambdaQuery();
-        lqw.eq(StringUtils.isNotBlank(noticeDistributeDTO.getKeyWord()), NoticeDistributePO::getTitle, noticeDistributeDTO.getKeyWord());
-        lqw.eq(StringUtils.isNotBlank(noticeDistributeDTO.getUserId()), NoticeDistributePO::getUserId, noticeDistributeDTO.getUserId());
-        lqw.ge(noticeDistributeDTO.getStartTime() != null, NoticeDistributePO::getStartTime, noticeDistributeDTO.getStartTime());
-        lqw.lt(noticeDistributeDTO.getEndTime() != null, NoticeDistributePO::getEndTime, noticeDistributeDTO.getEndTime());
+        lqw.eq(StringUtils.isNotBlank(noticeDistributeQueryDTO.getKeyWord()), NoticeDistributePO::getTitle, noticeDistributeQueryDTO.getKeyWord());
+        lqw.eq(StringUtils.isNotBlank(noticeDistributeQueryDTO.getUserId()), NoticeDistributePO::getUserId, noticeDistributeQueryDTO.getUserId());
+        lqw.ge(noticeDistributeQueryDTO.getStartTime() != null, NoticeDistributePO::getStartTime, noticeDistributeQueryDTO.getStartTime());
+        lqw.le(noticeDistributeQueryDTO.getEndTime() != null, NoticeDistributePO::getEndTime, noticeDistributeQueryDTO.getEndTime());
         return lqw;
     }
 
@@ -72,12 +80,57 @@ public class NoticeDistributeServiceImpl extends ServiceImpl<NoticeDistributeMap
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean deliverNotice(DeliverNoticeDTO deliverNoticeDTO) {
+        if(StringUtils.isEmpty(deliverNoticeDTO.getReceiveUnit())){
+            log.error("通知下发 receiveUnit is null, userid : " + deliverNoticeDTO.getUserId());
+            return false;
+        }
         NoticeDistributePO noticeDistributePO = BeanCopyUtils.copy(deliverNoticeDTO, NoticeDistributePO.class);
-        Boolean insertNoticeDistributeResult = noticeDistributeMapper.insertOrUpdate(noticeDistributePO);
-        if(insertNoticeDistributeResult){
-            return iNoticeReceiveService.deliverNotice(deliverNoticeDTO);
+        int noticeDistribute = noticeDistributeMapper.insertNoticeDistribute(noticeDistributePO);
+        if(noticeDistribute < 1){
+            log.error("通知下发 insert into noticeDistribute failed, userid : " + deliverNoticeDTO.getUserId());
+            return false;
+        }
+        NoticeDistributePO insertNoticeDistributeResult = noticeDistributeMapper.selectById(noticeDistributePO.getId());
+        if(insertNoticeDistributeResult != null){
+            //如果下发新增成功了，
+            DeliverNoticeDTO deliverNotice2ReceiveDTO = new DeliverNoticeDTO();
+            deliverNotice2ReceiveDTO.setTitle(insertNoticeDistributeResult.getTitle());
+            deliverNotice2ReceiveDTO.setStartTime(insertNoticeDistributeResult.getStartTime());
+            deliverNotice2ReceiveDTO.setEndTime(insertNoticeDistributeResult.getEndTime());
+            deliverNotice2ReceiveDTO.setType(insertNoticeDistributeResult.getType());
+            //根据通知类别更改初始状态
+            if("通知".equals(insertNoticeDistributeResult.getType())){
+                deliverNotice2ReceiveDTO.setStatus("待反馈");
+            }
+            deliverNotice2ReceiveDTO.setStatus("待上传");
+            deliverNotice2ReceiveDTO.setReceiveUnit("");
+            deliverNotice2ReceiveDTO.setFilePath("");
+            deliverNotice2ReceiveDTO.setNoticeContent(insertNoticeDistributeResult.getNoticeContent());
+            deliverNotice2ReceiveDTO.setParentUserId(insertNoticeDistributeResult.getUserId());
+            deliverNotice2ReceiveDTO.setNoticeDistributeId(noticeDistributePO.getId());
+            //这里暂时查询本地表人员
+            //用查询到的接收单位list找出该给哪些单位发信息
+            LambdaQueryWrapper<DistrictListPersonPO> lambdaQueryWrapper = new LambdaQueryWrapper();
+            lambdaQueryWrapper.eq(DistrictListPersonPO::getOrgName, deliverNoticeDTO.getReceiveUnit());
+            List<DistrictListPersonPO> districtListPersonPOList = districtListPersonMapper.selectList(lambdaQueryWrapper);
+            Map<String, String> revceiveMap = new HashMap<>();
+            for(DistrictListPersonPO districtListPersonPO : districtListPersonPOList){
+                if(districtListPersonPO.getOrgName().equals(deliverNoticeDTO.getReceiveUnit())){
+                    revceiveMap.put(districtListPersonPO.getUserName(), districtListPersonPO.getUserId());
+                }
+            }
+            //给各个接收单位发通知
+            for(Map.Entry<String, String> entry : revceiveMap.entrySet()){
+                deliverNotice2ReceiveDTO.setUserId(entry.getValue());
+                Boolean insertResult = iNoticeReceiveService.deliverNotice(deliverNotice2ReceiveDTO);
+                if(!insertResult){
+//                    log.error("insert into receive unit failed, userid is : " + deliverNotice2ReceiveDTO.getUserId() + " parentid is : " + deliverNotice2ReceiveDTO.getParentUserId());
+                    throw new RuntimeException("insert into receive unit failed, userid is : " + deliverNotice2ReceiveDTO.getUserId() + " parentid is : " + deliverNotice2ReceiveDTO.getParentUserId());
+                }
+            }
+            return true;
         }else {
-            log.error("insertNoticeDistributeResult is false, user_id = " + deliverNoticeDTO.getUserId());
+            log.error("通知下发 insertNoticeDistributeResult is false, user_id = " + deliverNoticeDTO.getUserId());
             return false;
         }
     }

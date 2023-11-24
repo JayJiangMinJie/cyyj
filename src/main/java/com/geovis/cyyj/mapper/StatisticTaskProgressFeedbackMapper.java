@@ -2,9 +2,7 @@ package com.geovis.cyyj.mapper;
 
 
 import com.geovis.cyyj.common.core.mapper.BaseMapperPlus;
-import com.geovis.cyyj.po.ProgressFeedbackPO;
 import com.geovis.cyyj.po.StatisticTaskProgressFeedbackPO;
-import com.geovis.cyyj.vo.ProgressFeedbackVO;
 import com.geovis.cyyj.vo.StatisticTaskFeedbackListVO;
 import org.apache.ibatis.annotations.Mapper;
 
