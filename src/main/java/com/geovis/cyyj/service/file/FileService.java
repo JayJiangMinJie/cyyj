@@ -14,7 +14,9 @@ public interface FileService {
 
     FileReturn uploadFile(MultipartFile multipartFile);
 
-    Boolean fileSave(String filePath, int noticeCode, String operatePerson);
+    Boolean fileSave(String filePath, Integer noticeCode, String operatePerson);
+
+    Boolean deleteFile(Integer noticeCode, String operatePerson);
 
     /**
      * 分页查询文件列表数据

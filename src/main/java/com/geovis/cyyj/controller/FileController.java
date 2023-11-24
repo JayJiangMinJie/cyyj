@@ -8,6 +8,7 @@ import com.geovis.cyyj.common.core.domain.R;
 import com.geovis.cyyj.common.core.page.TableDataInfo;
 import com.geovis.cyyj.common.utils.Html2WorldUtil;
 import com.geovis.cyyj.common.utils.file.FileUtils;
+import com.geovis.cyyj.dto.DeliverNoticeDTO;
 import com.geovis.cyyj.dto.FileQueryDTO;
 import com.geovis.cyyj.service.file.FileService;
 import com.geovis.cyyj.vo.FileVO;
@@ -19,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -52,9 +54,19 @@ public class FileController {
     @PostMapping("/save")
     @ApiOperation("保存文件")
     public Boolean fileSave(@RequestParam("filePath") String filePath,
-                                 @RequestParam("noticeCode") int noticeCode,
+                                 @RequestParam("noticeCode") Integer noticeCode,
                                  @RequestParam("operatePerson") String operatePerson){
         return fileService.fileSave(filePath, noticeCode, operatePerson);
+    }
+
+    @ApiOperation(value = "删除数据库文件", notes = "删除数据库文件")
+    @PostMapping({"/deleteFile"})
+    public R deleteFile(@RequestParam("noticeCode") Integer noticeCode,
+                           @RequestParam("operatePerson") String operatePerson) {
+        if(fileService.deleteFile(noticeCode, operatePerson)){
+            return R.ok("删除数据库文件成功");
+        }
+        return R.fail("删除数据库文件失败");
     }
 
     /**

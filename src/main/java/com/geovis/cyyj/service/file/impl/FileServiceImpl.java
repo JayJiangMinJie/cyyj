@@ -1,6 +1,7 @@
 package com.geovis.cyyj.service.file.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.geovis.cyyj.common.core.domain.FileReturn;
@@ -9,6 +10,7 @@ import com.geovis.cyyj.common.core.page.TableDataInfo;
 import com.geovis.cyyj.common.utils.StringUtils;
 import com.geovis.cyyj.dto.FileQueryDTO;
 import com.geovis.cyyj.mapper.file.FileMapper;
+import com.geovis.cyyj.po.WarningReceivePO;
 import com.geovis.cyyj.po.file.FilePO;
 import com.geovis.cyyj.service.file.FileService;
 import com.geovis.cyyj.vo.FileVO;
@@ -61,7 +63,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public Boolean fileSave(String filePath, int noticeCode, String operatePerson) {
+    public Boolean fileSave(String filePath, Integer noticeCode, String operatePerson) {
         FilePO filePO = new FilePO();
         filePO.setFilePath(filePath);
         filePO.setNoticeDistributeId(noticeCode);
@@ -73,6 +75,18 @@ public class FileServiceImpl implements FileService {
             return false;
         }
 
+    }
+
+    @Override
+    public Boolean deleteFile(Integer noticeCode, String operatePerson) {
+        LambdaUpdateWrapper<FilePO> receiveLuw = Wrappers.lambdaUpdate();
+        receiveLuw.eq(noticeCode != 0, FilePO::getNoticeDistributeId, noticeCode);
+        receiveLuw.eq(StringUtils.isNotEmpty(operatePerson), FilePO::getOperatePerson, operatePerson);
+        int deleteNum = fileMapper.delete(receiveLuw);
+        if(deleteNum <= 0){
+            return false;
+        }
+        return true;
     }
 
     @Override

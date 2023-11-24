@@ -1853,3 +1853,17 @@ com.geovis.cyyj.controller.FileController#uploadFile(MultipartFile) mapped.
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1863)
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1800)
 	... 50 common frames omitted
+2023-11-24 19:59:22.230 [main] ERROR org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 10909 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 10909 or configure this application to listen on another port.
+

@@ -629,3 +629,24 @@ Error starting ApplicationContext. To display the conditions report re-run your 
 2023-11-24 18:04:50.064 [tomcat-shutdown] INFO  org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
 2023-11-24 18:04:50.071 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
 2023-11-24 18:04:50.074 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2023-11-24 19:59:18.950 [main] INFO  com.geovis.cyyj.GeovisStartApplication - Starting GeovisStartApplication using Java 1.8.0_333 on DESKTOP-ENMGKRP with PID 5524 (E:\IdeaProjectWorkSpace\geovis-cyyj-fzjz\target\classes started by DELL in E:\IdeaProjectWorkSpace\geovis-cyyj-fzjz)
+2023-11-24 19:59:18.953 [main] INFO  com.geovis.cyyj.GeovisStartApplication - The following 1 profile is active: "dev"
+2023-11-24 19:59:20.157 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 10909 (http)
+2023-11-24 19:59:20.162 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-10909"]
+2023-11-24 19:59:20.163 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-11-24 19:59:20.163 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.74]
+2023-11-24 19:59:20.307 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-11-24 19:59:20.307 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1320 ms
+2023-11-24 19:59:20.455 [main] INFO  com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure - Init DruidDataSource
+2023-11-24 19:59:20.724 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2023-11-24 19:59:21.919 [main] INFO  com.geovis.cyyj.common.config.JacksonConfig - 初始化 jackson 配置
+2023-11-24 19:59:22.135 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-10909"]
+2023-11-24 19:59:22.143 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2023-11-24 19:59:22.146 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2023-11-24 19:59:22.149 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-10909"]
+2023-11-24 19:59:22.149 [main] INFO  org.apache.catalina.core.StandardService - Stopping service [Tomcat]
+2023-11-24 19:59:22.152 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-10909"]
+2023-11-24 19:59:22.153 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Destroying ProtocolHandler ["http-nio-10909"]
+2023-11-24 19:59:22.158 [main] INFO  org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
