@@ -47,7 +47,24 @@ public class WarningProgressFeedbackDTO implements Serializable {
     private LocalDateTime feedbackTime ;
     private String filePath;
     private String operatePerson;
+    private String userId;
+    private String parentUserId;
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getParentUserId() {
+        return parentUserId;
+    }
+
+    public void setParentUserId(String parentUserId) {
+        this.parentUserId = parentUserId;
+    }
     public String getOperatePerson() {
         return operatePerson;
     }

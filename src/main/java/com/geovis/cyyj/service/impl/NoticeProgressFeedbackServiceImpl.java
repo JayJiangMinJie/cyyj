@@ -42,7 +42,7 @@ public class NoticeProgressFeedbackServiceImpl extends ServiceImpl<NoticeProgres
      * 分页查询进度反馈列表
      */
     @Override
-    public TableDataInfo<NoticeProgressFeedbackVO> queryNoticeProgressFeedbackList(int noticeDistributeId, PageQuery pageQuery) {
+    public TableDataInfo<NoticeProgressFeedbackVO> queryNoticeProgressFeedbackList(Integer noticeDistributeId, PageQuery pageQuery) {
         LambdaQueryWrapper<NoticeProgressFeedbackPO> lqw = Wrappers.lambdaQuery();
         lqw.eq(noticeDistributeId != 0, NoticeProgressFeedbackPO::getNoticeDistributeId, noticeDistributeId);
         Page<NoticeProgressFeedbackVO> result = noticeProgressFeedbackMapper.selectVoPage(pageQuery.build(), lqw);
@@ -68,6 +68,31 @@ public class NoticeProgressFeedbackServiceImpl extends ServiceImpl<NoticeProgres
         }
         noticeProgressFeedbackPO.setFeedbackStatus(status);
         return noticeProgressFeedbackMapper.insertOrUpdate(noticeProgressFeedbackPO);
+    }
+
+    @Override
+    public Boolean updateNoticeProgressFeedback(NoticeProgressFeedbackDTO noticeProgressFeedbackDTO) {
+        LocalDateTime now = LocalDateTime.now();
+        String status;
+
+        if(now.isBefore(noticeProgressFeedbackDTO.getEndTime())){
+            status = "按时反馈";
+        }else {
+            status = "超时反馈";
+        }
+        //先查出来再更新
+        LambdaQueryWrapper<NoticeProgressFeedbackPO> lambdaQueryWrapper = new LambdaQueryWrapper();
+        lambdaQueryWrapper.eq(NoticeProgressFeedbackPO::getNoticeDistributeId, noticeProgressFeedbackDTO.getNoticeDistributeId());
+        lambdaQueryWrapper.eq(NoticeProgressFeedbackPO::getUserId, noticeProgressFeedbackDTO.getUserId());
+        NoticeProgressFeedbackPO noticeProgressFeedbackPO = noticeProgressFeedbackMapper.selectOne(lambdaQueryWrapper);
+
+        noticeProgressFeedbackPO.setFeedbackStatus(status);
+        noticeProgressFeedbackPO.setReceiveStatus("已读");
+        int resultUpdateNoticeFeedback = noticeProgressFeedbackMapper.updateById(noticeProgressFeedbackPO);
+        if(resultUpdateNoticeFeedback <= 0){
+            throw new RuntimeException("feedback update notice Result failed, userid is : " + noticeProgressFeedbackPO.getUserId() );
+        }
+        return true;
     }
 
 }

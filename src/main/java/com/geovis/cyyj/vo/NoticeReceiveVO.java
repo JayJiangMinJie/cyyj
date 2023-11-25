@@ -7,11 +7,11 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 通知下发;
+ * 通知接收;
  * @author : jay
  * @date : 2023-10-18
  */
-@ApiModel(value = "通知下发",description = "")
+@ApiModel(value = "通知接收",description = "")
 @JsonIgnoreProperties
 public class NoticeReceiveVO implements Serializable,Cloneable{
     private Integer id;
@@ -27,6 +27,15 @@ public class NoticeReceiveVO implements Serializable,Cloneable{
     private String userId;
     private String parentUserId;
     private String noticeContent;
+    private Boolean isUpload;
+
+    public Boolean getUpload() {
+        return isUpload;
+    }
+
+    public void setUpload(Boolean upload) {
+        isUpload = upload;
+    }
 
     public String getNoticeContent() {
         return noticeContent;

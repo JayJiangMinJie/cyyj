@@ -74,8 +74,8 @@ public class DisasterWarningController extends BaseController {
      */
     @ApiOperation(value = "分页查询进度反馈列表", notes = "分页查询进度反馈列表")
     @GetMapping("/queryWarningProgressFeedbackList")
-    public TableDataInfo<WarningProgressFeedbackVO> queryWarningProgressFeedbackList(@RequestParam("disasterWarningId") int disasterWarningId, PageQuery pageQuery) {
-        return iWarningProgressFeedbackService.queryWarningProgressFeedbackList(disasterWarningId, pageQuery);
+    public TableDataInfo<WarningProgressFeedbackVO> queryWarningProgressFeedbackList(@RequestParam("disasterWarningId") Integer disasterWarningId, String userId, PageQuery pageQuery) {
+        return iWarningProgressFeedbackService.queryWarningProgressFeedbackList(disasterWarningId, userId, pageQuery);
     }
 
     @ApiOperation(value = "新增更新进度反馈", notes = "新增更新进度反馈")

@@ -56,17 +56,17 @@ public class NoticeDistributeController extends BaseController {
      */
     @ApiOperation(value = "分页查询进度反馈列表", notes = "分页查询进度反馈列表")
     @GetMapping("/queryNoticeProgressFeedbackList")
-    public TableDataInfo<NoticeProgressFeedbackVO> queryNoticeProgressFeedbackList(@RequestParam("noticeDistributeId") int noticeDistributeId, PageQuery pageQuery) {
+    public TableDataInfo<NoticeProgressFeedbackVO> queryNoticeProgressFeedbackList(@RequestParam("noticeDistributeId") Integer noticeDistributeId, PageQuery pageQuery) {
         return iNoticeProgressFeedbackService.queryNoticeProgressFeedbackList(noticeDistributeId, pageQuery);
     }
 
-    @ApiOperation(value = "新增更新进度反馈", notes = "新增更新进度反馈")
-    @PostMapping({"/addOrUpdateNoticeProgressFeedback"})
-    public R addOrUpdateNoticeProgressFeedback(@Validated @RequestBody NoticeProgressFeedbackDTO noticeProgressFeedbackDTO) {
-        if(iNoticeProgressFeedbackService.addOrUpdateNoticeProgressFeedback(noticeProgressFeedbackDTO)){
-            return R.ok("新增进度反馈成功");
+    @ApiOperation(value = "更新进度反馈", notes = "更新进度反馈")
+    @PostMapping({"/updateNoticeProgressFeedback"})
+    public R updateNoticeProgressFeedback(@Validated @RequestBody NoticeProgressFeedbackDTO noticeProgressFeedbackDTO) {
+        if(iNoticeProgressFeedbackService.updateNoticeProgressFeedback(noticeProgressFeedbackDTO)){
+            return R.ok("更新进度反馈成功");
         }
-        return R.fail("新增进度反馈失败");
+        return R.fail("更新进度反馈失败");
     }
 
     @ApiOperation(value = "发布通知", notes = "发布通知")

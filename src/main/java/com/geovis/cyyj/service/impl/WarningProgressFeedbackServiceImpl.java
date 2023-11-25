@@ -14,6 +14,7 @@ import com.geovis.cyyj.service.IWarningProgressFeedbackService;
 import com.geovis.cyyj.vo.WarningProgressFeedbackVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,9 +41,10 @@ public class WarningProgressFeedbackServiceImpl extends ServiceImpl<WarningProgr
      * 分页查询进度反馈列表
      */
     @Override
-    public TableDataInfo<WarningProgressFeedbackVO> queryWarningProgressFeedbackList(int warningDistributeId, PageQuery pageQuery) {
+    public TableDataInfo<WarningProgressFeedbackVO> queryWarningProgressFeedbackList(Integer warningDistributeId, String userId, PageQuery pageQuery) {
         LambdaQueryWrapper<WarningProgressFeedbackPO> lqw = Wrappers.lambdaQuery();
         lqw.eq(warningDistributeId != 0, WarningProgressFeedbackPO::getDisasterWarningId, warningDistributeId);
+        lqw.eq(StringUtils.isNotBlank(userId), WarningProgressFeedbackPO::getUserId, userId);
         Page<WarningProgressFeedbackVO> result = warningProgressFeedbackMapper.selectVoPage(pageQuery.build(), lqw);
         return TableDataInfo.build(result);
     }
@@ -50,19 +52,6 @@ public class WarningProgressFeedbackServiceImpl extends ServiceImpl<WarningProgr
     @Override
     public Boolean addOrUpdateWarningProgressFeedback(WarningProgressFeedbackDTO warningProgressFeedbackDTO) {
         WarningProgressFeedbackPO warningProgressFeedbackPO = BeanCopyUtils.copy(warningProgressFeedbackDTO, WarningProgressFeedbackPO.class);
-        LocalDateTime now = LocalDateTime.now();
-//        String status;
-//        if(warningProgressFeedbackDTO.getIsRead()){
-//
-//            if(now.isBefore(warningProgressFeedbackDTO.getEndTime())){
-//                status = "按时反馈";
-//            }else {
-//                status = "超时反馈";
-//            }
-//        }else {
-//            status = "未反馈";
-//        }
-//        warningProgressFeedbackPO.set(status);
         return warningProgressFeedbackMapper.insertOrUpdate(warningProgressFeedbackPO);
     }
 

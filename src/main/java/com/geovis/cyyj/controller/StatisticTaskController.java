@@ -101,10 +101,10 @@ public class StatisticTaskController extends BaseController {
         return iStatisticTaskProgressFeedbackService.getStatisticTaskFeedbackList(statisticTaskId, pageQuery);
     }
 
-    @ApiOperation(value = "新增更新进度反馈", notes = "新增更新进度反馈")
-    @PostMapping({"/addOrUpdateProgressFeedback"})
-    public R addOrUpdateProgressFeedback(@Validated @RequestBody StatisticTaskProgressFeedbackDTO statisticTaskProgressFeedbackDTO) {
-        if(iStatisticTaskProgressFeedbackService.addOrUpdateProgressFeedback(statisticTaskProgressFeedbackDTO)){
+    @ApiOperation(value = "更新进度反馈", notes = "更新进度反馈")
+    @PostMapping({"/updateProgressFeedback"})
+    public R updateProgressFeedback(@Validated @RequestBody StatisticTaskProgressFeedbackDTO statisticTaskProgressFeedbackDTO) {
+        if(iStatisticTaskProgressFeedbackService.updateProgressFeedback(statisticTaskProgressFeedbackDTO)){
             return R.ok("新增进度反馈成功");
         }
         return R.fail("新增进度反馈失败");

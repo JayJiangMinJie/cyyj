@@ -12,7 +12,9 @@ import com.geovis.cyyj.dto.DataReportDTO;
 import com.geovis.cyyj.dto.DataReportQueryDTO;
 import com.geovis.cyyj.dto.DataReportStatusDTO;
 import com.geovis.cyyj.mapper.DataReportMapper;
+import com.geovis.cyyj.mapper.StatisticTaskProgressFeedbackMapper;
 import com.geovis.cyyj.po.DataReportPO;
+import com.geovis.cyyj.po.StatisticTaskProgressFeedbackPO;
 import com.geovis.cyyj.service.IDataReportService;
 import com.geovis.cyyj.vo.DataReportVO;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +41,9 @@ public class DataReportServiceImpl extends ServiceImpl<DataReportMapper, DataRep
     @Autowired
     private final DataReportMapper dataReportMapper;
 
+    @Autowired
+    private final StatisticTaskProgressFeedbackMapper statisticTaskProgressFeedbackMapper;
+    
     /**
      * 分页查询数据上传列表
      */
@@ -72,17 +77,29 @@ public class DataReportServiceImpl extends ServiceImpl<DataReportMapper, DataRep
         DataReportPO dataReportPO = BeanCopyUtils.copy(dataReportStatusDTO, DataReportPO.class);
         LocalDateTime now = LocalDateTime.now();
         String status;
-        if(dataReportStatusDTO.getIsRead()){
-            if(now.isBefore(dataReportStatusDTO.getEndTime())){
-                status = "按时反馈";
-            }else {
-                status = "超时反馈";
-            }
+        if(now.isBefore(dataReportStatusDTO.getEndTime())){
+            status = "按时反馈";
         }else {
-            status = "未反馈";
+            status = "超时反馈";
         }
         dataReportPO.setStatus(status);
-        return dataReportMapper.insertOrUpdate(dataReportPO);
+        Boolean insertOrUpdateTaskReceiveResult = dataReportMapper.insertOrUpdate(dataReportPO);
+        if(!insertOrUpdateTaskReceiveResult){
+            throw new RuntimeException("insertOrUpdate Task Receive Result failed, userid is : " + dataReportPO.getUserId() + " parentid is : " + dataReportPO.getParentUserId());
+        }
+        //顺带也要更新反馈列表
+        LambdaQueryWrapper<StatisticTaskProgressFeedbackPO> lambdaQueryWrapper = new LambdaQueryWrapper();
+        lambdaQueryWrapper.eq(StatisticTaskProgressFeedbackPO::getStatisticTaskId, dataReportStatusDTO.getStatisticTaskId());
+        lambdaQueryWrapper.eq(StatisticTaskProgressFeedbackPO::getUserId, dataReportStatusDTO.getUserId());
+        StatisticTaskProgressFeedbackPO statisticTaskProgressFeedbackPO = statisticTaskProgressFeedbackMapper.selectOne(lambdaQueryWrapper);
+        //先查询后更新
+        statisticTaskProgressFeedbackPO.setFeedbackStatus(status);
+        statisticTaskProgressFeedbackPO.setFeedbackTime(now);
+        int resultUpdateNoticeFeedback = statisticTaskProgressFeedbackMapper.updateById(statisticTaskProgressFeedbackPO);
+        if(resultUpdateNoticeFeedback <= 0){
+            throw new RuntimeException("Update Task Feedback Result failed, userid is : " + dataReportPO.getUserId() );
+        }
+        return true;
     }
 
 }

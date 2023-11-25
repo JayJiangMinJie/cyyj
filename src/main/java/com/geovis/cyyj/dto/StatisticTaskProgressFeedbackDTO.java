@@ -30,10 +30,6 @@ public class StatisticTaskProgressFeedbackDTO implements Serializable {
     private String dept ;
     @ApiModelProperty(value = "反馈状态")
     private String feedbackStatus ;
-    @ApiModelProperty(value = "已读状态")
-    private Boolean isRead ;
-    @ApiModelProperty(value = "接收状态")
-    private String receiveStatus;
     private Integer statisticTaskId;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "截止时间")
@@ -41,6 +37,24 @@ public class StatisticTaskProgressFeedbackDTO implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "反馈时间")
     private LocalDateTime feedbackTime ;
+    private String userId;
+    private String parentUserId;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getParentUserId() {
+        return parentUserId;
+    }
+
+    public void setParentUserId(String parentUserId) {
+        this.parentUserId = parentUserId;
+    }
 
     public Integer getId() {
         return id;
@@ -66,21 +80,6 @@ public class StatisticTaskProgressFeedbackDTO implements Serializable {
         this.feedbackStatus = feedbackStatus;
     }
 
-    public Boolean getRead() {
-        return isRead;
-    }
-
-    public void setRead(Boolean read) {
-        isRead = read;
-    }
-
-    public String getReceiveStatus() {
-        return receiveStatus;
-    }
-
-    public void setReceiveStatus(String receiveStatus) {
-        this.receiveStatus = receiveStatus;
-    }
 
     public Integer getStatisticTaskId() {
         return statisticTaskId;

@@ -21,11 +21,13 @@ public interface INoticeProgressFeedbackService extends IService<NoticeProgressF
     /**
      * 分页查询进度反馈数据
      */
-    TableDataInfo<NoticeProgressFeedbackVO> queryNoticeProgressFeedbackList(int noticeDistributeId, PageQuery pageQuery);
+    TableDataInfo<NoticeProgressFeedbackVO> queryNoticeProgressFeedbackList(Integer noticeDistributeId, PageQuery pageQuery);
 
     /**
      * 新增进度反馈
      */
     Boolean addOrUpdateNoticeProgressFeedback(NoticeProgressFeedbackDTO noticeProgressFeedbackDTO);
+
+    Boolean updateNoticeProgressFeedback(NoticeProgressFeedbackDTO noticeProgressFeedbackDTO);
 
 }

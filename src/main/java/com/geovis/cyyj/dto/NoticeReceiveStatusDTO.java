@@ -34,9 +34,19 @@ public class NoticeReceiveStatusDTO implements Serializable {
     private String type ;
     @ApiModelProperty(value = "已读状态")
     private Boolean isRead ;
+    @ApiModelProperty(value = "文件上传状态")
+    private Boolean isUpload ;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "截止时间")
     private LocalDateTime endTime ;
+
+    public Boolean getUpload() {
+        return isUpload;
+    }
+
+    public void setUpload(Boolean upload) {
+        isUpload = upload;
+    }
 
     public String getType() {
         return type;

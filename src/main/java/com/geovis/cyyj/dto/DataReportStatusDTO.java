@@ -28,11 +28,11 @@ public class DataReportStatusDTO implements Serializable {
     private Integer id ;
     @ApiModelProperty(value = "状态(不传)")
     private String status ;
-    @ApiModelProperty(value = "已读状态")
-    private Boolean isRead ;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "截止时间")
     private LocalDateTime endTime ;
+    private Integer statisticTaskId ;
+    private String userId ;
 
     public Integer getId() {
         return id;
@@ -50,19 +50,27 @@ public class DataReportStatusDTO implements Serializable {
         this.status = status;
     }
 
-    public Boolean getRead() {
-        return isRead;
-    }
-
-    public void setRead(Boolean read) {
-        isRead = read;
-    }
-
     public LocalDateTime getEndTime() {
         return endTime;
     }
 
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
+    }
+
+    public Integer getStatisticTaskId() {
+        return statisticTaskId;
+    }
+
+    public void setStatisticTaskId(Integer statisticTaskId) {
+        this.statisticTaskId = statisticTaskId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

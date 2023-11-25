@@ -103,11 +103,13 @@ public class NoticeDistributeServiceImpl extends ServiceImpl<NoticeDistributeMap
             deliverNotice2ReceiveDTO.setStartTime(insertNoticeDistributeResult.getStartTime());
             deliverNotice2ReceiveDTO.setEndTime(insertNoticeDistributeResult.getEndTime());
             deliverNotice2ReceiveDTO.setType(insertNoticeDistributeResult.getType());
+            deliverNotice2ReceiveDTO.setIsUpload(false);
             //根据通知类别更改初始状态: 0-通知 1-带附件通知
             if("0".equals(insertNoticeDistributeResult.getType())){
-                deliverNotice2ReceiveDTO.setStatus("待反馈");
+                deliverNotice2ReceiveDTO.setStatus("未反馈");
+            }else {
+                deliverNotice2ReceiveDTO.setStatus("待上传");
             }
-            deliverNotice2ReceiveDTO.setStatus("待上传");
             deliverNotice2ReceiveDTO.setType(insertNoticeDistributeResult.getType());
             deliverNotice2ReceiveDTO.setNoticeContent(insertNoticeDistributeResult.getNoticeContent());
             deliverNotice2ReceiveDTO.setParentUserId(insertNoticeDistributeResult.getUserId());
@@ -147,8 +149,6 @@ public class NoticeDistributeServiceImpl extends ServiceImpl<NoticeDistributeMap
                     throw new RuntimeException("insert into feedback failed, userid is : " + deliverNotice2ReceiveDTO.getUserId() + " parentid is : " + deliverNotice2ReceiveDTO.getParentUserId());
                 }
             }
-
-
             return true;
         }else {
             log.error("通知下发 insertNoticeDistributeResult is false, user_id = " + deliverNoticeDTO.getUserId());
@@ -172,19 +172,22 @@ public class NoticeDistributeServiceImpl extends ServiceImpl<NoticeDistributeMap
             bizDistributePO.setStatus("已撤回");
             resultWithdrawNum = noticeDistributeMapper.update(bizDistributePO, luw);
             if(resultWithdrawNum == 0){
-             log.warn("下发通知表撤回失败，noticeDistributeId： " + noticeDistributeId);
+                log.warn("下发通知表撤回失败，noticeDistributeId： " + noticeDistributeId);
             }
             //删除通知接收方内容
             LambdaUpdateWrapper<NoticeReceivePO> receiveLuw = Wrappers.lambdaUpdate();
             receiveLuw.eq(noticeDistributeId != null, NoticeReceivePO::getNoticeDistributeId, noticeDistributeId);
             int deleteNum = noticeReceiveMapper.delete(receiveLuw);
+            if(deleteNum == 0){
+                log.warn("删除notice receive失败，noticeDistributeId： " + noticeDistributeId);
+            }
             resultWithdrawNum = deleteNum + 1;
         } else if ("end".equals(operateType)) {
             luw.eq(NoticeDistributePO::getId, noticeDistributeId);
             bizDistributePO.setStatus("结束");
             resultEndNum = noticeDistributeMapper.update(bizDistributePO, luw);
         }
-        if((resultEndNum == 1) || (resultWithdrawNum == 2)){
+        if((resultEndNum == 1) || (resultWithdrawNum > 1)){
             return true;
         }else {
             return false;

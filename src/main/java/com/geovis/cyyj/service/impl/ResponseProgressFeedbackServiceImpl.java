@@ -14,6 +14,7 @@ import com.geovis.cyyj.service.IResponseProgressFeedbackService;
 import com.geovis.cyyj.vo.ResponseProgressFeedbackVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,9 +41,10 @@ public class ResponseProgressFeedbackServiceImpl extends ServiceImpl<ResponsePro
      * 分页查询进度反馈列表
      */
     @Override
-    public TableDataInfo<ResponseProgressFeedbackVO> queryResponseProgressFeedbackList(int responseDistributeId, PageQuery pageQuery) {
+    public TableDataInfo<ResponseProgressFeedbackVO> queryResponseProgressFeedbackList(Integer responseDistributeId, String userId, PageQuery pageQuery) {
         LambdaQueryWrapper<ResponseProgressFeedbackPO> lqw = Wrappers.lambdaQuery();
         lqw.eq(responseDistributeId != 0, ResponseProgressFeedbackPO::getResponseReleaseId, responseDistributeId);
+        lqw.eq(StringUtils.isNotBlank(userId), ResponseProgressFeedbackPO::getUserId, userId);
         Page<ResponseProgressFeedbackVO> result = responseProgressFeedbackMapper.selectVoPage(pageQuery.build(), lqw);
         return TableDataInfo.build(result);
     }
@@ -50,19 +52,6 @@ public class ResponseProgressFeedbackServiceImpl extends ServiceImpl<ResponsePro
     @Override
     public Boolean addOrUpdateResponseProgressFeedback(ResponseProgressFeedbackDTO responseProgressFeedbackDTO) {
         ResponseProgressFeedbackPO responseProgressFeedbackPO = BeanCopyUtils.copy(responseProgressFeedbackDTO, ResponseProgressFeedbackPO.class);
-        LocalDateTime now = LocalDateTime.now();
-//        String status;
-//        if(responseProgressFeedbackDTO.getIsRead()){
-//
-//            if(now.isBefore(responseProgressFeedbackDTO.getEndTime())){
-//                status = "按时反馈";
-//            }else {
-//                status = "超时反馈";
-//            }
-//        }else {
-//            status = "未反馈";
-//        }
-//        responseProgressFeedbackPO.setFeedbackStatus(status);
         return responseProgressFeedbackMapper.insertOrUpdate(responseProgressFeedbackPO);
     }
 

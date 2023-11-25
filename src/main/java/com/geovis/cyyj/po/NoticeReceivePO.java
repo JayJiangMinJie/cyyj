@@ -30,6 +30,15 @@ public class NoticeReceivePO implements Serializable,Cloneable{
     private String parentUserId;
     private String userId ;
     private String noticeContent;
+    private Boolean isUpload;
+
+    public Boolean getUpload() {
+        return isUpload;
+    }
+
+    public void setUpload(Boolean upload) {
+        isUpload = upload;
+    }
 
     public String getNoticeContent() {
         return noticeContent;

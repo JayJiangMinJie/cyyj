@@ -74,8 +74,10 @@ public class ResponseReleaseController extends BaseController {
      */
     @ApiOperation(value = "分页查询进度反馈列表", notes = "分页查询进度反馈列表")
     @GetMapping("/queryResponseProgressFeedbackList")
-    public TableDataInfo<ResponseProgressFeedbackVO> queryResponseProgressFeedbackList(@RequestParam("responseReleaseId") int responseReleaseId, PageQuery pageQuery) {
-        return iResponseProgressFeedbackService.queryResponseProgressFeedbackList(responseReleaseId, pageQuery);
+    public TableDataInfo<ResponseProgressFeedbackVO> queryResponseProgressFeedbackList(@RequestParam("responseReleaseId") Integer responseReleaseId,
+                                                                                       @RequestParam("userId") String userId,
+                                                                                       PageQuery pageQuery) {
+        return iResponseProgressFeedbackService.queryResponseProgressFeedbackList(responseReleaseId, userId, pageQuery);
     }
 
     @ApiOperation(value = "新增更新进度反馈", notes = "新增更新进度反馈")

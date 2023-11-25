@@ -23,7 +23,25 @@ public class StatisticTaskProgressFeedbackPO implements Serializable,Cloneable{
     private LocalDateTime feedbackTime ;
     private String dept ;
     private String feedbackStatus;
-    private Integer StatisticTaskId;
+    private Integer statisticTaskId;
+    private String userId;
+    private String parentUserId;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getParentUserId() {
+        return parentUserId;
+    }
+
+    public void setParentUserId(String parentUserId) {
+        this.parentUserId = parentUserId;
+    }
 
     public Integer getId() {
         return id;
@@ -74,10 +92,10 @@ public class StatisticTaskProgressFeedbackPO implements Serializable,Cloneable{
     }
 
     public Integer getStatisticTaskId() {
-        return StatisticTaskId;
+        return statisticTaskId;
     }
 
     public void setStatisticTaskId(Integer statisticTaskId) {
-        StatisticTaskId = statisticTaskId;
+        this.statisticTaskId = statisticTaskId;
     }
 }

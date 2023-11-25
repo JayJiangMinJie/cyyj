@@ -10,6 +10,7 @@ import com.geovis.cyyj.common.utils.BeanCopyUtils;
 import com.geovis.cyyj.dto.StatisticTaskProgressFeedbackDTO;
 import com.geovis.cyyj.mapper.StatisticTaskProgressFeedbackMapper;
 import com.geovis.cyyj.po.StatisticTaskProgressFeedbackPO;
+import com.geovis.cyyj.po.StatisticTaskProgressFeedbackPO;
 import com.geovis.cyyj.service.IStatisticTaskProgressFeedbackService;
 import com.geovis.cyyj.vo.StatisticTaskFeedbackListVO;
 import lombok.RequiredArgsConstructor;
@@ -52,18 +53,38 @@ public class StatisticTaskProgressFeedbackServiceImpl extends ServiceImpl<Statis
         StatisticTaskProgressFeedbackPO statisticTaskProgressFeedbackPO = BeanCopyUtils.copy(statisticTaskProgressFeedbackDTO, StatisticTaskProgressFeedbackPO.class);
         LocalDateTime now = LocalDateTime.now();
         String status;
-        if(statisticTaskProgressFeedbackDTO.getIsRead()){
 
-            if(now.isBefore(statisticTaskProgressFeedbackDTO.getEndTime())){
-                status = "按时反馈";
-            }else {
-                status = "超时反馈";
-            }
+        if(now.isBefore(statisticTaskProgressFeedbackDTO.getEndTime())){
+            status = "按时反馈";
         }else {
-            status = "未反馈";
+            status = "超时反馈";
         }
         statisticTaskProgressFeedbackPO.setFeedbackStatus(status);
         return statisticTaskProgressFeedbackMapper.insertOrUpdate(statisticTaskProgressFeedbackPO);
+    }
+
+    @Override
+    public Boolean updateProgressFeedback(StatisticTaskProgressFeedbackDTO statisticTaskProgressFeedbackDTO) {
+        LocalDateTime now = LocalDateTime.now();
+        String status;
+
+        if(now.isBefore(statisticTaskProgressFeedbackDTO.getEndTime())){
+            status = "按时反馈";
+        }else {
+            status = "超时反馈";
+        }
+        //先查出来再更新
+        LambdaQueryWrapper<StatisticTaskProgressFeedbackPO> lambdaQueryWrapper = new LambdaQueryWrapper();
+        lambdaQueryWrapper.eq(StatisticTaskProgressFeedbackPO::getStatisticTaskId, statisticTaskProgressFeedbackDTO.getStatisticTaskId());
+        lambdaQueryWrapper.eq(StatisticTaskProgressFeedbackPO::getUserId, statisticTaskProgressFeedbackDTO.getUserId());
+        StatisticTaskProgressFeedbackPO statisticTaskProgressFeedbackPO = statisticTaskProgressFeedbackMapper.selectOne(lambdaQueryWrapper);
+
+        statisticTaskProgressFeedbackPO.setFeedbackStatus(status);
+        int resultUpdateNoticeFeedback = statisticTaskProgressFeedbackMapper.updateById(statisticTaskProgressFeedbackPO);
+        if(resultUpdateNoticeFeedback <= 0){
+            throw new RuntimeException("feedback task update Result failed, userid is : " + statisticTaskProgressFeedbackPO.getUserId() );
+        }
+        return true;
     }
 
 }

@@ -28,4 +28,9 @@ public interface IStatisticTaskProgressFeedbackService extends IService<Statisti
      */
     Boolean addOrUpdateProgressFeedback(StatisticTaskProgressFeedbackDTO statisticTaskProgressFeedbackDTO);
 
+    /**
+     * 新增进度反馈
+     */
+    Boolean updateProgressFeedback(StatisticTaskProgressFeedbackDTO statisticTaskProgressFeedbackDTO);
+
 }

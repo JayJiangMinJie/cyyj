@@ -46,6 +46,17 @@ public class DeliverTaskDTO implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "发布时间")
     private LocalDateTime releaseTime ;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "截止时间")
+    private LocalDateTime endTime ;
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
 
     public LocalDateTime getReleaseTime() {
         return releaseTime;

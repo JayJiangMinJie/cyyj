@@ -11,12 +11,15 @@ import com.geovis.cyyj.common.utils.BeanCopyUtils;
 import com.geovis.cyyj.common.utils.StringUtils;
 import com.geovis.cyyj.dto.DataReportDTO;
 import com.geovis.cyyj.dto.DeliverTaskDTO;
+import com.geovis.cyyj.dto.StatisticTaskProgressFeedbackDTO;
 import com.geovis.cyyj.dto.StatisticTaskQueryDTO;
 import com.geovis.cyyj.mapper.DataReportMapper;
 import com.geovis.cyyj.mapper.DistrictListPersonMapper;
 import com.geovis.cyyj.mapper.StatisticTaskMapper;
 import com.geovis.cyyj.po.*;
 import com.geovis.cyyj.service.IDataReportService;
+import com.geovis.cyyj.service.INoticeProgressFeedbackService;
+import com.geovis.cyyj.service.IStatisticTaskProgressFeedbackService;
 import com.geovis.cyyj.service.IStatisticTaskService;
 import com.geovis.cyyj.vo.StatisticTaskVO;
 import lombok.RequiredArgsConstructor;
@@ -54,6 +57,9 @@ public class StatisticTaskServiceImpl extends ServiceImpl<StatisticTaskMapper, S
 
     @Autowired
     IDataReportService iDataReportService;
+
+    @Autowired
+    private IStatisticTaskProgressFeedbackService iStatisticTaskProgressFeedbackService;
     /**
      * 分页查询统计任务列表
      */
@@ -103,7 +109,14 @@ public class StatisticTaskServiceImpl extends ServiceImpl<StatisticTaskMapper, S
             deliverTask2ReportDTO.setParentUserId(insertStatisticTaskResult.getParentUserId());
             deliverTask2ReportDTO.setReleaseTime(insertStatisticTaskResult.getReleaseTime());
             deliverTask2ReportDTO.setLastFillTime(insertStatisticTaskResult.getLastFillTime());
-            //这里暂时查询本地表人员
+            //生成进度反馈用数据
+            StatisticTaskProgressFeedbackDTO statisticTaskProgressFeedbackDTO = new StatisticTaskProgressFeedbackDTO();
+            statisticTaskProgressFeedbackDTO.setStatisticTaskId(statisticTaskPO.getId());
+            statisticTaskProgressFeedbackDTO.setDept("城阳区应急局");
+            statisticTaskProgressFeedbackDTO.setEndTime(insertStatisticTaskResult.getEndTime());
+            statisticTaskProgressFeedbackDTO.setFeedbackStatus("未反馈");
+            statisticTaskProgressFeedbackDTO.setParentUserId(insertStatisticTaskResult.getUserId());
+            //这里暂时查询本地表人员02
             //用查询到的接收单位list找出该给哪些单位发信息
             LambdaQueryWrapper<DistrictListPersonPO> lambdaQueryWrapper = new LambdaQueryWrapper();
             lambdaQueryWrapper.eq(DistrictListPersonPO::getOrgName, deliverTaskDTO.getReceiveUnit());
@@ -128,6 +141,12 @@ public class StatisticTaskServiceImpl extends ServiceImpl<StatisticTaskMapper, S
                 if(!insertResult){
 //                    log.error("insert into receive unit failed, userid is : " + deliverNotice2ReceiveDTO.getUserId() + " parentid is : " + deliverNotice2ReceiveDTO.getParentUserId());
                     throw new RuntimeException("insert into receive unit failed, userid is : " + deliverTask2ReportDTO.getUserId() + " parentid is : " + deliverTask2ReportDTO.getParentUserId());
+                }
+                //进度反馈也要给各个单位默认发一个
+                statisticTaskProgressFeedbackDTO.setUserId(entry.getValue());
+                Boolean insertFeedbackResult = iStatisticTaskProgressFeedbackService.addOrUpdateProgressFeedback(statisticTaskProgressFeedbackDTO);
+                if(!insertFeedbackResult){
+                    throw new RuntimeException("insert into feedback failed, userid is : " + deliverTask2ReportDTO.getUserId() + " parentid is : " + deliverTask2ReportDTO.getParentUserId());
                 }
             }
             return true;

@@ -22,14 +22,23 @@ public class NoticeProgressFeedbackVO implements Serializable,Cloneable{
     private String receiveStatus;
     private Integer noticeDistributeId;
     private String filePath;
-    private String operatePerson;
+    private String userId;
+    private LocalDateTime feedbackTime ;
 
-    public String getOperatePerson() {
-        return operatePerson;
+    public LocalDateTime getFeedbackTime() {
+        return feedbackTime;
     }
 
-    public void setOperatePerson(String operatePerson) {
-        this.operatePerson = operatePerson;
+    public void setFeedbackTime(LocalDateTime feedbackTime) {
+        this.feedbackTime = feedbackTime;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getFilePath() {

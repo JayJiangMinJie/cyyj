@@ -90,6 +90,12 @@ public class NoticeReceiveServiceImpl extends ServiceImpl<NoticeReceiveMapper, N
                 }else {
                     status = "超时反馈";
                 }
+            }else if(noticeReceiveStatusDTO.getIsUpload()){
+                if(now.isBefore(noticeReceiveStatusDTO.getEndTime())){
+                    status = "按时反馈";
+                }else {
+                    status = "超时反馈";
+                }
             }else {
                 if(now.isBefore(noticeReceiveStatusDTO.getEndTime())){
                     status = "待上传";
@@ -114,6 +120,7 @@ public class NoticeReceiveServiceImpl extends ServiceImpl<NoticeReceiveMapper, N
         //先查询后更新
         noticeProgressFeedbackPO.setFeedbackStatus(status);
         noticeProgressFeedbackPO.setReceiveStatus(receiveStatus);
+        noticeProgressFeedbackPO.setFeedbackTime(now);
         int resultUpdateNoticeFeedback = noticeProgressFeedbackMapper.updateById(noticeProgressFeedbackPO);
         if(resultUpdateNoticeFeedback <= 0){
             throw new RuntimeException("resultUpdateNoticeFeedback Result failed, userid is : " + noticeReceivePO.getUserId() );
