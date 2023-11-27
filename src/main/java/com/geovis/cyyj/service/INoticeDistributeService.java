@@ -34,6 +34,6 @@ public interface INoticeDistributeService extends IService<NoticeDistributePO> {
      * 通知操作
      */
     @Transactional(rollbackFor = Exception.class)
-    Boolean operateNotice(Integer noticeDistributeId, String operateType);
+    Boolean operateNotice(Integer noticeDistributeId, String userId, String operateType);
 
 }

@@ -40,6 +40,15 @@ public class StatisticDataPO implements Serializable,Cloneable{
     private Integer specialSituation;
     private String notes;
     private String status;
+    private String userId;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getStatus() {
         return status;

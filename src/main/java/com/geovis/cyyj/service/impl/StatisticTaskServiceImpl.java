@@ -28,6 +28,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,7 +91,11 @@ public class StatisticTaskServiceImpl extends ServiceImpl<StatisticTaskMapper, S
             log.error("发布任务 receiveUnit is null, userid : " + deliverTaskDTO.getUserId());
             return false;
         }
+        LocalDateTime now = LocalDateTime.now();
         StatisticTaskPO statisticTaskPO = BeanCopyUtils.copy(deliverTaskDTO, StatisticTaskPO.class);
+        statisticTaskPO.setStatus("进行中");
+        statisticTaskPO.setReleaseTime(now);
+        statisticTaskPO.setLastFillTime(now);
         int statisticTask = statisticTaskMapper.insertStatisticTask(statisticTaskPO);
         if(statisticTask < 1){
             log.error("发布任务insert into statisticTask failed, userid : " + deliverTaskDTO.getUserId());
@@ -100,32 +106,28 @@ public class StatisticTaskServiceImpl extends ServiceImpl<StatisticTaskMapper, S
             //如果下发新增成功了，
             DeliverTaskDTO deliverTask2ReportDTO = new DeliverTaskDTO();
             deliverTask2ReportDTO.setTitle(insertStatisticTaskResult.getTitle());
-            deliverTask2ReportDTO.setStatus(insertStatisticTaskResult.getStatus());
+            deliverTask2ReportDTO.setStatus("未反馈");
             deliverTask2ReportDTO.setFillTemplate(insertStatisticTaskResult.getFillTemplate());
             deliverTask2ReportDTO.setEditor(insertStatisticTaskResult.getEditor());
             deliverTask2ReportDTO.setIssuer(insertStatisticTaskResult.getIssuer());
-            deliverTask2ReportDTO.setReceiveUnit("");
-            deliverTask2ReportDTO.setUserId("");
+            deliverTask2ReportDTO.setReceiveUnit(insertStatisticTaskResult.getReceiveUnit());
             deliverTask2ReportDTO.setParentUserId(insertStatisticTaskResult.getParentUserId());
             deliverTask2ReportDTO.setReleaseTime(insertStatisticTaskResult.getReleaseTime());
             deliverTask2ReportDTO.setLastFillTime(insertStatisticTaskResult.getLastFillTime());
             //生成进度反馈用数据
             StatisticTaskProgressFeedbackDTO statisticTaskProgressFeedbackDTO = new StatisticTaskProgressFeedbackDTO();
             statisticTaskProgressFeedbackDTO.setStatisticTaskId(statisticTaskPO.getId());
-            statisticTaskProgressFeedbackDTO.setDept("城阳区应急局");
-            statisticTaskProgressFeedbackDTO.setEndTime(insertStatisticTaskResult.getEndTime());
-            statisticTaskProgressFeedbackDTO.setFeedbackStatus("未反馈");
             statisticTaskProgressFeedbackDTO.setParentUserId(insertStatisticTaskResult.getUserId());
             //这里暂时查询本地表人员02
             //用查询到的接收单位list找出该给哪些单位发信息
+            String[] unitArrays = deliverTaskDTO.getReceiveUnit().split(",");
+            List<String> unitList = Arrays.asList(unitArrays);
             LambdaQueryWrapper<DistrictListPersonPO> lambdaQueryWrapper = new LambdaQueryWrapper();
-            lambdaQueryWrapper.eq(DistrictListPersonPO::getOrgName, deliverTaskDTO.getReceiveUnit());
+            lambdaQueryWrapper.in(DistrictListPersonPO::getOrgName, unitList);
             List<DistrictListPersonPO> districtListPersonPOList = districtListPersonMapper.selectList(lambdaQueryWrapper);
             Map<String, String> revceiveMap = new HashMap<>();
             for(DistrictListPersonPO districtListPersonPO : districtListPersonPOList){
-                if(districtListPersonPO.getOrgName().equals(deliverTaskDTO.getReceiveUnit())){
-                    revceiveMap.put(districtListPersonPO.getUserName(), districtListPersonPO.getUserId());
-                }
+                revceiveMap.put(districtListPersonPO.getOrgName(), districtListPersonPO.getUserId());
             }
             //给各个接收单位发通知
             for(Map.Entry<String, String> entry : revceiveMap.entrySet()){
@@ -139,11 +141,11 @@ public class StatisticTaskServiceImpl extends ServiceImpl<StatisticTaskMapper, S
                 dataReportDTO.setTitle(deliverTask2ReportDTO.getTitle());
                 Boolean insertResult = iDataReportService.dataReport(dataReportDTO);
                 if(!insertResult){
-//                    log.error("insert into receive unit failed, userid is : " + deliverNotice2ReceiveDTO.getUserId() + " parentid is : " + deliverNotice2ReceiveDTO.getParentUserId());
                     throw new RuntimeException("insert into receive unit failed, userid is : " + deliverTask2ReportDTO.getUserId() + " parentid is : " + deliverTask2ReportDTO.getParentUserId());
                 }
                 //进度反馈也要给各个单位默认发一个
                 statisticTaskProgressFeedbackDTO.setUserId(entry.getValue());
+                statisticTaskProgressFeedbackDTO.setDept(entry.getKey());
                 Boolean insertFeedbackResult = iStatisticTaskProgressFeedbackService.addOrUpdateProgressFeedback(statisticTaskProgressFeedbackDTO);
                 if(!insertFeedbackResult){
                     throw new RuntimeException("insert into feedback failed, userid is : " + deliverTask2ReportDTO.getUserId() + " parentid is : " + deliverTask2ReportDTO.getParentUserId());
@@ -151,7 +153,7 @@ public class StatisticTaskServiceImpl extends ServiceImpl<StatisticTaskMapper, S
             }
             return true;
         }else {
-            log.error("发布任务 insertStatisticTaskResult is false, user_id = " + deliverTaskDTO.getUserId());
+            log.error("发布任务 insert StatisticTask Result is false, user_id = " + deliverTaskDTO.getUserId());
             return false;
         }
     }
@@ -161,25 +163,28 @@ public class StatisticTaskServiceImpl extends ServiceImpl<StatisticTaskMapper, S
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean operateNotice(Integer statisticTaskId, String operateType) {
-        StatisticTaskPO bizDistributePO = statisticTaskMapper.selectById(statisticTaskId);
+    public Boolean operateTask(Integer statisticTaskId, String userId, String operateType) {
+        StatisticTaskPO statisticTaskPO = statisticTaskMapper.selectById(statisticTaskId);
         LambdaUpdateWrapper<StatisticTaskPO> luw = Wrappers.lambdaUpdate();
         int resultWithdrawNum = 0;
         int resultEndNum = 0;
         if("withdraw".equals(operateType)){
             //撤回任务之后下发方消息还在，状态变成已撤回，接收方消息删除
-            luw.set(StatisticTaskPO::getStatus, "已撤回");
-            resultWithdrawNum = statisticTaskMapper.update(bizDistributePO, luw);
+            luw.eq(StatisticTaskPO::getId, statisticTaskId);
+            statisticTaskPO.setStatus("已撤回");
+            resultWithdrawNum = statisticTaskMapper.update(statisticTaskPO, luw);
             if(resultWithdrawNum == 0){
              log.warn("下发任务表撤回失败，statisticTaskId： " + statisticTaskId);
             }
             //删除任务接收方内容
             LambdaUpdateWrapper<DataReportPO> reportLuw = Wrappers.lambdaUpdate();
             reportLuw.eq(statisticTaskId != null, DataReportPO::getStatisticTaskId, statisticTaskId);
+            reportLuw.eq(StringUtils.isNotEmpty(userId), DataReportPO::getUserId, userId);
             resultWithdrawNum = dataReportMapper.delete(reportLuw) + 1;
         } else if ("end".equals(operateType)) {
-            luw.set(StatisticTaskPO::getStatus, "结束");
-            resultEndNum = statisticTaskMapper.update(bizDistributePO, luw);
+            luw.eq(StatisticTaskPO::getId, statisticTaskId);
+            statisticTaskPO.setStatus("结束");
+            resultEndNum = statisticTaskMapper.update(statisticTaskPO, luw);
         }
         if((resultEndNum == 1) || (resultWithdrawNum == 2)){
             return true;

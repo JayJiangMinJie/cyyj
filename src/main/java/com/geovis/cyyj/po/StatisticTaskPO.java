@@ -30,15 +30,6 @@ public class StatisticTaskPO implements Serializable,Cloneable{
     private String parentUserId;
     private LocalDateTime lastFillTime ;
     private LocalDateTime releaseTime ;
-    private LocalDateTime endTime ;
-
-    public LocalDateTime getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
-    }
 
     public LocalDateTime getReleaseTime() {
         return releaseTime;

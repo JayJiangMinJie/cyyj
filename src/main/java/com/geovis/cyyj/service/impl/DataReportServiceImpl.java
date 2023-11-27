@@ -76,12 +76,7 @@ public class DataReportServiceImpl extends ServiceImpl<DataReportMapper, DataRep
     public Boolean changeStatus(DataReportStatusDTO dataReportStatusDTO) {
         DataReportPO dataReportPO = BeanCopyUtils.copy(dataReportStatusDTO, DataReportPO.class);
         LocalDateTime now = LocalDateTime.now();
-        String status;
-        if(now.isBefore(dataReportStatusDTO.getEndTime())){
-            status = "按时反馈";
-        }else {
-            status = "超时反馈";
-        }
+        String status = "已反馈";
         dataReportPO.setStatus(status);
         Boolean insertOrUpdateTaskReceiveResult = dataReportMapper.insertOrUpdate(dataReportPO);
         if(!insertOrUpdateTaskReceiveResult){

@@ -32,9 +32,6 @@ public class StatisticTaskProgressFeedbackDTO implements Serializable {
     private String feedbackStatus ;
     private Integer statisticTaskId;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @ApiModelProperty(value = "截止时间")
-    private LocalDateTime endTime ;
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "反馈时间")
     private LocalDateTime feedbackTime ;
     private String userId;
@@ -89,13 +86,6 @@ public class StatisticTaskProgressFeedbackDTO implements Serializable {
         this.statisticTaskId = statisticTaskId;
     }
 
-    public LocalDateTime getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
-    }
 
     public LocalDateTime getFeedbackTime() {
         return feedbackTime;

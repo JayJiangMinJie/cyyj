@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -119,21 +120,20 @@ public class NoticeDistributeServiceImpl extends ServiceImpl<NoticeDistributeMap
             noticeProgressFeedbackDTO.setNoticeDistributeId(noticeDistributePO.getId());
             noticeProgressFeedbackDTO.setEndTime(insertNoticeDistributeResult.getEndTime());
             noticeProgressFeedbackDTO.setCity("青岛市");
-            noticeProgressFeedbackDTO.setCounty("城阳区");
-            noticeProgressFeedbackDTO.setDept("城阳区应急管理局");
+            noticeProgressFeedbackDTO.setCounty("城阳区应急管理局");
             noticeProgressFeedbackDTO.setOperatePerson(deliverNoticeDTO.getOperatePerson());
             noticeProgressFeedbackDTO.setReceiveStatus("未读");
             noticeProgressFeedbackDTO.setParentUserId(insertNoticeDistributeResult.getUserId());
             //这里暂时查询本地表人员
             //用查询到的接收单位list找出该给哪些单位发信息
+            String[] unitArrays = deliverNoticeDTO.getReceiveUnit().split(",");
+            List<String> unitList = Arrays.asList(unitArrays);
             LambdaQueryWrapper<DistrictListPersonPO> lambdaQueryWrapper = new LambdaQueryWrapper();
-            lambdaQueryWrapper.eq(DistrictListPersonPO::getOrgName, deliverNoticeDTO.getReceiveUnit());
+            lambdaQueryWrapper.in(DistrictListPersonPO::getOrgName, unitList);
             List<DistrictListPersonPO> districtListPersonPOList = districtListPersonMapper.selectList(lambdaQueryWrapper);
             Map<String, String> revceiveMap = new HashMap<>();
             for(DistrictListPersonPO districtListPersonPO : districtListPersonPOList){
-                if(districtListPersonPO.getOrgName().equals(deliverNoticeDTO.getReceiveUnit())){
-                    revceiveMap.put(districtListPersonPO.getUserName(), districtListPersonPO.getUserId());
-                }
+                revceiveMap.put(districtListPersonPO.getOrgName(), districtListPersonPO.getUserId());
             }
             //给各个接收单位发通知
             for(Map.Entry<String, String> entry : revceiveMap.entrySet()){
@@ -144,6 +144,7 @@ public class NoticeDistributeServiceImpl extends ServiceImpl<NoticeDistributeMap
                 }
                 //进度反馈也要给各个单位默认发一个
                 noticeProgressFeedbackDTO.setUserId(entry.getValue());
+                noticeProgressFeedbackDTO.setDept(entry.getKey());
                 Boolean insertFeedbackResult = iNoticeProgressFeedbackService.addOrUpdateNoticeProgressFeedback(noticeProgressFeedbackDTO);
                 if(!insertFeedbackResult){
                     throw new RuntimeException("insert into feedback failed, userid is : " + deliverNotice2ReceiveDTO.getUserId() + " parentid is : " + deliverNotice2ReceiveDTO.getParentUserId());
@@ -161,7 +162,7 @@ public class NoticeDistributeServiceImpl extends ServiceImpl<NoticeDistributeMap
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean operateNotice(Integer noticeDistributeId, String operateType) {
+    public Boolean operateNotice(Integer noticeDistributeId, String userId, String operateType) {
         NoticeDistributePO bizDistributePO = noticeDistributeMapper.selectById(noticeDistributeId);
         LambdaUpdateWrapper<NoticeDistributePO> luw = Wrappers.lambdaUpdate();
         int resultWithdrawNum = 0;
@@ -177,6 +178,7 @@ public class NoticeDistributeServiceImpl extends ServiceImpl<NoticeDistributeMap
             //删除通知接收方内容
             LambdaUpdateWrapper<NoticeReceivePO> receiveLuw = Wrappers.lambdaUpdate();
             receiveLuw.eq(noticeDistributeId != null, NoticeReceivePO::getNoticeDistributeId, noticeDistributeId);
+            receiveLuw.eq(StringUtils.isNotEmpty(userId), NoticeReceivePO::getUserId, userId);
             int deleteNum = noticeReceiveMapper.delete(receiveLuw);
             if(deleteNum == 0){
                 log.warn("删除notice receive失败，noticeDistributeId： " + noticeDistributeId);

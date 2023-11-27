@@ -80,8 +80,8 @@ public class NoticeDistributeController extends BaseController {
 
     @ApiOperation(value = "通知操作", notes = "通知操作")
     @PostMapping({"/operateNotice"})
-    public R operateNotice(@RequestParam("noticeDistributeId") int noticeDistributeId, @RequestParam("operateType") String operateType) {
-        if(iNoticeDistributeService.operateNotice(noticeDistributeId, operateType)){
+    public R operateNotice(@RequestParam("noticeDistributeId") Integer noticeDistributeId, @RequestParam("userId") String userId, @RequestParam("operateType") String operateType) {
+        if(iNoticeDistributeService.operateNotice(noticeDistributeId, userId, operateType)){
             return R.ok("通知操作成功");
         }
         return R.fail("通知操作失败");

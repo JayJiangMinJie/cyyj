@@ -34,6 +34,6 @@ public interface IDisasterWarningService extends IService<DisasterWarningPO> {
      * 预警操作
      */
     @Transactional(rollbackFor = Exception.class)
-    Boolean operateWarning(Integer noticeDistributeId, String operateType);
+    Boolean operateWarning(Integer noticeDistributeId, String userId, String operateType);
 
 }

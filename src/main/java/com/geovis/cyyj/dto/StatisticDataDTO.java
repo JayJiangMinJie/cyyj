@@ -52,8 +52,6 @@ public class StatisticDataDTO implements Serializable {
     private Integer waterloggingPointNum;
     @ApiModelProperty(value = "未排除内涝点数量", notes = "未排除内涝点数量")
     private Integer notExcludedWaterloggingPointNum;
-    @ApiModelProperty(value = "统计任务唯一值", notes = "统计任务唯一值")
-    private Integer statisticTaskId;
     @ApiModelProperty(value = "累计预置队伍数量", notes = "累计预置队伍数量")
     private Integer presetTeamNum;
     @ApiModelProperty(value = "累计预置人员数量", notes = "累计预置人员数量")
@@ -68,6 +66,26 @@ public class StatisticDataDTO implements Serializable {
     private Integer specialSituation;
     @ApiModelProperty(value = "备注", notes = "备注")
     private String notes;
+    @ApiModelProperty(value = "用户标识", notes = "用户标识")
+    private String userId;
+    @ApiModelProperty(value = "统计任务唯一值", notes = "统计任务唯一值")
+    private Integer statisticTaskId;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public Integer getStatisticTaskId() {
+        return statisticTaskId;
+    }
+
+    public void setStatisticTaskId(Integer statisticTaskId) {
+        this.statisticTaskId = statisticTaskId;
+    }
 
     public String getUnit() {
         return unit;
@@ -179,14 +197,6 @@ public class StatisticDataDTO implements Serializable {
 
     public void setNotExcludedWaterloggingPointNum(Integer notExcludedWaterloggingPointNum) {
         this.notExcludedWaterloggingPointNum = notExcludedWaterloggingPointNum;
-    }
-
-    public Integer getStatisticTaskId() {
-        return statisticTaskId;
-    }
-
-    public void setStatisticTaskId(Integer statisticTaskId) {
-        this.statisticTaskId = statisticTaskId;
     }
 
     public Integer getPresetTeamNum() {

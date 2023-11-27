@@ -83,70 +83,42 @@ public class StatisticTaskController extends BaseController {
 
     @ApiOperation(value = "获取统计数据列表", notes = "获取统计数据列表")
     @PostMapping({"/getStatisticDataList"})
-    public R getStatisticDataList() {
-        List<StatisticDataVO> statisticDataVOList = iStatisticDataService.getStatisticDataList();
+    public R getStatisticDataList(@RequestParam("statisticTaskId") Integer taskId, @RequestParam("statisticTaskId") String userId) {
+        List<StatisticDataVO> statisticDataVOList = iStatisticDataService.getStatisticDataList(taskId, userId);
         return R.ok(statisticDataVOList);
     }
 
     @ApiOperation(value = "获取统计任务进度反馈统计", notes = "获取统计任务进度反馈统计")
     @PostMapping({"/getStatisticTaskFeedback"})
-    public R getStatisticTaskFeedback() {
-        StatisticTaskFeedbackVO statisticTaskFeedbackVO = iStatisticDataService.getStatisticTaskFeedback();
+    public R getStatisticTaskFeedback(@RequestParam("statisticTaskId") Integer taskId, @RequestParam("statisticTaskId") String userId) {
+        StatisticTaskFeedbackVO statisticTaskFeedbackVO = iStatisticDataService.getStatisticTaskFeedback(taskId, userId);
         return R.ok(statisticTaskFeedbackVO);
     }
 
     @ApiOperation(value = "获取统计任务进度反馈列表", notes = "获取统计任务进度反馈列表")
     @PostMapping({"/getStatisticTaskFeedbackList"})
-    public TableDataInfo<StatisticTaskFeedbackListVO> getStatisticTaskFeedbackList(@RequestParam("statisticTaskId") int statisticTaskId, PageQuery pageQuery) {
-        return iStatisticTaskProgressFeedbackService.getStatisticTaskFeedbackList(statisticTaskId, pageQuery);
+    public TableDataInfo<StatisticTaskFeedbackListVO> getStatisticTaskFeedbackList(@RequestParam("statisticTaskId") Integer statisticTaskId,
+                                                                                   @RequestParam(value = "userId", required = false) String userId,
+                                                                                   PageQuery pageQuery) {
+        return iStatisticTaskProgressFeedbackService.getStatisticTaskFeedbackList(statisticTaskId, userId, pageQuery);
     }
 
     @ApiOperation(value = "更新进度反馈", notes = "更新进度反馈")
     @PostMapping({"/updateProgressFeedback"})
     public R updateProgressFeedback(@Validated @RequestBody StatisticTaskProgressFeedbackDTO statisticTaskProgressFeedbackDTO) {
         if(iStatisticTaskProgressFeedbackService.updateProgressFeedback(statisticTaskProgressFeedbackDTO)){
-            return R.ok("新增进度反馈成功");
+            return R.ok("更新进度反馈成功");
         }
-        return R.fail("新增进度反馈失败");
+        return R.fail("更新进度反馈失败");
     }
 
     @ApiOperation(value = "统计任务操作", notes = "统计任务操作")
-    @PostMapping({"/operateNotice"})
-    public R operateNotice(@RequestParam("statisticTaskId") int statisticTaskId, @RequestParam("operateType") String operateType) {
-        if(iStatisticTaskService.operateNotice(statisticTaskId, operateType)){
+    @PostMapping({"/operateTask"})
+    public R operateTask(@RequestParam("statisticTaskId") Integer statisticTaskId, @RequestParam("userId") String userId, @RequestParam("operateType") String operateType) {
+        if(iStatisticTaskService.operateTask(statisticTaskId, userId, operateType)){
             return R.ok("任务操作成功");
         }
         return R.fail("任务操作失败");
     }
-//
-//    @ApiOperation(value = "修改机构信息", notes = "修改资源信息")
-//    @PostMapping({"/update"})
-//    public R update(@Validated @RequestBody SystemDeptUpdateDTO updateDTO) {
-//        SystemDept systemDept = BeanUtil.toBean(updateDTO, SystemDept.class);
-//        baseService.updateById(systemDept);
-//        return R.ok();
-//    }
-//
-//    @ApiOperation(value = "查询所有机构数据", notes = "查询所有机构数据")
-//    @PostMapping("/list")
-//    public R<List<SystemDept>> list(@RequestBody SystemDept queryDTO) {
-//        LambdaQueryWrapper<SystemDept> wrapper = Wrappers.lambdaQuery(SystemDept.class).orderByAsc(SystemDept::getIdx);
-//        if (ObjectUtil.isNotEmpty(queryDTO)) {
-//            wrapper.like(ObjectUtil.isNotEmpty(queryDTO.getDeptName()), SystemDept::getDeptName, queryDTO.getDeptName())
-//                    .like(ObjectUtil.isNotEmpty(queryDTO.getFullName()), SystemDept::getFullName, queryDTO.getFullName())
-//                    .like(ObjectUtil.isNotEmpty(queryDTO.getDeptCode()), SystemDept::getDeptCode, queryDTO.getDeptCode())
-//                    .eq(ObjectUtil.isNotEmpty(queryDTO.getParentId()), SystemDept::getParentId, queryDTO.getParentId())
-//                    .eq(ObjectUtil.isNotEmpty(queryDTO.getTypeGrade()), SystemDept::getTypeGrade, queryDTO.getTypeGrade());
-//        }
-//        return R.ok(baseService.list(wrapper));
-//    }
-//
-//    @ApiOperation(value = "批量删除机构数据", notes = "批量删除机构数据")
-//    @ApiImplicitParams({@ApiImplicitParam(name = "idList", value = "删除id的list", required = true, dataType = "java.util.Set", paramType = "body")})
-//    @PostMapping("/removeByIdList")
-//    public R removeByIdList(@NotNull(message = "删除的id集合不能为空") @RequestBody(required = false) Set<String> idList) {
-//        baseService.removeByIdList(idList);
-//        return R.ok();
-//    }
 
 }

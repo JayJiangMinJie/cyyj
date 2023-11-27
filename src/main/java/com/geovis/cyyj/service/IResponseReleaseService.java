@@ -34,6 +34,6 @@ public interface IResponseReleaseService extends IService<ResponseReleasePO> {
      * 通知操作
      */
     @Transactional(rollbackFor = Exception.class)
-    Boolean operateResponse(Integer noticeDistributeId, String operateType);
+    Boolean operateResponse(Integer noticeDistributeId, String userId, String operateType);
 
 }

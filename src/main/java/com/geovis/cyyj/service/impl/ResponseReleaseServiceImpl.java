@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -105,21 +106,20 @@ public class ResponseReleaseServiceImpl extends ServiceImpl<ResponseReleaseMappe
             deliverResponse2ReceiveDTO.setResponseReleaseId(responseReleasePO.getId());
             //这里暂时查询本地表人员
             //用查询到的接收单位list找出该给哪些单位发信息
+            String[] unitArrays = deliverResponseDTO.getReceiveUnit().split(",");
+            List<String> unitList = Arrays.asList(unitArrays);
             LambdaQueryWrapper<DistrictListPersonPO> lambdaQueryWrapper = new LambdaQueryWrapper();
-            lambdaQueryWrapper.eq(DistrictListPersonPO::getOrgName, deliverResponseDTO.getReceiveUnit());
+            lambdaQueryWrapper.in(DistrictListPersonPO::getOrgName, unitList);
             List<DistrictListPersonPO> districtListPersonPOList = districtListPersonMapper.selectList(lambdaQueryWrapper);
             Map<String, String> revceiveMap = new HashMap<>();
             for(DistrictListPersonPO districtListPersonPO : districtListPersonPOList){
-                if(districtListPersonPO.getOrgName().equals(deliverResponseDTO.getReceiveUnit())){
-                    revceiveMap.put(districtListPersonPO.getUserName(), districtListPersonPO.getUserId());
-                }
+                revceiveMap.put(districtListPersonPO.getOrgName(), districtListPersonPO.getUserId());
             }
             //给各个接收单位发响应
             for(Map.Entry<String, String> entry : revceiveMap.entrySet()){
                 deliverResponse2ReceiveDTO.setUserId(entry.getValue());
                 Boolean insertResult = iResponseReceiveService.deliverResponse(deliverResponse2ReceiveDTO);
                 if(!insertResult){
-//                    log.error("insert into receive unit failed, userid is : " + deliverResponse2ReceiveDTO.getUserId() + " parentid is : " + deliverResponse2ReceiveDTO.getParentUserId());
                     throw new RuntimeException("insert into receive unit failed, userid is : " + deliverResponse2ReceiveDTO.getUserId() + " parentid is : " + deliverResponse2ReceiveDTO.getParentUserId());
                 }
             }
@@ -135,7 +135,7 @@ public class ResponseReleaseServiceImpl extends ServiceImpl<ResponseReleaseMappe
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean operateResponse(Integer responseReleaseId, String operateType) {
+    public Boolean operateResponse(Integer responseReleaseId, String userId, String operateType) {
         ResponseReleasePO bizDistributePO = responseReleaseMapper.selectById(responseReleaseId);
         LambdaUpdateWrapper<ResponseReleasePO> luw = Wrappers.lambdaUpdate();
         int resultWithdrawNum = 0;
@@ -151,6 +151,7 @@ public class ResponseReleaseServiceImpl extends ServiceImpl<ResponseReleaseMappe
             //删除响应接收方内容
             LambdaUpdateWrapper<ResponseReceivePO> receiveLuw = Wrappers.lambdaUpdate();
             receiveLuw.eq(responseReleaseId != null, ResponseReceivePO::getResponseReleaseId, responseReleaseId);
+            receiveLuw.eq(StringUtils.isNotEmpty(userId), ResponseReceivePO::getUserId, userId);
             int deleteNum = responseReceiveMapper.delete(receiveLuw);
             resultWithdrawNum = deleteNum + 1;
         } else if ("end".equals(operateType)) {

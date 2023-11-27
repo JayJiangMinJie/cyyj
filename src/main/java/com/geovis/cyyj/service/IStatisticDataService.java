@@ -22,12 +22,12 @@ public interface IStatisticDataService extends IService<StatisticDataPO> {
     /**
      * 查询统计任务数据列表
      */
-    List<StatisticDataVO> getStatisticDataList();
+    List<StatisticDataVO> getStatisticDataList(Integer taskId, String userId);
 
     /**
      * 获取统计任务进度反馈
      */
-    StatisticTaskFeedbackVO getStatisticTaskFeedback();
+    StatisticTaskFeedbackVO getStatisticTaskFeedback(Integer taskId, String userId);
 
     /**
      * 统计数据上传

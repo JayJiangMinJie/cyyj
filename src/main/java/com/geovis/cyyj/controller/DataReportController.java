@@ -47,9 +47,9 @@ public class DataReportController extends BaseController {
     @PostMapping({"/dataReport"})
     public R dataReport(@Validated @RequestBody DataReportDTO dataReportDTO) {
         if(iDataReportService.dataReport(dataReportDTO)){
-            return R.ok("通知发布成功");
+            return R.ok("数据上传成功");
         }
-        return R.fail("通知发布失败");
+        return R.fail("数据上传失败");
     }
 
     @ApiOperation(value = "数据上报状态变更", notes = "数据上报状态变更")

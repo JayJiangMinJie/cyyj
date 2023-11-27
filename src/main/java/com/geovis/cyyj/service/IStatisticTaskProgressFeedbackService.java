@@ -21,7 +21,7 @@ public interface IStatisticTaskProgressFeedbackService extends IService<Statisti
     /**
      * 获取统计任务进度反馈列表
      */
-    TableDataInfo<StatisticTaskFeedbackListVO> getStatisticTaskFeedbackList(int statisticTaskId, PageQuery pageQuery);
+    TableDataInfo<StatisticTaskFeedbackListVO> getStatisticTaskFeedbackList(Integer statisticTaskId, String userId, PageQuery pageQuery);
 
     /**
      * 新增进度反馈

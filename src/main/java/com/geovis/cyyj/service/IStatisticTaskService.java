@@ -34,6 +34,6 @@ public interface IStatisticTaskService extends IService<StatisticTaskPO> {
      * 任务操作
      */
     @Transactional(rollbackFor = Exception.class)
-    Boolean operateNotice(Integer statisticTaskId, String operateType);
+    Boolean operateTask(Integer statisticTaskId, String userId,String operateType);
 
 }

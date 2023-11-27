@@ -62,8 +62,8 @@ public class ResponseReleaseController extends BaseController {
 
     @ApiOperation(value = "响应操作", notes = "响应操作")
     @PostMapping({"/operateResponse"})
-    public R operateResponse(@RequestParam("responseReleaseId") int responseReleaseId, @RequestParam("operateType") String operateType) {
-        if(iResponseReleaseService.operateResponse(responseReleaseId, operateType)){
+    public R operateResponse(@RequestParam("responseReleaseId") Integer responseReleaseId, @RequestParam("userId") String userId, @RequestParam("operateType") String operateType) {
+        if(iResponseReleaseService.operateResponse(responseReleaseId, userId, operateType)){
             return R.ok("响应操作成功");
         }
         return R.fail("响应操作失败");

@@ -1,7 +1,9 @@
 package com.geovis.cyyj.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.geovis.cyyj.common.utils.BeanCopyUtils;
+import com.geovis.cyyj.common.utils.StringUtils;
 import com.geovis.cyyj.dto.StatisticDataDTO;
 import com.geovis.cyyj.mapper.StatisticDataMapper;
 import com.geovis.cyyj.po.StatisticDataPO;
@@ -35,7 +37,7 @@ public class StatisticDataServiceImpl extends ServiceImpl<StatisticDataMapper, S
     private final StatisticDataMapper statisticDataMapper;
 
     @Override
-    public List<StatisticDataVO> getStatisticDataList() {
+    public List<StatisticDataVO> getStatisticDataList(Integer taskId, String userId) {
         List<StatisticDataVO> statisticDataVOList = new ArrayList<>();
         StatisticDataVO statistic;
         //应急响应情况
@@ -50,7 +52,10 @@ public class StatisticDataServiceImpl extends ServiceImpl<StatisticDataMapper, S
         Map<String, Integer> waterloggingPointsSituationMap;
         //预置投入救援情况
         Map<String, Integer> presetForRescueSituationMap;
-        List<StatisticDataPO> statisticDataPOS = statisticDataMapper.selectList();
+        LambdaQueryWrapper<StatisticDataPO> lambdaQueryWrapper = new LambdaQueryWrapper();
+        lambdaQueryWrapper.eq(taskId != 0, StatisticDataPO::getStatisticTaskId, taskId);
+        lambdaQueryWrapper.eq(!StringUtils.isEmpty(userId), StatisticDataPO::getUserId, userId);
+        List<StatisticDataPO> statisticDataPOS = statisticDataMapper.selectList(lambdaQueryWrapper);
         for(StatisticDataPO statisticDataPO : statisticDataPOS){
             emergencyResponseSituationMap = new HashMap<>();
             fishBoatReturnSituationMap = new HashMap<>();
@@ -102,14 +107,17 @@ public class StatisticDataServiceImpl extends ServiceImpl<StatisticDataMapper, S
     }
 
     @Override
-    public StatisticTaskFeedbackVO getStatisticTaskFeedback() {
+    public StatisticTaskFeedbackVO getStatisticTaskFeedback(Integer taskId, String userId) {
         StatisticTaskFeedbackVO statisticTaskFeedbackVO= new StatisticTaskFeedbackVO();
         int unitNum = 0;
         int feedbackNum = 0;
         int nonFeedbackNum = 0;
         List<StatisticTaskUnitVO> statisticTaskUnitVOS = new ArrayList<>();
         StatisticTaskUnitVO statisticTaskUnitVO;
-        List<StatisticDataPO> statisticDataPOS = statisticDataMapper.selectList();
+        LambdaQueryWrapper<StatisticDataPO> lambdaQueryWrapper = new LambdaQueryWrapper();
+        lambdaQueryWrapper.eq(taskId != 0, StatisticDataPO::getStatisticTaskId, taskId);
+        lambdaQueryWrapper.eq(!StringUtils.isEmpty(userId), StatisticDataPO::getUserId, userId);
+        List<StatisticDataPO> statisticDataPOS = statisticDataMapper.selectList(lambdaQueryWrapper);
         for(StatisticDataPO statistic : statisticDataPOS){
             statisticTaskUnitVO = new StatisticTaskUnitVO();
             statisticTaskUnitVO.setStatisticTaskId(statistic.getStatisticTaskId());

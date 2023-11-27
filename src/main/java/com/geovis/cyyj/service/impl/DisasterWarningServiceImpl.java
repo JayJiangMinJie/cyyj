@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -105,21 +106,20 @@ public class DisasterWarningServiceImpl extends ServiceImpl<DisasterWarningMappe
             deliverWarning2ReceiveDTO.setDisasterWarningId(disasterWarningPO.getId());
             //这里暂时查询本地表人员
             //用查询到的接收单位list找出该给哪些单位发信息
+            String[] unitArrays = deliverWarningDTO.getReceiveUnit().split(",");
+            List<String> unitList = Arrays.asList(unitArrays);
             LambdaQueryWrapper<DistrictListPersonPO> lambdaQueryWrapper = new LambdaQueryWrapper();
-            lambdaQueryWrapper.eq(DistrictListPersonPO::getOrgName, deliverWarningDTO.getReceiveUnit());
+            lambdaQueryWrapper.in(DistrictListPersonPO::getOrgName, unitList);
             List<DistrictListPersonPO> districtListPersonPOList = districtListPersonMapper.selectList(lambdaQueryWrapper);
             Map<String, String> revceiveMap = new HashMap<>();
             for(DistrictListPersonPO districtListPersonPO : districtListPersonPOList){
-                if(districtListPersonPO.getOrgName().equals(deliverWarningDTO.getReceiveUnit())){
-                    revceiveMap.put(districtListPersonPO.getUserName(), districtListPersonPO.getUserId());
-                }
+                revceiveMap.put(districtListPersonPO.getOrgName(), districtListPersonPO.getUserId());
             }
             //给各个接收单位发预警
             for(Map.Entry<String, String> entry : revceiveMap.entrySet()){
                 deliverWarning2ReceiveDTO.setUserId(entry.getValue());
                 Boolean insertResult = iWarningReceiveService.deliverWarning(deliverWarning2ReceiveDTO);
                 if(!insertResult){
-//                    log.error("insert into receive unit failed, userid is : " + deliverWarning2ReceiveDTO.getUserId() + " parentid is : " + deliverWarning2ReceiveDTO.getParentUserId());
                     throw new RuntimeException("insert into receive unit failed, userid is : " + deliverWarning2ReceiveDTO.getUserId() + " parentid is : " + deliverWarning2ReceiveDTO.getParentUserId());
                 }
             }
@@ -135,7 +135,7 @@ public class DisasterWarningServiceImpl extends ServiceImpl<DisasterWarningMappe
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Boolean operateWarning(Integer disasterWarningId, String operateType) {
+    public Boolean operateWarning(Integer disasterWarningId, String userId, String operateType) {
         DisasterWarningPO bizDistributePO = disasterWarningMapper.selectById(disasterWarningId);
         LambdaUpdateWrapper<DisasterWarningPO> luw = Wrappers.lambdaUpdate();
         int resultWithdrawNum = 0;
@@ -151,6 +151,7 @@ public class DisasterWarningServiceImpl extends ServiceImpl<DisasterWarningMappe
             //删除预警接收方内容
             LambdaUpdateWrapper<WarningReceivePO> receiveLuw = Wrappers.lambdaUpdate();
             receiveLuw.eq(disasterWarningId != null, WarningReceivePO::getDisasterWarningId, disasterWarningId);
+            receiveLuw.eq(StringUtils.isNotEmpty(userId), WarningReceivePO::getUserId, userId);
             int deleteNum = warningReceiveMapper.delete(receiveLuw);
             resultWithdrawNum = deleteNum + 1;
         } else if ("end".equals(operateType)) {

@@ -62,8 +62,8 @@ public class DisasterWarningController extends BaseController {
 
     @ApiOperation(value = "预警操作", notes = "预警操作")
     @PostMapping({"/operateWarning"})
-    public R operateWarning(@RequestParam("disasterWarningId") int disasterWarningId, @RequestParam("operateType") String operateType) {
-        if(iDisasterWarningService.operateWarning(disasterWarningId, operateType)){
+    public R operateWarning(@RequestParam("disasterWarningId") Integer disasterWarningId, @RequestParam("userId") String userId, @RequestParam("operateType") String operateType) {
+        if(iDisasterWarningService.operateWarning(disasterWarningId, userId, operateType)){
             return R.ok("预警操作成功");
         }
         return R.fail("预警操作失败");
