@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 @Data
 @ToString(callSuper = true)
 @Accessors(chain = true)
-@ApiModel(value = "DeliverWarningDTO", description = "发布响应DTO")
+@ApiModel(value = "DeliverResponseDTO", description = "发布响应DTO")
 public class DeliverResponseDTO implements Serializable {
     @ApiModelProperty(value = "标题")
     private String title ;
@@ -55,7 +55,15 @@ public class DeliverResponseDTO implements Serializable {
     private LocalDateTime currentLevelAdjustTime ;
     @ApiModelProperty(value = "最高级别启动时间")
     private LocalDateTime maxLevelStartTime ;
+    private String content ;
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
     public String getTitle() {
         return title;
     }

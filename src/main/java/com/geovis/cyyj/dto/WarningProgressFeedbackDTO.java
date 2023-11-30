@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 @Data
 @ToString(callSuper = true)
 @Accessors(chain = true)
-@ApiModel(value = "NoticeProgressFeedbackDTO", description = "预警进度反馈DTO")
+@ApiModel(value = "WarningProgressFeedbackDTO", description = "预警进度反馈DTO")
 public class WarningProgressFeedbackDTO implements Serializable {
     @ApiModelProperty(value = "id(更新传)")
     private Integer id ;
@@ -38,7 +38,7 @@ public class WarningProgressFeedbackDTO implements Serializable {
     private Boolean isRead ;
     @ApiModelProperty(value = "接收状态")
     private String receiveStatus;
-    private Integer noticeDistributeId;
+    private Integer DisasterWarningId;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "截止时间")
     private LocalDateTime endTime ;
@@ -49,7 +49,24 @@ public class WarningProgressFeedbackDTO implements Serializable {
     private String operatePerson;
     private String userId;
     private String parentUserId;
+    private String textContent;
+    private String content;
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getTextContent() {
+        return textContent;
+    }
+
+    public void setTextContent(String textContent) {
+        this.textContent = textContent;
+    }
     public String getUserId() {
         return userId;
     }
@@ -153,11 +170,11 @@ public class WarningProgressFeedbackDTO implements Serializable {
         this.receiveStatus = receiveStatus;
     }
 
-    public Integer getNoticeDistributeId() {
-        return noticeDistributeId;
+    public Integer getDisasterWarningId() {
+        return DisasterWarningId;
     }
 
-    public void setNoticeDistributeId(Integer noticeDistributeId) {
-        this.noticeDistributeId = noticeDistributeId;
+    public void setDisasterWarningId(Integer disasterWarningId) {
+        this.DisasterWarningId = disasterWarningId;
     }
 }

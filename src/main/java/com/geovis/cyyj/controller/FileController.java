@@ -11,6 +11,7 @@ import com.geovis.cyyj.common.utils.file.FileUtils;
 import com.geovis.cyyj.dto.DeliverNoticeDTO;
 import com.geovis.cyyj.dto.FileQueryDTO;
 import com.geovis.cyyj.service.file.FileService;
+import com.geovis.cyyj.vo.FileMediaReturn;
 import com.geovis.cyyj.vo.FileVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -49,6 +50,12 @@ public class FileController {
     @ApiOperation("上传文件")
     public FileReturn uploadFile(@RequestParam("uploadFile") MultipartFile multipartFile){
         return fileService.uploadFile(multipartFile);
+    }
+
+    @PostMapping("/uploadMedia")
+    @ApiOperation("上传媒体文件")
+    public FileMediaReturn uploadMedia(@RequestParam("uploadMedia") MultipartFile multipartFile){
+        return fileService.uploadMedia(multipartFile);
     }
 
     @PostMapping("/save")

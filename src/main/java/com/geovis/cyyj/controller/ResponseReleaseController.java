@@ -5,11 +5,11 @@ import com.geovis.cyyj.common.core.controller.BaseController;
 import com.geovis.cyyj.common.core.domain.PageQuery;
 import com.geovis.cyyj.common.core.domain.R;
 import com.geovis.cyyj.common.core.page.TableDataInfo;
-import com.geovis.cyyj.dto.DeliverResponseDTO;
-import com.geovis.cyyj.dto.ResponseReleaseQueryDTO;
-import com.geovis.cyyj.dto.ResponseProgressFeedbackDTO;
+import com.geovis.cyyj.dto.*;
+import com.geovis.cyyj.service.IResponseChangeLogService;
 import com.geovis.cyyj.service.IResponseReleaseService;
 import com.geovis.cyyj.service.IResponseProgressFeedbackService;
+import com.geovis.cyyj.vo.ResponseChangeLogVO;
 import com.geovis.cyyj.vo.ResponseReleaseVO;
 import com.geovis.cyyj.vo.ResponseProgressFeedbackVO;
 import io.swagger.annotations.Api;
@@ -40,6 +40,9 @@ public class ResponseReleaseController extends BaseController {
     private IResponseReleaseService iResponseReleaseService;
 
     @Autowired
+    private IResponseChangeLogService iResponseChangeLogService;
+
+    @Autowired
     private IResponseProgressFeedbackService iResponseProgressFeedbackService;
 
     /**
@@ -50,6 +53,16 @@ public class ResponseReleaseController extends BaseController {
     public TableDataInfo<ResponseReleaseVO> queryMainList(ResponseReleaseQueryDTO responseReleaseQueryDTO, PageQuery pageQuery) {
         return iResponseReleaseService.queryMainList(responseReleaseQueryDTO, pageQuery);
     }
+
+    /**
+     * 分页查询响应历史列表
+     */
+    @ApiOperation(value = "分页查询响应变更历史列表", notes = "分页查询响应变更历史列表")
+    @GetMapping("/queryLogMainList")
+    public TableDataInfo<ResponseChangeLogVO> queryLogMainList(ResponseChangeLogQueryDTO responseChangeLogQueryDTO, PageQuery pageQuery) {
+        return iResponseChangeLogService.queryMainList(responseChangeLogQueryDTO, pageQuery);
+    }
+
 
     @ApiOperation(value = "发布响应", notes = "发布响应")
     @PostMapping({"/deliverResponse"})
@@ -62,8 +75,8 @@ public class ResponseReleaseController extends BaseController {
 
     @ApiOperation(value = "响应操作", notes = "响应操作")
     @PostMapping({"/operateResponse"})
-    public R operateResponse(@RequestParam("responseReleaseId") Integer responseReleaseId, @RequestParam("userId") String userId, @RequestParam("operateType") String operateType) {
-        if(iResponseReleaseService.operateResponse(responseReleaseId, userId, operateType)){
+    public R operateResponse(@RequestBody ResponseChangeDTO responseChangeDTO) {
+        if(iResponseReleaseService.operateResponse(responseChangeDTO)){
             return R.ok("响应操作成功");
         }
         return R.fail("响应操作失败");
@@ -75,9 +88,9 @@ public class ResponseReleaseController extends BaseController {
     @ApiOperation(value = "分页查询进度反馈列表", notes = "分页查询进度反馈列表")
     @GetMapping("/queryResponseProgressFeedbackList")
     public TableDataInfo<ResponseProgressFeedbackVO> queryResponseProgressFeedbackList(@RequestParam("responseReleaseId") Integer responseReleaseId,
-                                                                                       @RequestParam("userId") String userId,
+                                                                                       @RequestParam(value = "parentUserId", required = false) String parentUserId,
                                                                                        PageQuery pageQuery) {
-        return iResponseProgressFeedbackService.queryResponseProgressFeedbackList(responseReleaseId, userId, pageQuery);
+        return iResponseProgressFeedbackService.queryResponseProgressFeedbackList(responseReleaseId, parentUserId, pageQuery);
     }
 
     @ApiOperation(value = "新增更新进度反馈", notes = "新增更新进度反馈")

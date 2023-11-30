@@ -24,14 +24,45 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @ApiModel(value = "ArticleInsertDTO", description = "新增文章DTO")
 public class ArticleInsertDTO implements Serializable {
+    @ApiModelProperty(value = "id")
+    private Integer id ;
     @ApiModelProperty(value = "标题")
     private String title ;
     @ApiModelProperty(value = "文本内容")
     private String content ;
+    @ApiModelProperty(value = "普通文本内容")
+    private String textContent ;
     @ApiModelProperty(value = "图片路径")
     private String picPath ;
     @ApiModelProperty(value = "视频地址")
     private String videoPath ;
+    @ApiModelProperty(value = "发布时间",notes = "发布时间")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime releaseTime ;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getTextContent() {
+        return textContent;
+    }
+
+    public void setTextContent(String textContent) {
+        this.textContent = textContent;
+    }
+
+    public LocalDateTime getReleaseTime() {
+        return releaseTime;
+    }
+
+    public void setReleaseTime(LocalDateTime releaseTime) {
+        this.releaseTime = releaseTime;
+    }
 
     public String getTitle() {
         return title;

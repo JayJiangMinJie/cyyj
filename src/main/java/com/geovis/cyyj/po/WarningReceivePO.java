@@ -31,7 +31,15 @@ public class WarningReceivePO implements Serializable,Cloneable{
     private String parentUserId;
     private String userId ;
     private String warningContent;
+    private String content ;
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
     public Integer getId() {
         return id;
     }

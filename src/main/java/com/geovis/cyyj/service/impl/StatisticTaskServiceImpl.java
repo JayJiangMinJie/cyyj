@@ -179,7 +179,7 @@ public class StatisticTaskServiceImpl extends ServiceImpl<StatisticTaskMapper, S
             //删除任务接收方内容
             LambdaUpdateWrapper<DataReportPO> reportLuw = Wrappers.lambdaUpdate();
             reportLuw.eq(statisticTaskId != null, DataReportPO::getStatisticTaskId, statisticTaskId);
-            reportLuw.eq(StringUtils.isNotEmpty(userId), DataReportPO::getUserId, userId);
+//            reportLuw.eq(StringUtils.isNotEmpty(userId), DataReportPO::getUserId, userId);
             resultWithdrawNum = dataReportMapper.delete(reportLuw) + 1;
         } else if ("end".equals(operateType)) {
             luw.eq(StatisticTaskPO::getId, statisticTaskId);

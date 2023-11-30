@@ -41,10 +41,10 @@ public class WarningProgressFeedbackServiceImpl extends ServiceImpl<WarningProgr
      * 分页查询进度反馈列表
      */
     @Override
-    public TableDataInfo<WarningProgressFeedbackVO> queryWarningProgressFeedbackList(Integer warningDistributeId, String userId, PageQuery pageQuery) {
+    public TableDataInfo<WarningProgressFeedbackVO> queryWarningProgressFeedbackList(Integer warningDistributeId, String parentUserId, PageQuery pageQuery) {
         LambdaQueryWrapper<WarningProgressFeedbackPO> lqw = Wrappers.lambdaQuery();
         lqw.eq(warningDistributeId != 0, WarningProgressFeedbackPO::getDisasterWarningId, warningDistributeId);
-        lqw.eq(StringUtils.isNotBlank(userId), WarningProgressFeedbackPO::getUserId, userId);
+        lqw.eq(StringUtils.isNotBlank(parentUserId), WarningProgressFeedbackPO::getParentUserId, parentUserId);
         Page<WarningProgressFeedbackVO> result = warningProgressFeedbackMapper.selectVoPage(pageQuery.build(), lqw);
         return TableDataInfo.build(result);
     }

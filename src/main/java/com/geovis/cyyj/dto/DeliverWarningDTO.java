@@ -47,6 +47,16 @@ public class DeliverWarningDTO implements Serializable {
     private String parentUserId;
     @ApiModelProperty(value = "区域")
     private String region ;
+    @ApiModelProperty(value = "纯文本")
+    private String content ;
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 
     public String getTitle() {
         return title;

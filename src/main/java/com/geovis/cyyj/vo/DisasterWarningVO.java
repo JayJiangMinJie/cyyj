@@ -25,7 +25,15 @@ public class DisasterWarningVO implements Serializable,Cloneable{
     private String warningContent;
     private String userId;
     private String parentUserId;
+    private String content ;
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
     public Integer getId() {
         return id;
     }

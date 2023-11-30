@@ -3,9 +3,9 @@
 <mapper namespace="com.geovis.cyyj.mapper.DisasterWarningMapper">
 
     <insert id="insertDisasterWarning" parameterType="com.geovis.cyyj.po.DisasterWarningPO" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO notice_distribute (title,start_time,end_time,type,status,receive_unit,file_path,notice_content,user_id,parent_user_id)
-        VALUES (#{noticeDistributePO.title},#{noticeDistributePO.startTime},#{noticeDistributePO.endTime},#{noticeDistributePO.type},#{noticeDistributePO.status},#{noticeDistributePO.receiveUnit},
-                #{noticeDistributePO.filePath},#{noticeDistributePO.noticeContent},#{noticeDistributePO.userId},#{noticeDistributePO.parentUserId});
+        INSERT INTO disaster_warning (title,release_time,type,region,status,receive_unit,file_path,warning_content,user_id,parent_user_id,content)
+        VALUES (#{disasterWarningPO.title},#{disasterWarningPO.releaseTime},#{disasterWarningPO.type},#{disasterWarningPO.region},#{disasterWarningPO.status},#{disasterWarningPO.receiveUnit},
+                #{disasterWarningPO.filePath},#{disasterWarningPO.warningContent},#{disasterWarningPO.userId},#{disasterWarningPO.parentUserId},#{disasterWarningPO.content});
 </insert>
 
 </mapper>

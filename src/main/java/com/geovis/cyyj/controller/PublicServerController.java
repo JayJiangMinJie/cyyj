@@ -44,13 +44,13 @@ public class PublicServerController extends BaseController {
         return iPublicServerService.queryMainList(publicServerQueryDTO, pageQuery);
     }
 
-    @ApiOperation(value = "新增文章", notes = "新增文章")
+    @ApiOperation(value = "新增或更新文章", notes = "新增或更新文章")
     @PostMapping({"/insertArticle"})
-    public R insertArticle(@Validated @RequestBody ArticleInsertDTO articleInsertDTO) {
-        if(iPublicServerService.insertArticle(articleInsertDTO)){
-            return R.ok("新增文章成功");
+    public R insertOrUpdateArticle(@Validated @RequestBody ArticleInsertDTO articleInsertDTO) {
+        if(iPublicServerService.insertOrUpdateArticle(articleInsertDTO)){
+            return R.ok("新增或更新文章成功");
         }
-        return R.fail("新增文章失败");
+        return R.fail("新增或更新文章失败");
     }
 
     @ApiOperation(value = "文章删除操作", notes = "文章删除操作")

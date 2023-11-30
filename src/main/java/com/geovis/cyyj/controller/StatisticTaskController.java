@@ -83,7 +83,7 @@ public class StatisticTaskController extends BaseController {
 
     @ApiOperation(value = "获取统计数据列表", notes = "获取统计数据列表")
     @PostMapping({"/getStatisticDataList"})
-    public R getStatisticDataList(@RequestParam("statisticTaskId") Integer taskId, @RequestParam("statisticTaskId") String userId) {
+    public R getStatisticDataList(@RequestParam("statisticTaskId") Integer taskId, @RequestParam(value = "userId", required = false) String userId) {
         List<StatisticDataVO> statisticDataVOList = iStatisticDataService.getStatisticDataList(taskId, userId);
         return R.ok(statisticDataVOList);
     }

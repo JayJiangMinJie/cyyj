@@ -55,12 +55,12 @@ public class ResponseReceiveController extends BaseController {
         return R.fail("响应发布失败");
     }
 
-    @ApiOperation(value = "响应接受状态变更", notes = "响应接受状态变更")
-    @PostMapping({"/changeStatus"})
-    public R changeStatus(@Validated @RequestBody ResponseReceiveStatusDTO responseReceiveStatusDTO) {
-        if(iResponseReceiveService.changeStatus(responseReceiveStatusDTO)){
-            return R.ok("响应接受状态变更成功");
-        }
-        return R.fail("响应接受状态变更失败");
-    }
+//    @ApiOperation(value = "响应接受状态变更", notes = "响应接受状态变更")
+//    @PostMapping({"/changeStatus"})
+//    public R changeStatus(@Validated @RequestBody ResponseReceiveStatusDTO responseReceiveStatusDTO) {
+//        if(iResponseReceiveService.changeStatus(responseReceiveStatusDTO)){
+//            return R.ok("响应接受状态变更成功");
+//        }
+//        return R.fail("响应接受状态变更失败");
+//    }
 }

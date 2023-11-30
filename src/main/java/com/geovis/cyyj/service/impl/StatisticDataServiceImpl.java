@@ -40,66 +40,36 @@ public class StatisticDataServiceImpl extends ServiceImpl<StatisticDataMapper, S
     public List<StatisticDataVO> getStatisticDataList(Integer taskId, String userId) {
         List<StatisticDataVO> statisticDataVOList = new ArrayList<>();
         StatisticDataVO statistic;
-        //应急响应情况
-        Map<String, Integer> emergencyResponseSituationMap;
-        //渔船回港情况
-        Map<String, Integer> fishBoatReturnSituationMap;
-        //景区关停情况
-        Map<String, Integer> scenicSpotsCloseSituationMap;
-        //人员转移避险情况
-        Map<String, Integer> personnelTransferHedgingSituationMap;
-        //内涝点情况
-        Map<String, Integer> waterloggingPointsSituationMap;
-        //预置投入救援情况
-        Map<String, Integer> presetForRescueSituationMap;
         LambdaQueryWrapper<StatisticDataPO> lambdaQueryWrapper = new LambdaQueryWrapper();
         lambdaQueryWrapper.eq(taskId != 0, StatisticDataPO::getStatisticTaskId, taskId);
         lambdaQueryWrapper.eq(!StringUtils.isEmpty(userId), StatisticDataPO::getUserId, userId);
         List<StatisticDataPO> statisticDataPOS = statisticDataMapper.selectList(lambdaQueryWrapper);
         for(StatisticDataPO statisticDataPO : statisticDataPOS){
-            emergencyResponseSituationMap = new HashMap<>();
-            fishBoatReturnSituationMap = new HashMap<>();
-            scenicSpotsCloseSituationMap = new HashMap<>();
-            personnelTransferHedgingSituationMap = new HashMap<>();
-            waterloggingPointsSituationMap = new HashMap<>();
-            presetForRescueSituationMap = new HashMap<>();
-
-            emergencyResponseSituationMap.put("firstLevelResp", statisticDataPO.getFirstLevelResp());
-            emergencyResponseSituationMap.put("secondLevelResp", statisticDataPO.getSecondLevelResp());
-            emergencyResponseSituationMap.put("thirdLevelResp", statisticDataPO.getThirdLevelResp());
-            emergencyResponseSituationMap.put("fourthLevelResp", statisticDataPO.getFourthLevelResp());
-
-            fishBoatReturnSituationMap.put("fishBoatNum", statisticDataPO.getFishBoatNum());
-            fishBoatReturnSituationMap.put("returningFishBoatNum", statisticDataPO.getReturningFishBoatNum());
-
-            scenicSpotsCloseSituationMap.put("scenicSpotNum", statisticDataPO.getScenicSpotNum());
-            scenicSpotsCloseSituationMap.put("closedScenicSpotNum", statisticDataPO.getClosedScenicSpotNum());
-
-            personnelTransferHedgingSituationMap.put("transferredPersonNum", statisticDataPO.getTransferredPersonNum());
-            personnelTransferHedgingSituationMap.put("returningPersonNum", statisticDataPO.getReturningPersonNum());
-
-            waterloggingPointsSituationMap.put("waterloggingPointNum", statisticDataPO.getWaterloggingPointNum());
-            waterloggingPointsSituationMap.put("notExcludedWaterloggingPointNum", statisticDataPO.getNotExcludedWaterloggingPointNum());
-
-            presetForRescueSituationMap.put("presetTeamNum", statisticDataPO.getPresetTeamNum());
-            presetForRescueSituationMap.put("presetPersonNum", statisticDataPO.getPresetPersonNum());
-            presetForRescueSituationMap.put("presetDeviceNum", statisticDataPO.getPresetDeviceNum());
 
             statistic = new StatisticDataVO();
+            statistic.setFirstLevelResp(statisticDataPO.getFirstLevelResp());
+            statistic.setSecondLevelResp(statisticDataPO.getSecondLevelResp());
+            statistic.setThirdLevelResp(statisticDataPO.getThirdLevelResp());
+            statistic.setFourthLevelResp(statisticDataPO.getFourthLevelResp());
+            statistic.setFishBoatNum(statisticDataPO.getFishBoatNum());
+            statistic.setReturningFishBoatNum(statisticDataPO.getReturningFishBoatNum());
+            statistic.setScenicSpotNum(statisticDataPO.getScenicSpotNum());
+            statistic.setClosedScenicSpotNum(statisticDataPO.getClosedScenicSpotNum());
+            statistic.setTransferredPersonNum(statisticDataPO.getTransferredPersonNum());
+            statistic.setReturningPersonNum(statisticDataPO.getReturningPersonNum());
+            statistic.setWaterloggingPointNum(statisticDataPO.getWaterloggingPointNum());
+            statistic.setNotExcludedWaterloggingPointNum(statisticDataPO.getNotExcludedWaterloggingPointNum());
+            statistic.setPresetTeamNum(statisticDataPO.getPresetTeamNum());
+            statistic.setPresetPersonNum(statisticDataPO.getPresetPersonNum());
+            statistic.setPresetDeviceNum(statisticDataPO.getPresetDeviceNum());
             statistic.setStatisticTaskId(statisticDataPO.getStatisticTaskId());
             statistic.setAlertNum(statisticDataPO.getAlertNum());
             statistic.setDengrousSituationNum(statisticDataPO.getDangerousSituation());
-            statistic.setEmergencyResponseSituationMap(emergencyResponseSituationMap);
             statistic.setId(statisticDataPO.getId());
             statistic.setNotes(statisticDataPO.getNotes());
-            statistic.setFishBoatReturnSituationMap(fishBoatReturnSituationMap);
             statistic.setFiveStopSituationNum(statisticDataPO.getFiveStopSituation());
-            statistic.setPersonnelTransferHedgingSituationMap(personnelTransferHedgingSituationMap);
-            statistic.setPresetForRescueSituationMap(presetForRescueSituationMap);
-            statistic.setScenicSpotsCloseSituationMap(scenicSpotsCloseSituationMap);
             statistic.setSpecialSituation(statisticDataPO.getSpecialSituation());
             statistic.setUnit(statisticDataPO.getUnit());
-            statistic.setWaterloggingPointsSituationMap(waterloggingPointsSituationMap);
             statistic.setStatus(statisticDataPO.getStatus());
             statisticDataVOList.add(statistic);
         }

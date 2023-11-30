@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -86,6 +87,8 @@ public class DisasterWarningServiceImpl extends ServiceImpl<DisasterWarningMappe
             return false;
         }
         DisasterWarningPO disasterWarningPO = BeanCopyUtils.copy(deliverWarningDTO, DisasterWarningPO.class);
+        disasterWarningPO.setStatus("预警中");
+        disasterWarningPO.setReleaseTime(LocalDateTime.now());
         int disasterWarning = disasterWarningMapper.insertDisasterWarning(disasterWarningPO);
         if(disasterWarning < 1){
             log.error("预警下发 insert into disasterWarning failed, userid : " + deliverWarningDTO.getUserId());
@@ -96,6 +99,7 @@ public class DisasterWarningServiceImpl extends ServiceImpl<DisasterWarningMappe
             //如果下发新增成功了，
             DeliverWarningDTO deliverWarning2ReceiveDTO = new DeliverWarningDTO();
             deliverWarning2ReceiveDTO.setTitle(insertDisasterWarningResult.getTitle());
+            deliverWarning2ReceiveDTO.setContent(insertDisasterWarningResult.getContent());
             deliverWarning2ReceiveDTO.setReleaseTime(insertDisasterWarningResult.getReleaseTime());
             deliverWarning2ReceiveDTO.setType(insertDisasterWarningResult.getType());
             deliverWarning2ReceiveDTO.setStatus(insertDisasterWarningResult.getStatus());
@@ -151,7 +155,7 @@ public class DisasterWarningServiceImpl extends ServiceImpl<DisasterWarningMappe
             //删除预警接收方内容
             LambdaUpdateWrapper<WarningReceivePO> receiveLuw = Wrappers.lambdaUpdate();
             receiveLuw.eq(disasterWarningId != null, WarningReceivePO::getDisasterWarningId, disasterWarningId);
-            receiveLuw.eq(StringUtils.isNotEmpty(userId), WarningReceivePO::getUserId, userId);
+//            receiveLuw.eq(StringUtils.isNotEmpty(userId), WarningReceivePO::getUserId, userId);
             int deleteNum = warningReceiveMapper.delete(receiveLuw);
             resultWithdrawNum = deleteNum + 1;
         } else if ("end".equals(operateType)) {

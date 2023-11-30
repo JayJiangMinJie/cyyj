@@ -178,7 +178,7 @@ public class NoticeDistributeServiceImpl extends ServiceImpl<NoticeDistributeMap
             //删除通知接收方内容
             LambdaUpdateWrapper<NoticeReceivePO> receiveLuw = Wrappers.lambdaUpdate();
             receiveLuw.eq(noticeDistributeId != null, NoticeReceivePO::getNoticeDistributeId, noticeDistributeId);
-            receiveLuw.eq(StringUtils.isNotEmpty(userId), NoticeReceivePO::getUserId, userId);
+//            receiveLuw.eq(StringUtils.isNotEmpty(userId), NoticeReceivePO::getUserId, userId);
             int deleteNum = noticeReceiveMapper.delete(receiveLuw);
             if(deleteNum == 0){
                 log.warn("删除notice receive失败，noticeDistributeId： " + noticeDistributeId);

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.geovis.cyyj.common.core.domain.FileData;
 import com.geovis.cyyj.common.core.domain.FileReturn;
 import com.geovis.cyyj.common.core.domain.PageQuery;
 import com.geovis.cyyj.common.core.page.TableDataInfo;
@@ -13,6 +14,7 @@ import com.geovis.cyyj.mapper.file.FileMapper;
 import com.geovis.cyyj.po.WarningReceivePO;
 import com.geovis.cyyj.po.file.FilePO;
 import com.geovis.cyyj.service.file.FileService;
+import com.geovis.cyyj.vo.FileMediaReturn;
 import com.geovis.cyyj.vo.FileVO;
 import org.apache.poi.util.IOUtils;
 import org.slf4j.Logger;
@@ -30,6 +32,9 @@ public class FileServiceImpl implements FileService {
 
     @Value("${file.uploadPath}")
     String filePath;
+
+    @Value("${file.uploadMediaPath}")
+    String mediaFilePath;
 
     @Autowired
     FileMapper fileMapper;
@@ -60,6 +65,28 @@ public class FileServiceImpl implements FileService {
             IOUtils.closeQuietly(fileOutputStream);
         }
         return new FileReturn<>(1, "文件上传成功", file);
+    }
+
+    @Override
+    public FileMediaReturn uploadMedia(MultipartFile multipartFile) {
+        File file = new File(mediaFilePath + multipartFile.getOriginalFilename());
+        FileOutputStream fileOutputStream = null;
+        InputStream inputStream = null;
+        try {
+            fileOutputStream = new FileOutputStream(file);
+            inputStream = multipartFile.getInputStream();
+            IOUtils.copy(inputStream, fileOutputStream);
+            logger.info("===========file upload success=======: " + file.getName());
+        } catch (IOException e) {
+            e.printStackTrace();
+            logger.error("文件上传错误", e);
+        } finally {
+            IOUtils.closeQuietly(inputStream);
+            IOUtils.closeQuietly(fileOutputStream);
+        }
+        FileData fileData = new FileData();
+        fileData.setUrl(file.getPath());
+        return new FileMediaReturn<>(0, fileData);
     }
 
     @Override

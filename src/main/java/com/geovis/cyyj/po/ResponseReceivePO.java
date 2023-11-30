@@ -35,7 +35,15 @@ public class ResponseReceivePO implements Serializable,Cloneable{
     private LocalDateTime currentLevelAdjustTime ;
     private LocalDateTime maxLevelStartTime ;
     private Integer responseReleaseId;
+    private String content ;
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
     public Integer getId() {
         return id;
     }

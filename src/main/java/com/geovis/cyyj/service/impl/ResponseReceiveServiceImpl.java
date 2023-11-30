@@ -68,22 +68,13 @@ public class ResponseReceiveServiceImpl extends ServiceImpl<ResponseReceiveMappe
         return responseReceiveMapper.insertOrUpdate(responseReceivePO);
     }
 
-    @Override
-    public Boolean changeStatus(ResponseReceiveStatusDTO responseReceiveStatusDTO) {
-        ResponseReceivePO responseReceivePO = BeanCopyUtils.copy(responseReceiveStatusDTO, ResponseReceivePO.class);
-        LocalDateTime now = LocalDateTime.now();
-        String status;
-        if(responseReceiveStatusDTO.getIsRead()){
-            if(now.isBefore(responseReceiveStatusDTO.getEndTime())){
-                status = "按时反馈";
-            }else {
-                status = "超时反馈";
-            }
-        }else {
-            status = "未反馈";
-        }
-        responseReceivePO.setStatus(status);
-        return responseReceiveMapper.insertOrUpdate(responseReceivePO);
-    }
+//    @Override
+//    public Boolean changeStatus(ResponseReceiveStatusDTO responseReceiveStatusDTO) {
+//        ResponseReceivePO responseReceivePO = BeanCopyUtils.copy(responseReceiveStatusDTO, ResponseReceivePO.class);
+//        String status;
+//
+//        responseReceivePO.setStatus(status);
+//        return responseReceiveMapper.insertOrUpdate(responseReceivePO);
+//    }
 
 }

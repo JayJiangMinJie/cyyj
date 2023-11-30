@@ -60,7 +60,7 @@ public class PublicServerServiceImpl extends ServiceImpl<PublicServerMapper, Pub
      * 新增文章
      */
     @Override
-    public Boolean insertArticle(ArticleInsertDTO articleInsertDTO) {
+    public Boolean insertOrUpdateArticle(ArticleInsertDTO articleInsertDTO) {
         PublicServerPO publicServerPO = BeanCopyUtils.copy(articleInsertDTO, PublicServerPO.class);
         return publicServerMapper.insertOrUpdate(publicServerPO);
     }

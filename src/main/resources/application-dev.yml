@@ -42,6 +42,7 @@ url:
 #本地+一体机路径
 file:
   uploadPath: D:\项目数据汇总\城阳项目\filepath\
+  uploadMediaPath: D:\项目数据汇总\城阳项目\filepath\media\
   taskPath: D:\项目数据汇总\城阳项目\filepath\task\
 font:
   chinese: C:\Windows\Fonts\

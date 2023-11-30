@@ -4,6 +4,7 @@ import com.geovis.cyyj.common.core.domain.FileReturn;
 import com.geovis.cyyj.common.core.domain.PageQuery;
 import com.geovis.cyyj.common.core.page.TableDataInfo;
 import com.geovis.cyyj.dto.FileQueryDTO;
+import com.geovis.cyyj.vo.FileMediaReturn;
 import com.geovis.cyyj.vo.FileVO;
 import com.geovis.cyyj.vo.NoticeDistributeVO;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +14,8 @@ import java.util.List;
 public interface FileService {
 
     FileReturn uploadFile(MultipartFile multipartFile);
+
+    FileMediaReturn uploadMedia(MultipartFile multipartFile);
 
     Boolean fileSave(String filePath, Integer noticeCode, String operatePerson);
 

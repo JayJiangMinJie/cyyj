@@ -41,10 +41,10 @@ public class ResponseProgressFeedbackServiceImpl extends ServiceImpl<ResponsePro
      * 分页查询进度反馈列表
      */
     @Override
-    public TableDataInfo<ResponseProgressFeedbackVO> queryResponseProgressFeedbackList(Integer responseDistributeId, String userId, PageQuery pageQuery) {
+    public TableDataInfo<ResponseProgressFeedbackVO> queryResponseProgressFeedbackList(Integer responseDistributeId, String parentUserId, PageQuery pageQuery) {
         LambdaQueryWrapper<ResponseProgressFeedbackPO> lqw = Wrappers.lambdaQuery();
         lqw.eq(responseDistributeId != 0, ResponseProgressFeedbackPO::getResponseReleaseId, responseDistributeId);
-        lqw.eq(StringUtils.isNotBlank(userId), ResponseProgressFeedbackPO::getUserId, userId);
+        lqw.eq(StringUtils.isNotBlank(parentUserId), ResponseProgressFeedbackPO::getParentUserId, parentUserId);
         Page<ResponseProgressFeedbackVO> result = responseProgressFeedbackMapper.selectVoPage(pageQuery.build(), lqw);
         return TableDataInfo.build(result);
     }

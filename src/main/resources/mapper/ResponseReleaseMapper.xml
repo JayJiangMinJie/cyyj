@@ -3,9 +3,10 @@
 <mapper namespace="com.geovis.cyyj.mapper.ResponseReleaseMapper">
 
     <insert id="insertResponseRelease" parameterType="com.geovis.cyyj.po.ResponseReleasePO" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO notice_distribute (title,start_time,end_time,type,status,receive_unit,file_path,notice_content,user_id,parent_user_id)
-        VALUES (#{noticeDistributePO.title},#{noticeDistributePO.startTime},#{noticeDistributePO.endTime},#{noticeDistributePO.type},#{noticeDistributePO.status},#{noticeDistributePO.receiveUnit},
-                #{noticeDistributePO.filePath},#{noticeDistributePO.noticeContent},#{noticeDistributePO.userId},#{noticeDistributePO.parentUserId});
+        INSERT INTO response_release (title,release_time,type,region,receive_unit,file_path,response_content,user_id,parent_user_id,current_level,max_level,current_level_adjust_time,max_level_start_time,status)
+        VALUES (#{responseReleasePO.title},#{responseReleasePO.releaseTime},#{responseReleasePO.type},#{responseReleasePO.status},#{responseReleasePO.receiveUnit},
+                #{responseReleasePO.filePath},#{responseReleasePO.responseContent},#{responseReleasePO.userId},#{responseReleasePO.parentUserId},#{responseReleasePO.currentLevel},#{responseReleasePO.maxLevel}
+                ,#{responseReleasePO.currentLevelAdjustTime},#{responseReleasePO.maxLevelStartTime},#{responseReleasePO.status});
 </insert>
 
 </mapper>

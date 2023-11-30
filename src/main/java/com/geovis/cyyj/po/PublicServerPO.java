@@ -25,6 +25,24 @@ public class PublicServerPO implements Serializable,Cloneable{
     private LocalDateTime createTime ;
     private LocalDateTime updateTime ;
     private String userId ;
+    private LocalDateTime releaseTime ;
+    private String textContent;
+
+    public String getTextContent() {
+        return textContent;
+    }
+
+    public void setTextContent(String textContent) {
+        this.textContent = textContent;
+    }
+
+    public LocalDateTime getReleaseTime() {
+        return releaseTime;
+    }
+
+    public void setReleaseTime(LocalDateTime releaseTime) {
+        this.releaseTime = releaseTime;
+    }
 
     public String getUserId() {
         return userId;

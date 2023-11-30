@@ -24,18 +24,6 @@ public class StatisticDataVO implements Serializable,Cloneable{
     private String unit ;
     @ApiModelProperty(name = "台风预警数量",notes = "台风预警数量")
     private Integer alertNum;
-    @ApiModelProperty(name = "应急响应情况",notes = "应急响应情况")
-    private Map<String, Integer> emergencyResponseSituationMap = new HashMap<>();
-    @ApiModelProperty(name = "渔船回港情况",notes = "渔船回港情况")
-    private Map<String, Integer> fishBoatReturnSituationMap = new HashMap<>();
-    @ApiModelProperty(name = "景区关停情况",notes = "景区关停情况")
-    private Map<String, Integer> scenicSpotsCloseSituationMap = new HashMap<>();
-    @ApiModelProperty(name = "人员转移避险情况",notes = "人员转移避险情况")
-    private Map<String, Integer> personnelTransferHedgingSituationMap = new HashMap<>();
-    @ApiModelProperty(name = "内涝点情况",notes = "内涝点情况")
-    private Map<String, Integer> waterloggingPointsSituationMap = new HashMap<>();
-    @ApiModelProperty(name = "预置投入救援情况",notes = "预置投入救援情况")
-    private Map<String, Integer> presetForRescueSituationMap = new HashMap<>();
     @ApiModelProperty(name = "五停数量",notes = "五停数量")
     private Integer fiveStopSituationNum;
     @ApiModelProperty(name = "险情情况",notes = "险情情况")
@@ -46,6 +34,141 @@ public class StatisticDataVO implements Serializable,Cloneable{
     private String  notes;
     @ApiModelProperty(name = "状态",notes = "状态")
     private String  status;
+    private Integer firstLevelResp;
+    private Integer secondLevelResp;
+    private Integer thirdLevelResp;
+    private Integer fourthLevelResp;
+    private Integer fishBoatNum;
+    private Integer returningFishBoatNum;
+    private Integer scenicSpotNum;
+    private Integer closedScenicSpotNum;
+    private Integer transferredPersonNum;
+    private Integer returningPersonNum;
+    private Integer waterloggingPointNum;
+    private Integer notExcludedWaterloggingPointNum;
+    private Integer presetTeamNum;
+    private Integer presetPersonNum;
+    private Integer presetDeviceNum;
+
+    public Integer getFirstLevelResp() {
+        return firstLevelResp;
+    }
+
+    public void setFirstLevelResp(Integer firstLevelResp) {
+        this.firstLevelResp = firstLevelResp;
+    }
+
+    public Integer getSecondLevelResp() {
+        return secondLevelResp;
+    }
+
+    public void setSecondLevelResp(Integer secondLevelResp) {
+        this.secondLevelResp = secondLevelResp;
+    }
+
+    public Integer getThirdLevelResp() {
+        return thirdLevelResp;
+    }
+
+    public void setThirdLevelResp(Integer thirdLevelResp) {
+        this.thirdLevelResp = thirdLevelResp;
+    }
+
+    public Integer getFourthLevelResp() {
+        return fourthLevelResp;
+    }
+
+    public void setFourthLevelResp(Integer fourthLevelResp) {
+        this.fourthLevelResp = fourthLevelResp;
+    }
+
+    public Integer getFishBoatNum() {
+        return fishBoatNum;
+    }
+
+    public void setFishBoatNum(Integer fishBoatNum) {
+        this.fishBoatNum = fishBoatNum;
+    }
+
+    public Integer getReturningFishBoatNum() {
+        return returningFishBoatNum;
+    }
+
+    public void setReturningFishBoatNum(Integer returningFishBoatNum) {
+        this.returningFishBoatNum = returningFishBoatNum;
+    }
+
+    public Integer getScenicSpotNum() {
+        return scenicSpotNum;
+    }
+
+    public void setScenicSpotNum(Integer scenicSpotNum) {
+        this.scenicSpotNum = scenicSpotNum;
+    }
+
+    public Integer getClosedScenicSpotNum() {
+        return closedScenicSpotNum;
+    }
+
+    public void setClosedScenicSpotNum(Integer closedScenicSpotNum) {
+        this.closedScenicSpotNum = closedScenicSpotNum;
+    }
+
+    public Integer getTransferredPersonNum() {
+        return transferredPersonNum;
+    }
+
+    public void setTransferredPersonNum(Integer transferredPersonNum) {
+        this.transferredPersonNum = transferredPersonNum;
+    }
+
+    public Integer getReturningPersonNum() {
+        return returningPersonNum;
+    }
+
+    public void setReturningPersonNum(Integer returningPersonNum) {
+        this.returningPersonNum = returningPersonNum;
+    }
+
+    public Integer getWaterloggingPointNum() {
+        return waterloggingPointNum;
+    }
+
+    public void setWaterloggingPointNum(Integer waterloggingPointNum) {
+        this.waterloggingPointNum = waterloggingPointNum;
+    }
+
+    public Integer getNotExcludedWaterloggingPointNum() {
+        return notExcludedWaterloggingPointNum;
+    }
+
+    public void setNotExcludedWaterloggingPointNum(Integer notExcludedWaterloggingPointNum) {
+        this.notExcludedWaterloggingPointNum = notExcludedWaterloggingPointNum;
+    }
+
+    public Integer getPresetTeamNum() {
+        return presetTeamNum;
+    }
+
+    public void setPresetTeamNum(Integer presetTeamNum) {
+        this.presetTeamNum = presetTeamNum;
+    }
+
+    public Integer getPresetPersonNum() {
+        return presetPersonNum;
+    }
+
+    public void setPresetPersonNum(Integer presetPersonNum) {
+        this.presetPersonNum = presetPersonNum;
+    }
+
+    public Integer getPresetDeviceNum() {
+        return presetDeviceNum;
+    }
+
+    public void setPresetDeviceNum(Integer presetDeviceNum) {
+        this.presetDeviceNum = presetDeviceNum;
+    }
 
     public String getStatus() {
         return status;
@@ -85,54 +208,6 @@ public class StatisticDataVO implements Serializable,Cloneable{
 
     public void setAlertNum(Integer alertNum) {
         this.alertNum = alertNum;
-    }
-
-    public Map<String, Integer> getEmergencyResponseSituationMap() {
-        return emergencyResponseSituationMap;
-    }
-
-    public void setEmergencyResponseSituationMap(Map<String, Integer> emergencyResponseSituationMap) {
-        this.emergencyResponseSituationMap = emergencyResponseSituationMap;
-    }
-
-    public Map<String, Integer> getFishBoatReturnSituationMap() {
-        return fishBoatReturnSituationMap;
-    }
-
-    public void setFishBoatReturnSituationMap(Map<String, Integer> fishBoatReturnSituationMap) {
-        this.fishBoatReturnSituationMap = fishBoatReturnSituationMap;
-    }
-
-    public Map<String, Integer> getScenicSpotsCloseSituationMap() {
-        return scenicSpotsCloseSituationMap;
-    }
-
-    public void setScenicSpotsCloseSituationMap(Map<String, Integer> scenicSpotsCloseSituationMap) {
-        this.scenicSpotsCloseSituationMap = scenicSpotsCloseSituationMap;
-    }
-
-    public Map<String, Integer> getPersonnelTransferHedgingSituationMap() {
-        return personnelTransferHedgingSituationMap;
-    }
-
-    public void setPersonnelTransferHedgingSituationMap(Map<String, Integer> personnelTransferHedgingSituationMap) {
-        this.personnelTransferHedgingSituationMap = personnelTransferHedgingSituationMap;
-    }
-
-    public Map<String, Integer> getWaterloggingPointsSituationMap() {
-        return waterloggingPointsSituationMap;
-    }
-
-    public void setWaterloggingPointsSituationMap(Map<String, Integer> waterloggingPointsSituationMap) {
-        this.waterloggingPointsSituationMap = waterloggingPointsSituationMap;
-    }
-
-    public Map<String, Integer> getPresetForRescueSituationMap() {
-        return presetForRescueSituationMap;
-    }
-
-    public void setPresetForRescueSituationMap(Map<String, Integer> presetForRescueSituationMap) {
-        this.presetForRescueSituationMap = presetForRescueSituationMap;
     }
 
     public Integer getFiveStopSituationNum() {

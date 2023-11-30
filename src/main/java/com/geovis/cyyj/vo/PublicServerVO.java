@@ -6,11 +6,11 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 通知下发;
+ * 公众服务;
  * @author : jay
  * @date : 2023-10-18
  */
-@ApiModel(value = "通知下发",description = "")
+@ApiModel(value = "公众服务",description = "")
 public class PublicServerVO implements Serializable,Cloneable{
     private Integer id;
     private String title ;
@@ -20,6 +20,23 @@ public class PublicServerVO implements Serializable,Cloneable{
     private LocalDateTime createTime ;
     private LocalDateTime updateTime ;
     private String userId ;
+    private LocalDateTime releaseTime ;
+    private String textContent;
+
+    public String getTextContent() {
+        return textContent;
+    }
+
+    public void setTextContent(String textContent) {
+        this.textContent = textContent;
+    }
+    public LocalDateTime getReleaseTime() {
+        return releaseTime;
+    }
+
+    public void setReleaseTime(LocalDateTime releaseTime) {
+        this.releaseTime = releaseTime;
+    }
 
     public String getUserId() {
         return userId;

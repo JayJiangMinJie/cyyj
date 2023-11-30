@@ -25,7 +25,24 @@ public class WarningReceiveVO implements Serializable,Cloneable{
     private String warningContent;
     private String userId;
     private String parentUserId;
+    private String content ;
+    private Integer disasterWarningId;
 
+    public Integer getDisasterWarningId() {
+        return disasterWarningId;
+    }
+
+    public void setDisasterWarningId(Integer disasterWarningId) {
+        this.disasterWarningId = disasterWarningId;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
     public Integer getId() {
         return id;
     }

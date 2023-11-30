@@ -21,7 +21,7 @@ public interface IResponseProgressFeedbackService extends IService<ResponseProgr
     /**
      * 分页查询进度反馈数据
      */
-    TableDataInfo<ResponseProgressFeedbackVO> queryResponseProgressFeedbackList(Integer responseReleaseId, String userId, PageQuery pageQuery);
+    TableDataInfo<ResponseProgressFeedbackVO> queryResponseProgressFeedbackList(Integer responseReleaseId, String parentUserId, PageQuery pageQuery);
 
     /**
      * 新增进度反馈

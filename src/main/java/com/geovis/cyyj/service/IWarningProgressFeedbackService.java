@@ -21,7 +21,7 @@ public interface IWarningProgressFeedbackService extends IService<WarningProgres
     /**
      * 分页查询进度反馈数据
      */
-    TableDataInfo<WarningProgressFeedbackVO> queryWarningProgressFeedbackList(Integer disasterWarningId, String userId, PageQuery pageQuery);
+    TableDataInfo<WarningProgressFeedbackVO> queryWarningProgressFeedbackList(Integer disasterWarningId, String parentUserId, PageQuery pageQuery);
 
     /**
      * 新增进度反馈

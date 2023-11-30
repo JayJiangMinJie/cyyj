@@ -21,7 +21,15 @@ public class ResponseProgressFeedbackVO implements Serializable,Cloneable{
     private String content;
     private String userId;
     private String parentUserId;
+    private String textContent;
 
+    public String getTextContent() {
+        return textContent;
+    }
+
+    public void setTextContent(String textContent) {
+        this.textContent = textContent;
+    }
     public Integer getId() {
         return id;
     }

@@ -26,7 +26,7 @@ public interface IPublicServerService extends IService<PublicServerPO> {
     /**
      * 新增文章
      */
-    Boolean insertArticle(ArticleInsertDTO articleInsertDTO);
+    Boolean insertOrUpdateArticle(ArticleInsertDTO articleInsertDTO);
 
     /**
      * 删除文章

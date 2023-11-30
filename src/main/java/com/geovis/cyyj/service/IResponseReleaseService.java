@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.geovis.cyyj.common.core.domain.PageQuery;
 import com.geovis.cyyj.common.core.page.TableDataInfo;
 import com.geovis.cyyj.dto.DeliverResponseDTO;
+import com.geovis.cyyj.dto.ResponseChangeDTO;
 import com.geovis.cyyj.dto.ResponseReleaseQueryDTO;
 import com.geovis.cyyj.po.ResponseReleasePO;
 import com.geovis.cyyj.vo.ResponseReleaseVO;
@@ -33,7 +34,6 @@ public interface IResponseReleaseService extends IService<ResponseReleasePO> {
     /**
      * 通知操作
      */
-    @Transactional(rollbackFor = Exception.class)
-    Boolean operateResponse(Integer noticeDistributeId, String userId, String operateType);
+    Boolean operateResponse(ResponseChangeDTO responseChangeDTO);
 
 }
