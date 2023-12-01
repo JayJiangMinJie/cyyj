@@ -22,7 +22,15 @@ public class WarningProgressFeedbackVO implements Serializable,Cloneable{
     private String userId;
     private String parentUserId;
     private String textContent;
+    private String orgName;
 
+    public String getOrgName() {
+        return orgName;
+    }
+
+    public void setOrgName(String orgName) {
+        this.orgName = orgName;
+    }
     public String getTextContent() {
         return textContent;
     }
