@@ -68,13 +68,4 @@ public class ResponseReceiveServiceImpl extends ServiceImpl<ResponseReceiveMappe
         return responseReceiveMapper.insertOrUpdate(responseReceivePO);
     }
 
-//    @Override
-//    public Boolean changeStatus(ResponseReceiveStatusDTO responseReceiveStatusDTO) {
-//        ResponseReceivePO responseReceivePO = BeanCopyUtils.copy(responseReceiveStatusDTO, ResponseReceivePO.class);
-//        String status;
-//
-//        responseReceivePO.setStatus(status);
-//        return responseReceiveMapper.insertOrUpdate(responseReceivePO);
-//    }
-
 }

@@ -86,35 +86,5 @@ public class NoticeDistributeController extends BaseController {
         }
         return R.fail("通知操作失败");
     }
-//
-//    @ApiOperation(value = "修改机构信息", notes = "修改资源信息")
-//    @PostMapping({"/update"})
-//    public R update(@Validated @RequestBody SystemDeptUpdateDTO updateDTO) {
-//        SystemDept systemDept = BeanUtil.toBean(updateDTO, SystemDept.class);
-//        baseService.updateById(systemDept);
-//        return R.ok();
-//    }
-//
-//    @ApiOperation(value = "查询所有机构数据", notes = "查询所有机构数据")
-//    @PostMapping("/list")
-//    public R<List<SystemDept>> list(@RequestBody SystemDept queryDTO) {
-//        LambdaQueryWrapper<SystemDept> wrapper = Wrappers.lambdaQuery(SystemDept.class).orderByAsc(SystemDept::getIdx);
-//        if (ObjectUtil.isNotEmpty(queryDTO)) {
-//            wrapper.like(ObjectUtil.isNotEmpty(queryDTO.getDeptName()), SystemDept::getDeptName, queryDTO.getDeptName())
-//                    .like(ObjectUtil.isNotEmpty(queryDTO.getFullName()), SystemDept::getFullName, queryDTO.getFullName())
-//                    .like(ObjectUtil.isNotEmpty(queryDTO.getDeptCode()), SystemDept::getDeptCode, queryDTO.getDeptCode())
-//                    .eq(ObjectUtil.isNotEmpty(queryDTO.getParentId()), SystemDept::getParentId, queryDTO.getParentId())
-//                    .eq(ObjectUtil.isNotEmpty(queryDTO.getTypeGrade()), SystemDept::getTypeGrade, queryDTO.getTypeGrade());
-//        }
-//        return R.ok(baseService.list(wrapper));
-//    }
-//
-//    @ApiOperation(value = "批量删除机构数据", notes = "批量删除机构数据")
-//    @ApiImplicitParams({@ApiImplicitParam(name = "idList", value = "删除id的list", required = true, dataType = "java.util.Set", paramType = "body")})
-//    @PostMapping("/removeByIdList")
-//    public R removeByIdList(@NotNull(message = "删除的id集合不能为空") @RequestBody(required = false) Set<String> idList) {
-//        baseService.removeByIdList(idList);
-//        return R.ok();
-//    }
 
 }

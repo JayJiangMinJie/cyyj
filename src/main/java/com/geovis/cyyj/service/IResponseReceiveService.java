@@ -30,9 +30,4 @@ public interface IResponseReceiveService extends IService<ResponseReceivePO> {
      */
     Boolean deliverResponse(DeliverResponseDTO deliverResponseDTO);
 
-//    /**
-//     * 状态变更
-//     */
-//    Boolean changeStatus(ResponseReceiveStatusDTO noticeReceiveStatusDTO);
-
 }
