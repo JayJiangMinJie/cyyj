@@ -59,6 +59,17 @@ public class ResponseChangeDTO implements Serializable {
     @ApiModelProperty(value = "操作类型")
     private String operateType;
 
+    public String getTextContent() {
+        return textContent;
+    }
+
+    public void setTextContent(String textContent) {
+        this.textContent = textContent;
+    }
+
+    private String textContent;
+
+
     public String getOperateType() {
         return operateType;
     }

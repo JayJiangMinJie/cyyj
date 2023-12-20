@@ -36,13 +36,10 @@ spring:
         - classpath:/resources/
         - classpath:/META-INF/resources/
 
-url:
-  device: http://10.176.126.121:800/bd/api/v1/device/queryByCoordinate
-
 #本地+一体机路径
 file:
   uploadPath: D:\项目数据汇总\城阳项目\filepath\
   uploadMediaPath: D:\项目数据汇总\城阳项目\filepath\media\
   taskPath: D:\项目数据汇总\城阳项目\filepath\task\
-font:
-  chinese: C:\Windows\Fonts\
+#font:
+#  chinese: C:\Windows\Fonts\

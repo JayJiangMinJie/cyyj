@@ -51,9 +51,11 @@ public class ResponseReceiveServiceImpl extends ServiceImpl<ResponseReceiveMappe
 
     private LambdaQueryWrapper<ResponseReceivePO> buildQueryWrapper(ResponseReceiveQueryDTO responseReceiveQueryDTO) {
         LambdaQueryWrapper<ResponseReceivePO> lqw = Wrappers.lambdaQuery();
-        lqw.eq(StringUtils.isNotBlank(responseReceiveQueryDTO.getKeyWord()), ResponseReceivePO::getTitle, responseReceiveQueryDTO.getKeyWord());
+        lqw.like(StringUtils.isNotBlank(responseReceiveQueryDTO.getKeyWord()), ResponseReceivePO::getTitle, responseReceiveQueryDTO.getKeyWord());
         lqw.eq(StringUtils.isNotBlank(responseReceiveQueryDTO.getUserId()), ResponseReceivePO::getUserId, responseReceiveQueryDTO.getUserId());
         lqw.eq(StringUtils.isNotBlank(responseReceiveQueryDTO.getStatus()), ResponseReceivePO::getStatus, responseReceiveQueryDTO.getStatus());
+        lqw.eq(StringUtils.isNotBlank(responseReceiveQueryDTO.getType()), ResponseReceivePO::getType, responseReceiveQueryDTO.getType());
+        lqw.like(StringUtils.isNotBlank(responseReceiveQueryDTO.getRegion()), ResponseReceivePO::getRegion, responseReceiveQueryDTO.getRegion());
         lqw.ge(responseReceiveQueryDTO.getStartTime() != null, ResponseReceivePO::getCreateTime, responseReceiveQueryDTO.getStartTime());
         lqw.le(responseReceiveQueryDTO.getEndTime() != null, ResponseReceivePO::getCreateTime, responseReceiveQueryDTO.getEndTime());
         return lqw;

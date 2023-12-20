@@ -55,14 +55,14 @@ public class DeliverResponseDTO implements Serializable {
     private LocalDateTime currentLevelAdjustTime ;
     @ApiModelProperty(value = "最高级别启动时间")
     private LocalDateTime maxLevelStartTime ;
-    private String content ;
+    private String textContent;
 
-    public String getContent() {
-        return content;
+    public String getTextContent() {
+        return textContent;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setTextContent(String textContent) {
+        this.textContent = textContent;
     }
     public String getTitle() {
         return title;

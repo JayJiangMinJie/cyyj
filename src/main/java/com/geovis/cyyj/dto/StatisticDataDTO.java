@@ -24,6 +24,8 @@ import java.io.Serializable;
 @Accessors(chain = true)
 @ApiModel(value = "StatisticDataDTO", description = "统计数据DTO")
 public class StatisticDataDTO implements Serializable {
+    @ApiModelProperty(value = "唯一标识", notes = "唯一标识")
+    private Integer id;
     @ApiModelProperty(value = "单位", notes = "单位")
     private String unit;
     @ApiModelProperty(value = "台风预警数量", notes = "台风预警数量")
@@ -70,6 +72,36 @@ public class StatisticDataDTO implements Serializable {
     private String userId;
     @ApiModelProperty(value = "统计任务唯一值", notes = "统计任务唯一值")
     private Integer statisticTaskId;
+
+    public StatisticDataDTO() {
+        this.alertNum = 0;
+        this.firstLevelResp = 0;
+        this.secondLevelResp = 0;
+        this.thirdLevelResp = 0;
+        this.fourthLevelResp = 0;
+        this.fishBoatNum = 0;
+        this.returningFishBoatNum = 0;
+        this.scenicSpotNum = 0;
+        this.closedScenicSpotNum = 0;
+        this.transferredPersonNum = 0;
+        this.returningPersonNum = 0;
+        this.waterloggingPointNum = 0;
+        this.notExcludedWaterloggingPointNum = 0;
+        this.presetTeamNum = 0;
+        this.presetPersonNum = 0;
+        this.presetDeviceNum = 0;
+        this.fiveStopSituation = 0;
+        this.dangerousSituation = 0;
+        this.specialSituation = 0;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getUserId() {
         return userId;

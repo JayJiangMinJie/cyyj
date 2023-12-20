@@ -52,6 +52,24 @@ public class DeliverNoticeDTO implements Serializable {
     private String operatePerson;
     @ApiModelProperty(value = "文件上传状态")
     private Boolean isUpload;
+    @ApiModelProperty(value = "html生成word文件路径")
+    private String wordPath;
+
+    public Boolean getUpload() {
+        return isUpload;
+    }
+
+    public void setUpload(Boolean upload) {
+        isUpload = upload;
+    }
+
+    public String getWordPath() {
+        return wordPath;
+    }
+
+    public void setWordPath(String wordPath) {
+        this.wordPath = wordPath;
+    }
 
     public Boolean getIsUpload() {
         return isUpload;

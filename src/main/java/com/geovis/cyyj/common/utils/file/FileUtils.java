@@ -38,6 +38,9 @@ public class FileUtils extends FileUtil {
             // 清空response
             response.reset();
             toClient = new BufferedOutputStream(response.getOutputStream());
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+            response.setHeader("Access-Control-Allow-Headers", "Content-Type");
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/octet-stream");
             response.setHeader("Content-Disposition", "attachment;filename=" + file.getName());

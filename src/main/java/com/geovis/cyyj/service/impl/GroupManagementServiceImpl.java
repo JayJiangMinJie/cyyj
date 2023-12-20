@@ -48,7 +48,7 @@ public class GroupManagementServiceImpl extends ServiceImpl<GroupManagementMappe
 
     private LambdaQueryWrapper<GroupManagementPO> buildQueryWrapper(GroupManagementQueryDTO groupManagementQueryDTO) {
         LambdaQueryWrapper<GroupManagementPO> lqw = Wrappers.lambdaQuery();
-        lqw.eq(StringUtils.isNotBlank(groupManagementQueryDTO.getKeyWord()), GroupManagementPO::getName, groupManagementQueryDTO.getKeyWord());
+        lqw.like(StringUtils.isNotBlank(groupManagementQueryDTO.getKeyWord()), GroupManagementPO::getName, groupManagementQueryDTO.getKeyWord());
         lqw.eq(StringUtils.isNotBlank(groupManagementQueryDTO.getUserId()), GroupManagementPO::getUserId, groupManagementQueryDTO.getUserId());
         return lqw;
     }

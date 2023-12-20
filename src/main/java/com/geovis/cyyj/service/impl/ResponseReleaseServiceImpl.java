@@ -20,13 +20,9 @@ import com.geovis.cyyj.service.IResponseReceiveService;
 import com.geovis.cyyj.vo.ResponseReleaseVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -74,8 +70,11 @@ public class ResponseReleaseServiceImpl extends ServiceImpl<ResponseReleaseMappe
 
     private LambdaQueryWrapper<ResponseReleasePO> buildQueryWrapper(ResponseReleaseQueryDTO responseReleaseQueryDTO) {
         LambdaQueryWrapper<ResponseReleasePO> lqw = Wrappers.lambdaQuery();
-        lqw.eq(StringUtils.isNotBlank(responseReleaseQueryDTO.getKeyWord()), ResponseReleasePO::getTitle, responseReleaseQueryDTO.getKeyWord());
+        lqw.like(StringUtils.isNotBlank(responseReleaseQueryDTO.getKeyWord()), ResponseReleasePO::getTitle, responseReleaseQueryDTO.getKeyWord());
         lqw.eq(StringUtils.isNotBlank(responseReleaseQueryDTO.getUserId()), ResponseReleasePO::getUserId, responseReleaseQueryDTO.getUserId());
+        lqw.like(StringUtils.isNotBlank(responseReleaseQueryDTO.getRegion()), ResponseReleasePO::getReceiveUnit, responseReleaseQueryDTO.getRegion());
+        lqw.eq(StringUtils.isNotBlank(responseReleaseQueryDTO.getType()), ResponseReleasePO::getType, responseReleaseQueryDTO.getType());
+        lqw.eq(StringUtils.isNotBlank(responseReleaseQueryDTO.getStatus()), ResponseReleasePO::getStatus, responseReleaseQueryDTO.getStatus());
         lqw.ge(responseReleaseQueryDTO.getStartTime() != null, ResponseReleasePO::getCreateTime, responseReleaseQueryDTO.getStartTime());
         lqw.le(responseReleaseQueryDTO.getEndTime() != null, ResponseReleasePO::getCreateTime, responseReleaseQueryDTO.getEndTime());
         return lqw;
@@ -113,7 +112,7 @@ public class ResponseReleaseServiceImpl extends ServiceImpl<ResponseReleaseMappe
             //如果下发新增成功了，
             DeliverResponseDTO deliverResponse2ReceiveDTO = new DeliverResponseDTO();
             deliverResponse2ReceiveDTO.setTitle(insertResponseReleaseResult.getTitle());
-            deliverResponse2ReceiveDTO.setContent(insertResponseReleaseResult.getContent());
+            deliverResponse2ReceiveDTO.setTextContent(insertResponseReleaseResult.getTextContent());
             deliverResponse2ReceiveDTO.setCurrentLevel(insertResponseReleaseResult.getCurrentLevel());
             deliverResponse2ReceiveDTO.setCurrentLevelAdjustTime(responseReleasePO.getCurrentLevelAdjustTime());
             deliverResponse2ReceiveDTO.setMaxLevel(responseReleasePO.getMaxLevel());
@@ -165,8 +164,11 @@ public class ResponseReleaseServiceImpl extends ServiceImpl<ResponseReleaseMappe
         ResponseReleasePO responseReleasePO = new ResponseReleasePO();
         LambdaUpdateWrapper<ResponseReleasePO> luw = Wrappers.lambdaUpdate();
         //接收部分
-        LambdaUpdateWrapper<ResponseReceivePO> luwReceive = new LambdaUpdateWrapper<>();
-        ResponseReceivePO responseReceivePO = BeanCopyUtils.copy(responseChangeDTO, ResponseReceivePO.class);
+        LambdaUpdateWrapper<ResponseReceivePO> luwReceive = Wrappers.lambdaUpdate();
+        luwReceive.eq(ResponseReceivePO::getResponseReleaseId, responseReleaseId);
+
+
+//        ResponseReceivePO responseReceivePO = BeanCopyUtils.copy(responseChangeDTO, ResponseReceivePO.class);
 //        LambdaQueryWrapper<ResponseReceivePO> lqwReceive = Wrappers.lambdaQuery();
 //        lqwReceive.eq(ResponseReceivePO::getResponseReleaseId, responseReleaseId);
 //        ResponseReceivePO responseReceivePO = responseReceiveMapper.selectList();
@@ -181,7 +183,8 @@ public class ResponseReleaseServiceImpl extends ServiceImpl<ResponseReleaseMappe
              log.warn("下发响应表解除失败，responseReleaseId： " + responseReleaseId);
             }
             //更新接收表状态
-            int updateReceiveNum = responseReceiveMapper.update(responseReceivePO, luwReceive);
+            luwReceive.set(ResponseReceivePO::getStatus, "已解除");
+            int updateReceiveNum = responseReceiveMapper.update(null, luwReceive);
             if(updateReceiveNum == 0){
                 log.warn("响应接收表解除失败，responseReleaseId： " + responseReleaseId);
             }
@@ -224,7 +227,7 @@ public class ResponseReleaseServiceImpl extends ServiceImpl<ResponseReleaseMappe
                     luwReceive.eq(ResponseReceivePO::getResponseReleaseId, updateReleasePO.getId());
                     luwReceive.set(ResponseReceivePO::getTitle, updateReleasePO.getTitle());
                     luwReceive.set(ResponseReceivePO::getResponseContent, updateReleasePO.getResponseContent());
-                    luwReceive.set(ResponseReceivePO::getContent, updateReleasePO.getContent());
+                    luwReceive.set(ResponseReceivePO::getTextContent, updateReleasePO.getTextContent());
                     luwReceive.set(ResponseReceivePO::getCurrentLevel, updateReleasePO.getCurrentLevel());
                     luwReceive.set(ResponseReceivePO::getCurrentLevelAdjustTime, updateReleasePO.getCurrentLevelAdjustTime());
                     luwReceive.set(ResponseReceivePO::getMaxLevel, updateReleasePO.getMaxLevel());

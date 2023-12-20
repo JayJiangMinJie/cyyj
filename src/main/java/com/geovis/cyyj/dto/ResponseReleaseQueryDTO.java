@@ -38,7 +38,33 @@ public class ResponseReleaseQueryDTO implements Serializable {
 
     @ApiModelProperty(value = "用户标识")
     private String userId;
+    private String region;
+    private String type;
+    private String status;
 
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
     public void setUserId(String userId) {
         this.userId = userId;
     }

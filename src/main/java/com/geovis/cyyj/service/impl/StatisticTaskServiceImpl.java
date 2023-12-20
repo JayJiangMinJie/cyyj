@@ -9,18 +9,12 @@ import com.geovis.cyyj.common.core.domain.PageQuery;
 import com.geovis.cyyj.common.core.page.TableDataInfo;
 import com.geovis.cyyj.common.utils.BeanCopyUtils;
 import com.geovis.cyyj.common.utils.StringUtils;
-import com.geovis.cyyj.dto.DataReportDTO;
-import com.geovis.cyyj.dto.DeliverTaskDTO;
-import com.geovis.cyyj.dto.StatisticTaskProgressFeedbackDTO;
-import com.geovis.cyyj.dto.StatisticTaskQueryDTO;
+import com.geovis.cyyj.dto.*;
 import com.geovis.cyyj.mapper.DataReportMapper;
 import com.geovis.cyyj.mapper.DistrictListPersonMapper;
 import com.geovis.cyyj.mapper.StatisticTaskMapper;
 import com.geovis.cyyj.po.*;
-import com.geovis.cyyj.service.IDataReportService;
-import com.geovis.cyyj.service.INoticeProgressFeedbackService;
-import com.geovis.cyyj.service.IStatisticTaskProgressFeedbackService;
-import com.geovis.cyyj.service.IStatisticTaskService;
+import com.geovis.cyyj.service.*;
 import com.geovis.cyyj.vo.StatisticTaskVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -62,6 +56,9 @@ public class StatisticTaskServiceImpl extends ServiceImpl<StatisticTaskMapper, S
 
     @Autowired
     private IStatisticTaskProgressFeedbackService iStatisticTaskProgressFeedbackService;
+
+    @Autowired
+    private IStatisticDataService iStatisticDataService;
     /**
      * 分页查询统计任务列表
      */
@@ -74,7 +71,7 @@ public class StatisticTaskServiceImpl extends ServiceImpl<StatisticTaskMapper, S
 
     private LambdaQueryWrapper<StatisticTaskPO> buildQueryWrapper(StatisticTaskQueryDTO statisticTaskQueryDTO) {
         LambdaQueryWrapper<StatisticTaskPO> lqw = Wrappers.lambdaQuery();
-        lqw.eq(StringUtils.isNotBlank(statisticTaskQueryDTO.getKeyWord()), StatisticTaskPO::getTitle, statisticTaskQueryDTO.getKeyWord());
+        lqw.like(StringUtils.isNotBlank(statisticTaskQueryDTO.getKeyWord()), StatisticTaskPO::getTitle, statisticTaskQueryDTO.getKeyWord());
         lqw.eq(StringUtils.isNotBlank(statisticTaskQueryDTO.getUserId()), StatisticTaskPO::getUserId, statisticTaskQueryDTO.getUserId());
         lqw.eq(StringUtils.isNotBlank(statisticTaskQueryDTO.getStatus()), StatisticTaskPO::getStatus, statisticTaskQueryDTO.getStatus());
         lqw.ge(statisticTaskQueryDTO.getStartTime() != null, StatisticTaskPO::getLastFillTime, statisticTaskQueryDTO.getStartTime());
@@ -118,6 +115,9 @@ public class StatisticTaskServiceImpl extends ServiceImpl<StatisticTaskMapper, S
             StatisticTaskProgressFeedbackDTO statisticTaskProgressFeedbackDTO = new StatisticTaskProgressFeedbackDTO();
             statisticTaskProgressFeedbackDTO.setStatisticTaskId(statisticTaskPO.getId());
             statisticTaskProgressFeedbackDTO.setParentUserId(insertStatisticTaskResult.getUserId());
+            //生成统计数据默认
+            StatisticDataDTO statisticDataDTO = new StatisticDataDTO();
+            statisticDataDTO.setStatisticTaskId(statisticTaskPO.getId());
             //这里暂时查询本地表人员02
             //用查询到的接收单位list找出该给哪些单位发信息
             String[] unitArrays = deliverTaskDTO.getReceiveUnit().split(",");
@@ -149,6 +149,13 @@ public class StatisticTaskServiceImpl extends ServiceImpl<StatisticTaskMapper, S
                 Boolean insertFeedbackResult = iStatisticTaskProgressFeedbackService.addOrUpdateProgressFeedback(statisticTaskProgressFeedbackDTO);
                 if(!insertFeedbackResult){
                     throw new RuntimeException("insert into feedback failed, userid is : " + deliverTask2ReportDTO.getUserId() + " parentid is : " + deliverTask2ReportDTO.getParentUserId());
+                }
+                //统计数据也要给各个单位默认发一个
+                statisticDataDTO.setUserId(entry.getValue());
+                statisticDataDTO.setUnit(entry.getKey());
+                Boolean insertStatisticDataResult = iStatisticDataService.statisticDataUpload(statisticDataDTO);
+                if(!insertStatisticDataResult){
+                    throw new RuntimeException("insert into statistic data failed, userid is : " + deliverTask2ReportDTO.getUserId() + " parentid is : " + deliverTask2ReportDTO.getParentUserId());
                 }
             }
             return true;
@@ -186,7 +193,7 @@ public class StatisticTaskServiceImpl extends ServiceImpl<StatisticTaskMapper, S
             statisticTaskPO.setStatus("结束");
             resultEndNum = statisticTaskMapper.update(statisticTaskPO, luw);
         }
-        if((resultEndNum == 1) || (resultWithdrawNum == 2)){
+        if((resultEndNum == 1) || (resultWithdrawNum > 1)){
             return true;
         }else {
             return false;

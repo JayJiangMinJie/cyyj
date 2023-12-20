@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -22,6 +23,7 @@ public class NoticeReceivePO implements Serializable,Cloneable{
     private LocalDateTime startTime ;
     private LocalDateTime endTime ;
     private String status ;
+    private String taskStatus ;
     private Integer noticeDistributeId ;
     private LocalDateTime createTime;
     private String receiveUnit ;
@@ -31,6 +33,23 @@ public class NoticeReceivePO implements Serializable,Cloneable{
     private String userId ;
     private String noticeContent;
     private Boolean isUpload;
+    private String wordPath;
+
+    public String getTaskStatus() {
+        return taskStatus;
+    }
+
+    public void setTaskStatus(String taskStatus) {
+        this.taskStatus = taskStatus;
+    }
+
+    public String getWordPath() {
+        return wordPath;
+    }
+
+    public void setWordPath(String wordPath) {
+        this.wordPath = wordPath;
+    }
 
     public Boolean getUpload() {
         return isUpload;

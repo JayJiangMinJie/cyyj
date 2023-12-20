@@ -51,9 +51,11 @@ public class WarningReceiveServiceImpl extends ServiceImpl<WarningReceiveMapper,
 
     private LambdaQueryWrapper<WarningReceivePO> buildQueryWrapper(WarningReceiveQueryDTO warningReceiveQueryDTO) {
         LambdaQueryWrapper<WarningReceivePO> lqw = Wrappers.lambdaQuery();
-        lqw.eq(StringUtils.isNotBlank(warningReceiveQueryDTO.getKeyWord()), WarningReceivePO::getTitle, warningReceiveQueryDTO.getKeyWord());
+        lqw.like(StringUtils.isNotBlank(warningReceiveQueryDTO.getKeyWord()), WarningReceivePO::getTitle, warningReceiveQueryDTO.getKeyWord());
         lqw.eq(StringUtils.isNotBlank(warningReceiveQueryDTO.getUserId()), WarningReceivePO::getUserId, warningReceiveQueryDTO.getUserId());
         lqw.eq(StringUtils.isNotBlank(warningReceiveQueryDTO.getStatus()), WarningReceivePO::getStatus, warningReceiveQueryDTO.getStatus());
+        lqw.eq(StringUtils.isNotBlank(warningReceiveQueryDTO.getType()), WarningReceivePO::getType, warningReceiveQueryDTO.getType());
+        lqw.like(StringUtils.isNotBlank(warningReceiveQueryDTO.getRegion()), WarningReceivePO::getRegion, warningReceiveQueryDTO.getRegion());
         lqw.ge(warningReceiveQueryDTO.getStartTime() != null, WarningReceivePO::getCreateTime, warningReceiveQueryDTO.getStartTime());
         lqw.le(warningReceiveQueryDTO.getEndTime() != null, WarningReceivePO::getCreateTime, warningReceiveQueryDTO.getEndTime());
         return lqw;

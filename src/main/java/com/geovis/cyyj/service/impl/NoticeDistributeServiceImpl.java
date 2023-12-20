@@ -73,7 +73,7 @@ public class NoticeDistributeServiceImpl extends ServiceImpl<NoticeDistributeMap
 
     private LambdaQueryWrapper<NoticeDistributePO> buildQueryWrapper(NoticeDistributeQueryDTO noticeDistributeQueryDTO) {
         LambdaQueryWrapper<NoticeDistributePO> lqw = Wrappers.lambdaQuery();
-        lqw.eq(StringUtils.isNotBlank(noticeDistributeQueryDTO.getKeyWord()), NoticeDistributePO::getTitle, noticeDistributeQueryDTO.getKeyWord());
+        lqw.like(StringUtils.isNotBlank(noticeDistributeQueryDTO.getKeyWord()), NoticeDistributePO::getTitle, noticeDistributeQueryDTO.getKeyWord());
         lqw.eq(StringUtils.isNotBlank(noticeDistributeQueryDTO.getUserId()), NoticeDistributePO::getUserId, noticeDistributeQueryDTO.getUserId());
         lqw.ge(noticeDistributeQueryDTO.getStartTime() != null, NoticeDistributePO::getStartTime, noticeDistributeQueryDTO.getStartTime());
         lqw.le(noticeDistributeQueryDTO.getEndTime() != null, NoticeDistributePO::getEndTime, noticeDistributeQueryDTO.getEndTime());
@@ -115,6 +115,8 @@ public class NoticeDistributeServiceImpl extends ServiceImpl<NoticeDistributeMap
             deliverNotice2ReceiveDTO.setNoticeContent(insertNoticeDistributeResult.getNoticeContent());
             deliverNotice2ReceiveDTO.setParentUserId(insertNoticeDistributeResult.getUserId());
             deliverNotice2ReceiveDTO.setNoticeDistributeId(noticeDistributePO.getId());
+            deliverNotice2ReceiveDTO.setWordPath(noticeDistributePO.getWordPath());
+            deliverNotice2ReceiveDTO.setFilePath(noticeDistributePO.getFilePath());
             //再生成进度反馈的数据
             NoticeProgressFeedbackDTO noticeProgressFeedbackDTO = new NoticeProgressFeedbackDTO();
             noticeProgressFeedbackDTO.setNoticeDistributeId(noticeDistributePO.getId());
@@ -124,6 +126,7 @@ public class NoticeDistributeServiceImpl extends ServiceImpl<NoticeDistributeMap
             noticeProgressFeedbackDTO.setOperatePerson(deliverNoticeDTO.getOperatePerson());
             noticeProgressFeedbackDTO.setReceiveStatus("未读");
             noticeProgressFeedbackDTO.setParentUserId(insertNoticeDistributeResult.getUserId());
+            noticeProgressFeedbackDTO.setFilePath(insertNoticeDistributeResult.getFilePath());
             //这里暂时查询本地表人员
             //用查询到的接收单位list找出该给哪些单位发信息
             String[] unitArrays = deliverNoticeDTO.getReceiveUnit().split(",");
@@ -164,8 +167,19 @@ public class NoticeDistributeServiceImpl extends ServiceImpl<NoticeDistributeMap
     @Transactional(rollbackFor = Exception.class)
     public Boolean operateNotice(Integer noticeDistributeId, String userId, String operateType) {
         NoticeDistributePO bizDistributePO = noticeDistributeMapper.selectById(noticeDistributeId);
+//        LambdaUpdateWrapper<NoticeReceivePO> lambdaUpdateWrap = new LambdaUpdateWrapper();
+//        lambdaUpdateWrap.eq(NoticeReceivePO::getNoticeDistributeId, noticeDistributeId);
+//
+//
+//        LambdaQueryWrapper<NoticeReceivePO> lambdaQueryWrap = new LambdaQueryWrapper();
+//        lambdaUpdateWrap.eq(NoticeReceivePO::getNoticeDistributeId, noticeDistributeId);
+//        NoticeReceivePO noticeReceivePO =
+
+
+
         LambdaUpdateWrapper<NoticeDistributePO> luw = Wrappers.lambdaUpdate();
         int resultWithdrawNum = 0;
+        int resultReceiveWithdrawNum = 0;
         int resultEndNum = 0;
         if("withdraw".equals(operateType)){
             //撤回通知之后下发方消息还在，状态变成已撤回，接收方消息删除
@@ -175,6 +189,11 @@ public class NoticeDistributeServiceImpl extends ServiceImpl<NoticeDistributeMap
             if(resultWithdrawNum == 0){
                 log.warn("下发通知表撤回失败，noticeDistributeId： " + noticeDistributeId);
             }
+//            //gengxin
+//            resultReceiveWithdrawNum = noticeReceiveMapper.update(lambdaUpdateWrap);
+//            if(resultReceiveWithdrawNum == 0){
+//                log.warn("下发通知表update失败，noticeDistributeId： " + noticeDistributeId);
+//            }
             //删除通知接收方内容
             LambdaUpdateWrapper<NoticeReceivePO> receiveLuw = Wrappers.lambdaUpdate();
             receiveLuw.eq(noticeDistributeId != null, NoticeReceivePO::getNoticeDistributeId, noticeDistributeId);

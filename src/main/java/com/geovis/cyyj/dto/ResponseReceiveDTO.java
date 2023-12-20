@@ -48,6 +48,14 @@ public class ResponseReceiveDTO implements Serializable {
     @ApiModelProperty(value = "区域")
     private String region ;
 
+    private String taskStatus;
+    public String getTaskStatus() {
+        return taskStatus;
+    }
+
+    public void setTaskStatus(String taskStatus) {
+        this.taskStatus = taskStatus;
+    }
     public String getTitle() {
         return title;
     }

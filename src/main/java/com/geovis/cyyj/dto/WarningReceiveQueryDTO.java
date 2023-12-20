@@ -41,6 +41,28 @@ public class WarningReceiveQueryDTO implements Serializable {
 
     @ApiModelProperty(value = "用户标识")
     private String userId;
+    private String region;
+    private String type;
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getUserId() {
         return userId;

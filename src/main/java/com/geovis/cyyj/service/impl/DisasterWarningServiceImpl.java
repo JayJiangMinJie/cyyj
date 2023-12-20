@@ -69,8 +69,11 @@ public class DisasterWarningServiceImpl extends ServiceImpl<DisasterWarningMappe
 
     private LambdaQueryWrapper<DisasterWarningPO> buildQueryWrapper(DisasterWarningQueryDTO disasterWarningDTO) {
         LambdaQueryWrapper<DisasterWarningPO> lqw = Wrappers.lambdaQuery();
-        lqw.eq(StringUtils.isNotBlank(disasterWarningDTO.getKeyWord()), DisasterWarningPO::getTitle, disasterWarningDTO.getKeyWord());
+        lqw.like(StringUtils.isNotBlank(disasterWarningDTO.getKeyWord()), DisasterWarningPO::getTitle, disasterWarningDTO.getKeyWord());
         lqw.eq(StringUtils.isNotBlank(disasterWarningDTO.getUserId()), DisasterWarningPO::getUserId, disasterWarningDTO.getUserId());
+        lqw.like(StringUtils.isNotBlank(disasterWarningDTO.getRegion()), DisasterWarningPO::getRegion, disasterWarningDTO.getRegion());
+        lqw.eq(StringUtils.isNotBlank(disasterWarningDTO.getStatus()), DisasterWarningPO::getStatus, disasterWarningDTO.getStatus());
+        lqw.eq(StringUtils.isNotBlank(disasterWarningDTO.getType()), DisasterWarningPO::getType, disasterWarningDTO.getType());
         lqw.ge(disasterWarningDTO.getStartTime() != null, DisasterWarningPO::getCreateTime, disasterWarningDTO.getStartTime());
         lqw.le(disasterWarningDTO.getEndTime() != null, DisasterWarningPO::getCreateTime, disasterWarningDTO.getEndTime());
         return lqw;
@@ -104,7 +107,7 @@ public class DisasterWarningServiceImpl extends ServiceImpl<DisasterWarningMappe
             deliverWarning2ReceiveDTO.setType(insertDisasterWarningResult.getType());
             deliverWarning2ReceiveDTO.setStatus(insertDisasterWarningResult.getStatus());
             deliverWarning2ReceiveDTO.setReceiveUnit("");
-            deliverWarning2ReceiveDTO.setFilePath("");
+            deliverWarning2ReceiveDTO.setFilePath(insertDisasterWarningResult.getFilePath());
             deliverWarning2ReceiveDTO.setWarningContent(insertDisasterWarningResult.getWarningContent());
             deliverWarning2ReceiveDTO.setParentUserId(insertDisasterWarningResult.getUserId());
             deliverWarning2ReceiveDTO.setDisasterWarningId(disasterWarningPO.getId());
@@ -163,7 +166,7 @@ public class DisasterWarningServiceImpl extends ServiceImpl<DisasterWarningMappe
             bizDistributePO.setStatus("结束");
             resultEndNum = disasterWarningMapper.update(bizDistributePO, luw);
         }
-        if((resultEndNum == 1) || (resultWithdrawNum == 2)){
+        if((resultEndNum == 1) || (resultWithdrawNum > 1)){
             return true;
         }else {
             return false;

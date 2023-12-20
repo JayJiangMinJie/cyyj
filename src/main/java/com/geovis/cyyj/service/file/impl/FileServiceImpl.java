@@ -58,7 +58,7 @@ public class FileServiceImpl implements FileService {
 //            }
         } catch (IOException e) {
             e.printStackTrace();
-//            logger.error("文件上传错误：" + noticeCode, e);
+            logger.error("文件上传错误："+ file.getName(), e);
         } finally {
 //          关闭
             IOUtils.closeQuietly(inputStream);

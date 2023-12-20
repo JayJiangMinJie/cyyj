@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -28,6 +29,15 @@ public class NoticeDistributePO implements Serializable,Cloneable{
     private String noticeContent;
     private String userId;
     private String parentUserId;
+    private String wordPath;
+
+    public String getWordPath() {
+        return wordPath;
+    }
+
+    public void setWordPath(String wordPath) {
+        this.wordPath = wordPath;
+    }
 
     public String getParentUserId() {
         return parentUserId;

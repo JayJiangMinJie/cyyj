@@ -34,17 +34,18 @@ public class ResponseReleasePO implements Serializable,Cloneable{
     private String maxLevel;
     private LocalDateTime currentLevelAdjustTime ;
     private LocalDateTime maxLevelStartTime ;
-    private String content ;
+    private String textContent;
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
     public Integer getId() {
         return id;
+    }
+
+    public String getTextContent() {
+        return textContent;
+    }
+
+    public void setTextContent(String textContent) {
+        this.textContent = textContent;
     }
 
     public void setId(Integer id) {

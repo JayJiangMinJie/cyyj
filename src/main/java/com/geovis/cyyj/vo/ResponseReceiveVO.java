@@ -30,14 +30,21 @@ public class ResponseReceiveVO implements Serializable,Cloneable{
     private LocalDateTime currentLevelAdjustTime ;
     private LocalDateTime maxLevelStartTime ;
     private Integer responseReleaseId;
-    private String content ;
-
-    public String getContent() {
-        return content;
+    private String textContent;
+    private String taskStatus;
+    public String getTaskStatus() {
+        return taskStatus;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setTaskStatus(String taskStatus) {
+        this.taskStatus = taskStatus;
+    }
+    public String getTextContent() {
+        return textContent;
+    }
+
+    public void setTextContent(String textContent) {
+        this.textContent = textContent;
     }
     public Integer getId() {
         return id;

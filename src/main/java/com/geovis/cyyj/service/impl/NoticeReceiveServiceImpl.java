@@ -60,7 +60,7 @@ public class NoticeReceiveServiceImpl extends ServiceImpl<NoticeReceiveMapper, N
 
     private LambdaQueryWrapper<NoticeReceivePO> buildQueryWrapper(NoticeReceiveQueryDTO noticeReceiveQueryDTO) {
         LambdaQueryWrapper<NoticeReceivePO> lqw = Wrappers.lambdaQuery();
-        lqw.eq(StringUtils.isNotBlank(noticeReceiveQueryDTO.getKeyWord()), NoticeReceivePO::getTitle, noticeReceiveQueryDTO.getKeyWord());
+        lqw.like(StringUtils.isNotBlank(noticeReceiveQueryDTO.getKeyWord()), NoticeReceivePO::getTitle, noticeReceiveQueryDTO.getKeyWord());
         lqw.eq(StringUtils.isNotBlank(noticeReceiveQueryDTO.getUserId()), NoticeReceivePO::getUserId, noticeReceiveQueryDTO.getUserId());
         lqw.eq(StringUtils.isNotBlank(noticeReceiveQueryDTO.getStatus()), NoticeReceivePO::getStatus, noticeReceiveQueryDTO.getStatus());
         lqw.ge(noticeReceiveQueryDTO.getStartTime() != null, NoticeReceivePO::getStartTime, noticeReceiveQueryDTO.getStartTime());

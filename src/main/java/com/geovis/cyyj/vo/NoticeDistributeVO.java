@@ -25,6 +25,15 @@ public class NoticeDistributeVO implements Serializable,Cloneable{
     private String userId;
     private String parentUserId;
     private String filePath;
+    private String wordPath;
+
+    public String getWordPath() {
+        return wordPath;
+    }
+
+    public void setWordPath(String wordPath) {
+        this.wordPath = wordPath;
+    }
 
     public String getFilePath() {
         return filePath;

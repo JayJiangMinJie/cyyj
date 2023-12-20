@@ -62,7 +62,7 @@ public class DataReportServiceImpl extends ServiceImpl<DataReportMapper, DataRep
 
     private LambdaQueryWrapper<DataReportPO> buildQueryWrapper(DataReportQueryDTO dataReportQueryDTO) {
         LambdaQueryWrapper<DataReportPO> lqw = Wrappers.lambdaQuery();
-        lqw.eq(StringUtils.isNotBlank(dataReportQueryDTO.getKeyWord()), DataReportPO::getTitle, dataReportQueryDTO.getKeyWord());
+        lqw.like(StringUtils.isNotBlank(dataReportQueryDTO.getKeyWord()), DataReportPO::getTitle, dataReportQueryDTO.getKeyWord());
         lqw.eq(StringUtils.isNotBlank(dataReportQueryDTO.getUserId()), DataReportPO::getUserId, dataReportQueryDTO.getUserId());
         lqw.eq(StringUtils.isNotBlank(dataReportQueryDTO.getStatus()), DataReportPO::getStatus, dataReportQueryDTO.getStatus());
         lqw.ge(dataReportQueryDTO.getStartReleaseTime() != null, DataReportPO::getReleaseTime, dataReportQueryDTO.getStartReleaseTime());

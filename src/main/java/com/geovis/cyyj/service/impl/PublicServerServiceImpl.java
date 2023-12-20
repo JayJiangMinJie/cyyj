@@ -49,7 +49,7 @@ public class PublicServerServiceImpl extends ServiceImpl<PublicServerMapper, Pub
 
     private LambdaQueryWrapper<PublicServerPO> buildQueryWrapper(PublicServerQueryDTO publicServerQueryDTO) {
         LambdaQueryWrapper<PublicServerPO> lqw = Wrappers.lambdaQuery();
-        lqw.eq(StringUtils.isNotBlank(publicServerQueryDTO.getKeyWord()), PublicServerPO::getTitle, publicServerQueryDTO.getKeyWord());
+        lqw.like(StringUtils.isNotBlank(publicServerQueryDTO.getKeyWord()), PublicServerPO::getTitle, publicServerQueryDTO.getKeyWord());
         lqw.eq(StringUtils.isNotBlank(publicServerQueryDTO.getUserId()), PublicServerPO::getUserId, publicServerQueryDTO.getUserId());
         lqw.ge(publicServerQueryDTO.getStartTime() != null, PublicServerPO::getCreateTime, publicServerQueryDTO.getStartTime());
         lqw.le(publicServerQueryDTO.getEndTime() != null, PublicServerPO::getCreateTime, publicServerQueryDTO.getEndTime());

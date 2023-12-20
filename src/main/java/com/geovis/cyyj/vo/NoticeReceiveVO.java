@@ -2,6 +2,7 @@ package com.geovis.cyyj.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -28,6 +29,15 @@ public class NoticeReceiveVO implements Serializable,Cloneable{
     private String parentUserId;
     private String noticeContent;
     private Boolean isUpload;
+    private String wordPath;
+
+    public String getWordPath() {
+        return wordPath;
+    }
+
+    public void setWordPath(String wordPath) {
+        this.wordPath = wordPath;
+    }
 
     public Boolean getUpload() {
         return isUpload;

@@ -90,21 +90,23 @@ public class FileController {
       * * 生成Word文件名
      * @param relDir 相对路径
      */
-    private String generateFileName(String relDir) {
+    private String generateFileName(String relDir , String fileName) {
         return relDir +
 //                LocalDateTime.now().format(formatter) +
-                UUID.randomUUID().toString().replace("-", "") + ".doc";
+//                UUID.randomUUID().toString().replace("-", "") + ".doc";
+                fileName + ".doc";
     }
 
     @ApiOperation("根据html生成word文件")
     @PostMapping("/createByHtml")
-    public ResponseEntity<String> reportCreate(@RequestParam("htmlString") String htmlString
+    public ResponseEntity<String> reportCreate(@RequestParam("htmlString") String htmlString,
+                                               @RequestParam("fileName") String fileName
                                                ) {
         String fileRoad = "";
         // 生成word，返回相对（根）路径
         long startTime = System.currentTimeMillis();
         try {
-            String wordFile = generateFileName("fileGenerate\\");
+            String wordFile = generateFileName("fileGenerate/", fileName);
             fileRoad = Html2WorldUtil.writeWordFile(htmlString, taskPath + "fileGenerate", taskPath + wordFile);
         } catch (Exception e) {
             log.warn("html to file failed and html is " + htmlString);
@@ -125,7 +127,7 @@ public class FileController {
             // 压缩文件中包含的文件列表
             List<File> fileList = CollUtil.newArrayList();
             // 压缩到的位置
-            File zipFile = new File(taskPath + "zipPath\\" + UUID.randomUUID() + ".zip");
+            File zipFile = new File(taskPath + "zipPath/" + UUID.randomUUID() + ".zip");
             //总文件及附件读取
             List<String> reportFilesList = Arrays.asList(wordFilesPath.split(";"));
             List<String> annexFilesList = Arrays.asList(annexFilesPath.split(";"));

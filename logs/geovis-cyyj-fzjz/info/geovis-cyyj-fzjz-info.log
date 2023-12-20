@@ -1,34 +1,182 @@
-2023-12-05 09:52:05.566 [main] INFO  com.geovis.cyyj.GeovisStartApplication - Starting GeovisStartApplication using Java 1.8.0_333 on DESKTOP-ENMGKRP with PID 15972 (E:\IdeaProjectWorkSpace\geovis-cyyj-fzjz\target\classes started by DELL in E:\IdeaProjectWorkSpace\geovis-cyyj-fzjz)
-2023-12-05 09:52:05.570 [main] INFO  com.geovis.cyyj.GeovisStartApplication - The following 1 profile is active: "dev"
-2023-12-05 09:52:11.183 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 10909 (http)
-2023-12-05 09:52:11.205 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-10909"]
-2023-12-05 09:52:11.206 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
-2023-12-05 09:52:11.206 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.74]
-2023-12-05 09:52:11.994 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2023-12-05 09:52:11.994 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 6042 ms
-2023-12-05 09:52:12.303 [main] INFO  com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure - Init DruidDataSource
-2023-12-05 09:52:13.123 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
-2023-12-05 09:52:14.894 [main] INFO  com.geovis.cyyj.common.config.JacksonConfig - 初始化 jackson 配置
-2023-12-05 09:52:15.427 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-10909"]
-2023-12-05 09:52:15.451 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 10909 (http) with context path ''
-2023-12-05 09:52:15.883 [main] INFO  com.geovis.cyyj.GeovisStartApplication - Started GeovisStartApplication in 11.501 seconds (JVM running for 17.207)
-2023-12-05 10:12:10.414 [http-nio-10909-exec-2] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2023-12-05 10:12:10.414 [http-nio-10909-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2023-12-05 10:12:10.415 [http-nio-10909-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
-2023-12-05 17:05:00.054 [main] INFO  com.geovis.cyyj.GeovisStartApplication - Starting GeovisStartApplication using Java 1.8.0_333 on DESKTOP-ENMGKRP with PID 3696 (E:\IdeaProjectWorkSpace\geovis-cyyj-fzjz\target\classes started by DELL in E:\IdeaProjectWorkSpace\geovis-cyyj-fzjz)
-2023-12-05 17:05:00.068 [main] INFO  com.geovis.cyyj.GeovisStartApplication - The following 1 profile is active: "dev"
-2023-12-05 17:05:05.263 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 10909 (http)
-2023-12-05 17:05:05.273 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-10909"]
-2023-12-05 17:05:05.274 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
-2023-12-05 17:05:05.274 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.74]
-2023-12-05 17:05:05.478 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2023-12-05 17:05:05.478 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 5332 ms
-2023-12-05 17:05:05.702 [main] INFO  com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure - Init DruidDataSource
-2023-12-05 17:05:06.084 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
-2023-12-05 17:05:07.813 [main] INFO  com.geovis.cyyj.common.config.JacksonConfig - 初始化 jackson 配置
-2023-12-05 17:05:08.231 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-10909"]
-2023-12-05 17:05:08.256 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 10909 (http) with context path ''
-2023-12-05 17:05:08.735 [main] INFO  com.geovis.cyyj.GeovisStartApplication - Started GeovisStartApplication in 9.553 seconds (JVM running for 11.157)
-2023-12-05 17:07:05.242 [http-nio-10909-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2023-12-05 17:07:05.242 [http-nio-10909-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2023-12-05 17:07:05.243 [http-nio-10909-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-12-15 00:56:32.538 [SpringApplicationShutdownHook] INFO  org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2023-12-15 00:56:32.763 [tomcat-shutdown] INFO  org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2023-12-15 00:56:33.198 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2023-12-15 00:56:33.292 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2023-12-15 01:13:56.835 [main] INFO  com.geovis.cyyj.GeovisStartApplication - Starting GeovisStartApplication using Java 1.8.0_333 on DESKTOP-ENMGKRP with PID 1368 (E:\IdeaProjectWorkSpace\geovis-cyyj-fzjz\target\classes started by DELL in E:\IdeaProjectWorkSpace\geovis-cyyj-fzjz)
+2023-12-15 01:13:56.843 [main] INFO  com.geovis.cyyj.GeovisStartApplication - The following 1 profile is active: "dev"
+2023-12-15 01:13:58.133 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 10909 (http)
+2023-12-15 01:13:58.139 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-10909"]
+2023-12-15 01:13:58.140 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-12-15 01:13:58.140 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.74]
+2023-12-15 01:13:58.288 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-12-15 01:13:58.289 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1414 ms
+2023-12-15 01:13:58.457 [main] INFO  com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure - Init DruidDataSource
+2023-12-15 01:13:58.742 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2023-12-15 01:14:00.084 [main] INFO  com.geovis.cyyj.common.config.JacksonConfig - 初始化 jackson 配置
+2023-12-15 01:14:00.369 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-10909"]
+2023-12-15 01:14:00.384 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 10909 (http) with context path ''
+2023-12-15 01:14:00.884 [main] INFO  com.geovis.cyyj.GeovisStartApplication - Started GeovisStartApplication in 4.501 seconds (JVM running for 6.4)
+2023-12-15 01:14:15.937 [http-nio-10909-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-12-15 01:14:15.937 [http-nio-10909-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-12-15 01:14:15.938 [http-nio-10909-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-12-15 09:47:31.689 [http-nio-10909-exec-4] INFO  com.geovis.cyyj.controller.FileController - 转换结束，耗时：194ms
+2023-12-15 09:47:56.256 [http-nio-10909-exec-9] INFO  com.geovis.cyyj.service.file.impl.FileServiceImpl - ===========file upload success=======: test-1702604876827.docx
+2023-12-15 12:18:04.115 [SpringApplicationShutdownHook] INFO  org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2023-12-15 12:18:24.901 [main] INFO  com.geovis.cyyj.GeovisStartApplication - Starting GeovisStartApplication using Java 1.8.0_333 on DESKTOP-ENMGKRP with PID 19956 (E:\IdeaProjectWorkSpace\geovis-cyyj-fzjz\target\classes started by DELL in E:\IdeaProjectWorkSpace\geovis-cyyj-fzjz)
+2023-12-15 12:18:24.903 [main] INFO  com.geovis.cyyj.GeovisStartApplication - The following 1 profile is active: "dev"
+2023-12-15 12:18:26.473 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 10909 (http)
+2023-12-15 12:18:26.480 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-10909"]
+2023-12-15 12:18:26.480 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-12-15 12:18:26.480 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.74]
+2023-12-15 12:18:26.691 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-12-15 12:18:26.692 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1751 ms
+2023-12-15 12:18:26.885 [main] INFO  com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure - Init DruidDataSource
+2023-12-15 12:18:27.238 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2023-12-15 12:18:28.623 [main] INFO  com.geovis.cyyj.common.config.JacksonConfig - 初始化 jackson 配置
+2023-12-15 12:18:28.937 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-10909"]
+2023-12-15 12:18:28.958 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 10909 (http) with context path ''
+2023-12-15 12:18:29.376 [main] INFO  com.geovis.cyyj.GeovisStartApplication - Started GeovisStartApplication in 4.966 seconds (JVM running for 6.373)
+2023-12-15 12:19:11.877 [http-nio-10909-exec-2] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-12-15 12:19:11.877 [http-nio-10909-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-12-15 12:19:11.879 [http-nio-10909-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-12-15 12:50:51.474 [SpringApplicationShutdownHook] INFO  org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2023-12-15 12:50:51.589 [tomcat-shutdown] INFO  org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2023-12-15 12:50:51.598 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2023-12-15 12:50:51.600 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2023-12-15 12:51:21.976 [main] INFO  com.geovis.cyyj.GeovisStartApplication - Starting GeovisStartApplication using Java 1.8.0_333 on DESKTOP-ENMGKRP with PID 15264 (E:\IdeaProjectWorkSpace\geovis-cyyj-fzjz\target\classes started by DELL in E:\IdeaProjectWorkSpace\geovis-cyyj-fzjz)
+2023-12-15 12:51:21.978 [main] INFO  com.geovis.cyyj.GeovisStartApplication - The following 1 profile is active: "dev"
+2023-12-15 12:51:23.280 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 10909 (http)
+2023-12-15 12:51:23.285 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-10909"]
+2023-12-15 12:51:23.286 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-12-15 12:51:23.286 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.74]
+2023-12-15 12:51:23.423 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-12-15 12:51:23.423 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1378 ms
+2023-12-15 12:51:23.574 [main] INFO  com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure - Init DruidDataSource
+2023-12-15 12:51:23.824 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2023-12-15 12:51:25.102 [main] INFO  com.geovis.cyyj.common.config.JacksonConfig - 初始化 jackson 配置
+2023-12-15 12:51:25.320 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-10909"]
+2023-12-15 12:51:25.336 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 10909 (http) with context path ''
+2023-12-15 12:51:25.454 [http-nio-10909-exec-2] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-12-15 12:51:25.455 [http-nio-10909-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-12-15 12:51:25.456 [http-nio-10909-exec-2] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-12-15 12:51:25.982 [main] INFO  com.geovis.cyyj.GeovisStartApplication - Started GeovisStartApplication in 4.705 seconds (JVM running for 5.661)
+2023-12-15 12:53:36.579 [SpringApplicationShutdownHook] INFO  org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2023-12-15 12:53:36.694 [tomcat-shutdown] INFO  org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2023-12-15 12:53:36.709 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2023-12-15 12:53:36.711 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2023-12-15 12:59:24.943 [main] INFO  com.geovis.cyyj.GeovisStartApplication - Starting GeovisStartApplication using Java 1.8.0_333 on DESKTOP-ENMGKRP with PID 1124 (E:\IdeaProjectWorkSpace\geovis-cyyj-fzjz\target\classes started by DELL in E:\IdeaProjectWorkSpace\geovis-cyyj-fzjz)
+2023-12-15 12:59:24.945 [main] INFO  com.geovis.cyyj.GeovisStartApplication - The following 1 profile is active: "dev"
+2023-12-15 12:59:26.056 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 10909 (http)
+2023-12-15 12:59:26.063 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-10909"]
+2023-12-15 12:59:26.063 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-12-15 12:59:26.064 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.74]
+2023-12-15 12:59:26.206 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-12-15 12:59:26.207 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1227 ms
+2023-12-15 12:59:26.372 [main] INFO  com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure - Init DruidDataSource
+2023-12-15 12:59:26.741 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2023-12-15 12:59:28.101 [main] INFO  com.geovis.cyyj.common.config.JacksonConfig - 初始化 jackson 配置
+2023-12-15 12:59:28.329 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-10909"]
+2023-12-15 12:59:28.347 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 10909 (http) with context path ''
+2023-12-15 12:59:28.538 [http-nio-10909-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-12-15 12:59:28.538 [http-nio-10909-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-12-15 12:59:28.540 [http-nio-10909-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2023-12-15 12:59:29.016 [main] INFO  com.geovis.cyyj.GeovisStartApplication - Started GeovisStartApplication in 4.574 seconds (JVM running for 5.291)
+2023-12-15 13:02:37.259 [SpringApplicationShutdownHook] INFO  org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2023-12-15 13:02:37.372 [tomcat-shutdown] INFO  org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2023-12-15 13:02:37.380 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2023-12-15 13:02:37.383 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2023-12-15 13:02:45.449 [main] INFO  com.geovis.cyyj.GeovisStartApplication - Starting GeovisStartApplication using Java 1.8.0_333 on DESKTOP-ENMGKRP with PID 15836 (E:\IdeaProjectWorkSpace\geovis-cyyj-fzjz\target\classes started by DELL in E:\IdeaProjectWorkSpace\geovis-cyyj-fzjz)
+2023-12-15 13:02:45.451 [main] INFO  com.geovis.cyyj.GeovisStartApplication - The following 1 profile is active: "dev"
+2023-12-15 13:02:46.573 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 10909 (http)
+2023-12-15 13:02:46.578 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-10909"]
+2023-12-15 13:02:46.579 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-12-15 13:02:46.579 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.74]
+2023-12-15 13:02:46.726 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-12-15 13:02:46.726 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1241 ms
+2023-12-15 13:02:46.879 [main] INFO  com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure - Init DruidDataSource
+2023-12-15 13:02:47.133 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2023-12-15 13:02:48.414 [main] INFO  com.geovis.cyyj.common.config.JacksonConfig - 初始化 jackson 配置
+2023-12-15 13:02:48.638 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-10909"]
+2023-12-15 13:02:48.653 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 10909 (http) with context path ''
+2023-12-15 13:02:49.057 [http-nio-10909-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-12-15 13:02:49.057 [http-nio-10909-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-12-15 13:02:49.058 [http-nio-10909-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-12-15 13:02:49.144 [main] INFO  com.geovis.cyyj.GeovisStartApplication - Started GeovisStartApplication in 4.179 seconds (JVM running for 4.873)
+2023-12-15 13:08:31.515 [SpringApplicationShutdownHook] INFO  org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2023-12-15 13:08:31.627 [tomcat-shutdown] INFO  org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2023-12-15 13:08:31.636 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2023-12-15 13:08:31.637 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2023-12-15 13:08:39.887 [main] INFO  com.geovis.cyyj.GeovisStartApplication - Starting GeovisStartApplication using Java 1.8.0_333 on DESKTOP-ENMGKRP with PID 6068 (E:\IdeaProjectWorkSpace\geovis-cyyj-fzjz\target\classes started by DELL in E:\IdeaProjectWorkSpace\geovis-cyyj-fzjz)
+2023-12-15 13:08:39.889 [main] INFO  com.geovis.cyyj.GeovisStartApplication - The following 1 profile is active: "dev"
+2023-12-15 13:08:40.964 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 10909 (http)
+2023-12-15 13:08:40.969 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-10909"]
+2023-12-15 13:08:40.970 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-12-15 13:08:40.970 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.74]
+2023-12-15 13:08:41.111 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-12-15 13:08:41.112 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1192 ms
+2023-12-15 13:08:41.263 [main] INFO  com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure - Init DruidDataSource
+2023-12-15 13:08:41.617 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2023-12-15 13:08:42.894 [main] INFO  com.geovis.cyyj.common.config.JacksonConfig - 初始化 jackson 配置
+2023-12-15 13:08:43.112 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-10909"]
+2023-12-15 13:08:43.127 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 10909 (http) with context path ''
+2023-12-15 13:08:43.374 [http-nio-10909-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-12-15 13:08:43.374 [http-nio-10909-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-12-15 13:08:43.375 [http-nio-10909-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-12-15 13:08:43.776 [main] INFO  com.geovis.cyyj.GeovisStartApplication - Started GeovisStartApplication in 4.39 seconds (JVM running for 5.078)
+2023-12-15 13:28:27.189 [SpringApplicationShutdownHook] INFO  org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2023-12-15 13:28:27.317 [tomcat-shutdown] INFO  org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2023-12-15 13:28:27.332 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2023-12-15 13:28:27.335 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2023-12-15 13:29:53.297 [main] INFO  com.geovis.cyyj.GeovisStartApplication - Starting GeovisStartApplication using Java 1.8.0_333 on DESKTOP-ENMGKRP with PID 15752 (E:\IdeaProjectWorkSpace\geovis-cyyj-fzjz\target\classes started by DELL in E:\IdeaProjectWorkSpace\geovis-cyyj-fzjz)
+2023-12-15 13:29:53.299 [main] INFO  com.geovis.cyyj.GeovisStartApplication - The following 1 profile is active: "dev"
+2023-12-15 13:29:54.388 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 10909 (http)
+2023-12-15 13:29:54.394 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-10909"]
+2023-12-15 13:29:54.394 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-12-15 13:29:54.394 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.74]
+2023-12-15 13:29:54.538 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-12-15 13:29:54.538 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1205 ms
+2023-12-15 13:29:54.693 [main] INFO  com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure - Init DruidDataSource
+2023-12-15 13:29:55.053 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2023-12-15 13:29:56.336 [main] INFO  com.geovis.cyyj.common.config.JacksonConfig - 初始化 jackson 配置
+2023-12-15 13:29:56.559 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-10909"]
+2023-12-15 13:29:56.575 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 10909 (http) with context path ''
+2023-12-15 13:29:56.660 [http-nio-10909-exec-1] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-12-15 13:29:56.660 [http-nio-10909-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-12-15 13:29:56.661 [http-nio-10909-exec-1] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-12-15 13:29:57.215 [main] INFO  com.geovis.cyyj.GeovisStartApplication - Started GeovisStartApplication in 4.417 seconds (JVM running for 5.127)
+2023-12-15 13:34:05.985 [SpringApplicationShutdownHook] INFO  org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2023-12-15 13:35:01.975 [main] INFO  com.geovis.cyyj.GeovisStartApplication - Starting GeovisStartApplication using Java 1.8.0_333 on DESKTOP-ENMGKRP with PID 25752 (E:\IdeaProjectWorkSpace\geovis-cyyj-fzjz\target\classes started by DELL in E:\IdeaProjectWorkSpace\geovis-cyyj-fzjz)
+2023-12-15 13:35:01.977 [main] INFO  com.geovis.cyyj.GeovisStartApplication - The following 1 profile is active: "prod"
+2023-12-15 13:35:03.069 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8084 (http)
+2023-12-15 13:35:03.075 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8084"]
+2023-12-15 13:35:03.076 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-12-15 13:35:03.076 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.74]
+2023-12-15 13:35:03.218 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/hlwfzjz] - Initializing Spring embedded WebApplicationContext
+2023-12-15 13:35:03.218 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1199 ms
+2023-12-15 13:35:03.368 [main] INFO  com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure - Init DruidDataSource
+2023-12-15 13:35:05.216 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2023-12-15 13:35:06.404 [main] INFO  com.geovis.cyyj.common.config.JacksonConfig - 初始化 jackson 配置
+2023-12-15 13:35:06.622 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8084"]
+2023-12-15 13:35:06.637 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8084 (http) with context path '/hlwfzjz'
+2023-12-15 13:35:07.081 [main] INFO  com.geovis.cyyj.GeovisStartApplication - Started GeovisStartApplication in 5.513 seconds (JVM running for 6.06)
+2023-12-15 13:36:55.629 [SpringApplicationShutdownHook] INFO  org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2023-12-15 13:36:55.739 [tomcat-shutdown] INFO  org.springframework.boot.web.embedded.tomcat.GracefulShutdown - Graceful shutdown complete
+2023-12-15 13:36:55.747 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+2023-12-15 13:36:55.749 [SpringApplicationShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2023-12-15 13:37:14.669 [main] INFO  com.geovis.cyyj.GeovisStartApplication - Starting GeovisStartApplication using Java 1.8.0_333 on DESKTOP-ENMGKRP with PID 10816 (E:\IdeaProjectWorkSpace\geovis-cyyj-fzjz\target\classes started by DELL in E:\IdeaProjectWorkSpace\geovis-cyyj-fzjz)
+2023-12-15 13:37:14.673 [main] INFO  com.geovis.cyyj.GeovisStartApplication - The following 1 profile is active: "dev"
+2023-12-15 13:37:15.997 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 10909 (http)
+2023-12-15 13:37:16.002 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-10909"]
+2023-12-15 13:37:16.003 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-12-15 13:37:16.003 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.74]
+2023-12-15 13:37:16.148 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-12-15 13:37:16.148 [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1354 ms
+2023-12-15 13:37:16.296 [main] INFO  com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure - Init DruidDataSource
+2023-12-15 13:37:16.552 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2023-12-15 13:37:17.825 [main] INFO  com.geovis.cyyj.common.config.JacksonConfig - 初始化 jackson 配置
+2023-12-15 13:37:18.044 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-10909"]
+2023-12-15 13:37:18.060 [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 10909 (http) with context path ''
+2023-12-15 13:37:18.207 [http-nio-10909-exec-3] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-12-15 13:37:18.208 [http-nio-10909-exec-3] INFO  org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-12-15 13:37:18.209 [http-nio-10909-exec-3] INFO  org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2023-12-15 13:37:18.724 [main] INFO  com.geovis.cyyj.GeovisStartApplication - Started GeovisStartApplication in 4.999 seconds (JVM running for 5.946)
