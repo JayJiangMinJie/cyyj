@@ -17,6 +17,7 @@ import com.geovis.cyyj.mapper.NoticeReceiveMapper;
 import com.geovis.cyyj.po.DistrictListPersonPO;
 import com.geovis.cyyj.po.NoticeDistributePO;
 import com.geovis.cyyj.po.NoticeReceivePO;
+import com.geovis.cyyj.po.ResponseReceivePO;
 import com.geovis.cyyj.service.INoticeDistributeService;
 import com.geovis.cyyj.service.INoticeProgressFeedbackService;
 import com.geovis.cyyj.service.INoticeReceiveService;
@@ -117,6 +118,7 @@ public class NoticeDistributeServiceImpl extends ServiceImpl<NoticeDistributeMap
             deliverNotice2ReceiveDTO.setNoticeDistributeId(noticeDistributePO.getId());
             deliverNotice2ReceiveDTO.setWordPath(noticeDistributePO.getWordPath());
             deliverNotice2ReceiveDTO.setFilePath(noticeDistributePO.getFilePath());
+            deliverNotice2ReceiveDTO.setTaskStatus(noticeDistributePO.getStatus());
             //再生成进度反馈的数据
             NoticeProgressFeedbackDTO noticeProgressFeedbackDTO = new NoticeProgressFeedbackDTO();
             noticeProgressFeedbackDTO.setNoticeDistributeId(noticeDistributePO.getId());
@@ -174,12 +176,15 @@ public class NoticeDistributeServiceImpl extends ServiceImpl<NoticeDistributeMap
 //        LambdaQueryWrapper<NoticeReceivePO> lambdaQueryWrap = new LambdaQueryWrapper();
 //        lambdaUpdateWrap.eq(NoticeReceivePO::getNoticeDistributeId, noticeDistributeId);
 //        NoticeReceivePO noticeReceivePO =
+        //接收部分
+        LambdaUpdateWrapper<NoticeReceivePO> luwReceive = Wrappers.lambdaUpdate();
+        luwReceive.eq(NoticeReceivePO::getNoticeDistributeId, noticeDistributeId);
 
 
 
         LambdaUpdateWrapper<NoticeDistributePO> luw = Wrappers.lambdaUpdate();
         int resultWithdrawNum = 0;
-        int resultReceiveWithdrawNum = 0;
+        int resultReceiveEnd = 0;
         int resultEndNum = 0;
         if("withdraw".equals(operateType)){
             //撤回通知之后下发方消息还在，状态变成已撤回，接收方消息删除
@@ -189,11 +194,6 @@ public class NoticeDistributeServiceImpl extends ServiceImpl<NoticeDistributeMap
             if(resultWithdrawNum == 0){
                 log.warn("下发通知表撤回失败，noticeDistributeId： " + noticeDistributeId);
             }
-//            //gengxin
-//            resultReceiveWithdrawNum = noticeReceiveMapper.update(lambdaUpdateWrap);
-//            if(resultReceiveWithdrawNum == 0){
-//                log.warn("下发通知表update失败，noticeDistributeId： " + noticeDistributeId);
-//            }
             //删除通知接收方内容
             LambdaUpdateWrapper<NoticeReceivePO> receiveLuw = Wrappers.lambdaUpdate();
             receiveLuw.eq(noticeDistributeId != null, NoticeReceivePO::getNoticeDistributeId, noticeDistributeId);
@@ -207,6 +207,12 @@ public class NoticeDistributeServiceImpl extends ServiceImpl<NoticeDistributeMap
             luw.eq(NoticeDistributePO::getId, noticeDistributeId);
             bizDistributePO.setStatus("结束");
             resultEndNum = noticeDistributeMapper.update(bizDistributePO, luw);
+            //更新接收表状态
+            luwReceive.set(NoticeReceivePO::getTaskStatus, "结束");
+            resultReceiveEnd = noticeReceiveMapper.update(null, luwReceive);
+            if(resultReceiveEnd == 0){
+                log.warn("下发通知表结束失败，noticeDistributeId： " + noticeDistributeId);
+            }
         }
         if((resultEndNum == 1) || (resultWithdrawNum > 1)){
             return true;

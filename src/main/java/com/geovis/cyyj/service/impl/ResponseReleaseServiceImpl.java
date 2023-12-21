@@ -14,9 +14,7 @@ import com.geovis.cyyj.mapper.DistrictListPersonMapper;
 import com.geovis.cyyj.mapper.ResponseReleaseMapper;
 import com.geovis.cyyj.mapper.ResponseReceiveMapper;
 import com.geovis.cyyj.po.*;
-import com.geovis.cyyj.service.IResponseChangeLogService;
-import com.geovis.cyyj.service.IResponseReleaseService;
-import com.geovis.cyyj.service.IResponseReceiveService;
+import com.geovis.cyyj.service.*;
 import com.geovis.cyyj.vo.ResponseReleaseVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,6 +56,9 @@ public class ResponseReleaseServiceImpl extends ServiceImpl<ResponseReleaseMappe
 
     @Autowired
     private final DistrictListPersonMapper districtListPersonMapper;
+
+    @Autowired
+    private IResponseProgressFeedbackService iResponseProgressFeedbackService;
     /**
      * 分页查询响应下发列表
      */
@@ -125,6 +126,16 @@ public class ResponseReleaseServiceImpl extends ServiceImpl<ResponseReleaseMappe
             deliverResponse2ReceiveDTO.setResponseContent(insertResponseReleaseResult.getResponseContent());
             deliverResponse2ReceiveDTO.setParentUserId(insertResponseReleaseResult.getUserId());
             deliverResponse2ReceiveDTO.setResponseReleaseId(responseReleasePO.getId());
+            //再生成进度反馈的数据
+            ResponseProgressFeedbackDTO responseProgressFeedbackDTO = new ResponseProgressFeedbackDTO();
+            responseProgressFeedbackDTO.setResponseReleaseId(responseReleasePO.getId());
+//            responseProgressFeedbackDTO.setEndTime(responseReleasePO.getReleaseTime());
+            responseProgressFeedbackDTO.setCity("青岛市");
+            responseProgressFeedbackDTO.setCounty("城阳区应急管理局");
+//            responseProgressFeedbackDTO.setOperatePerson(responseReleasePO.get());
+            responseProgressFeedbackDTO.setReceiveStatus("未读");
+            responseProgressFeedbackDTO.setParentUserId(responseReleasePO.getUserId());
+            responseProgressFeedbackDTO.setFilePath(responseReleasePO.getFilePath());
             //这里暂时查询本地表人员
             //用查询到的接收单位list找出该给哪些单位发信息
             String[] unitArrays = deliverResponseDTO.getReceiveUnit().split(",");
@@ -142,6 +153,13 @@ public class ResponseReleaseServiceImpl extends ServiceImpl<ResponseReleaseMappe
                 Boolean insertResult = iResponseReceiveService.deliverResponse(deliverResponse2ReceiveDTO);
                 if(!insertResult){
                     throw new RuntimeException("insert into receive unit failed, userid is : " + deliverResponse2ReceiveDTO.getUserId() + " parentid is : " + deliverResponse2ReceiveDTO.getParentUserId());
+                }
+                //进度反馈也要给各个单位默认发一个
+                responseProgressFeedbackDTO.setUserId(entry.getValue());
+                responseProgressFeedbackDTO.setOrgName(entry.getKey());
+                Boolean insertFeedbackResult = iResponseProgressFeedbackService.addOrUpdateResponseProgressFeedback(responseProgressFeedbackDTO);
+                if(!insertFeedbackResult){
+                    throw new RuntimeException("insert into feedback failed, userid is : " + responseProgressFeedbackDTO.getUserId() + " parentid is : " + responseProgressFeedbackDTO.getParentUserId());
                 }
             }
             return true;

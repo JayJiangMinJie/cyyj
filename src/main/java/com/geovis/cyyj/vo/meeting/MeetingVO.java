@@ -1,18 +1,19 @@
-package com.geovis.cyyj.dto;
+package com.geovis.cyyj.vo.meeting;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
 /**
- * 会议人员DTO
- *
- * @author jay
- * @version V1.0
- * @date 2023/10/23 22:23
+ * 会议;
+ * @author : jay
+ * @date : 2023-10-18
  */
-@ApiModel("会议人员DTO")
-public class MeetingPeopleDTO {
-    @ApiModelProperty(value = "meetingId")
+@ApiModel(value = "会议",description = "会议")
+public class MeetingVO implements Serializable,Cloneable{
+    @ApiModelProperty(value = "id")
     private String meetingId;
     @ApiModelProperty(value = "token")
     private String token;
@@ -22,8 +23,6 @@ public class MeetingPeopleDTO {
     private String host;
     @ApiModelProperty(value = "被呼叫人")
     private String callee;
-    @ApiModelProperty(value = "操作类别")
-    private String type;
 
     public String getMeetingId() {
         return meetingId;
@@ -63,13 +62,5 @@ public class MeetingPeopleDTO {
 
     public void setCallee(String callee) {
         this.callee = callee;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 }

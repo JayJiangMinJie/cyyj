@@ -2,10 +2,8 @@ package com.geovis.cyyj.mapper.meeting;
 
 
 import com.geovis.cyyj.common.core.mapper.BaseMapperPlus;
-import com.geovis.cyyj.po.file.FilePO;
 import com.geovis.cyyj.po.meeting.MeetingPO;
-import com.geovis.cyyj.vo.FileVO;
-import com.geovis.cyyj.vo.MeetingVO;
+import com.geovis.cyyj.vo.meeting.MeetingVO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

@@ -30,7 +30,15 @@ public class NoticeReceiveVO implements Serializable,Cloneable{
     private String noticeContent;
     private Boolean isUpload;
     private String wordPath;
+    private String taskStatus;
 
+    public String getTaskStatus() {
+        return taskStatus;
+    }
+
+    public void setTaskStatus(String taskStatus) {
+        this.taskStatus = taskStatus;
+    }
     public String getWordPath() {
         return wordPath;
     }

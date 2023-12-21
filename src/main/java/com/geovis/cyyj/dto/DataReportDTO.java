@@ -44,7 +44,15 @@ public class DataReportDTO implements Serializable {
     private String userId;
     @ApiModelProperty(value = "上级用户标识")
     private String parentUserId;
+    private String taskStatus;
 
+    public String getTaskStatus() {
+        return taskStatus;
+    }
+
+    public void setTaskStatus(String taskStatus) {
+        this.taskStatus = taskStatus;
+    }
     public String getParentUserId() {
         return parentUserId;
     }

@@ -23,7 +23,15 @@ public class DataReportVO implements Serializable,Cloneable{
     private LocalDateTime createTime;
     private String userId;
     private String parentUserId;
+    private String taskStatus;
 
+    public String getTaskStatus() {
+        return taskStatus;
+    }
+
+    public void setTaskStatus(String taskStatus) {
+        this.taskStatus = taskStatus;
+    }
     public String getParentUserId() {
         return parentUserId;
     }

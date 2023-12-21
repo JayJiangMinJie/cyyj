@@ -139,6 +139,7 @@ public class StatisticTaskServiceImpl extends ServiceImpl<StatisticTaskMapper, S
                 dataReportDTO.setParentUserId(deliverTaskDTO.getUserId());
                 dataReportDTO.setReleaseTime(deliverTask2ReportDTO.getReleaseTime());
                 dataReportDTO.setTitle(deliverTask2ReportDTO.getTitle());
+                dataReportDTO.setTaskStatus(statisticTaskPO.getStatus());
                 Boolean insertResult = iDataReportService.dataReport(dataReportDTO);
                 if(!insertResult){
                     throw new RuntimeException("insert into receive unit failed, userid is : " + deliverTask2ReportDTO.getUserId() + " parentid is : " + deliverTask2ReportDTO.getParentUserId());
@@ -173,7 +174,13 @@ public class StatisticTaskServiceImpl extends ServiceImpl<StatisticTaskMapper, S
     public Boolean operateTask(Integer statisticTaskId, String userId, String operateType) {
         StatisticTaskPO statisticTaskPO = statisticTaskMapper.selectById(statisticTaskId);
         LambdaUpdateWrapper<StatisticTaskPO> luw = Wrappers.lambdaUpdate();
+
+        //接收部分
+        LambdaUpdateWrapper<DataReportPO> luwReceive = Wrappers.lambdaUpdate();
+        luwReceive.eq(DataReportPO::getStatisticTaskId, statisticTaskId);
+
         int resultWithdrawNum = 0;
+        int resultReceiveEnd = 0;
         int resultEndNum = 0;
         if("withdraw".equals(operateType)){
             //撤回任务之后下发方消息还在，状态变成已撤回，接收方消息删除
@@ -192,6 +199,12 @@ public class StatisticTaskServiceImpl extends ServiceImpl<StatisticTaskMapper, S
             luw.eq(StatisticTaskPO::getId, statisticTaskId);
             statisticTaskPO.setStatus("结束");
             resultEndNum = statisticTaskMapper.update(statisticTaskPO, luw);
+            //更新接收表状态
+            luwReceive.set(DataReportPO::getTaskStatus, "结束");
+            resultReceiveEnd = dataReportMapper.update(null, luwReceive);
+            if(resultReceiveEnd == 0){
+                log.warn("下发任务表结束失败，statisticTaskId： " + statisticTaskId);
+            }
         }
         if((resultEndNum == 1) || (resultWithdrawNum > 1)){
             return true;
