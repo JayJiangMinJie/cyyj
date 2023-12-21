@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * 会议记录;
@@ -24,6 +25,15 @@ public class MeetingLogPO implements Serializable,Cloneable{
     private String status;
     private String shouyingType;
     private String shouyingId;
+    private LocalDateTime createTime;
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
 
     public String getShouyingType() {
         return shouyingType;

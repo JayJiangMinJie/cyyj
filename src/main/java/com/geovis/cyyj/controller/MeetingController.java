@@ -3,7 +3,6 @@ package com.geovis.cyyj.controller;
 import com.geovis.cyyj.common.core.domain.PageQuery;
 import com.geovis.cyyj.common.core.page.TableDataInfo;
 import com.geovis.cyyj.dto.meeting.MeetingPeopleDTO;
-import com.geovis.cyyj.po.meeting.MeetingLogPO;
 import com.geovis.cyyj.service.meeting.MeetingLogService;
 import com.geovis.cyyj.service.meeting.MeetingService;
 import com.geovis.cyyj.vo.meeting.MeetingLogVO;
@@ -15,8 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(value="/meeting")

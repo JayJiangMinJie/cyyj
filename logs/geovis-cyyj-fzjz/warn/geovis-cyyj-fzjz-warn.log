@@ -46,3 +46,13 @@
 2023-12-21 13:19:54.126 [main] WARN  com.baomidou.mybatisplus.core.injector.DefaultSqlInjector - class com.geovis.cyyj.po.DistrictListPO ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
 2023-12-21 13:58:57.302 [main] WARN  com.baomidou.mybatisplus.core.injector.DefaultSqlInjector - class com.geovis.cyyj.po.DistrictListPersonPO ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
 2023-12-21 13:58:57.363 [main] WARN  com.baomidou.mybatisplus.core.injector.DefaultSqlInjector - class com.geovis.cyyj.po.DistrictListPO ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-12-21 14:18:55.192 [main] WARN  com.baomidou.mybatisplus.core.injector.DefaultSqlInjector - class com.geovis.cyyj.po.DistrictListPersonPO ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-12-21 14:18:55.252 [main] WARN  com.baomidou.mybatisplus.core.injector.DefaultSqlInjector - class com.geovis.cyyj.po.DistrictListPO ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-12-21 14:43:59.712 [main] WARN  com.baomidou.mybatisplus.core.injector.DefaultSqlInjector - class com.geovis.cyyj.po.DistrictListPersonPO ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-12-21 14:43:59.767 [main] WARN  com.baomidou.mybatisplus.core.injector.DefaultSqlInjector - class com.geovis.cyyj.po.DistrictListPO ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-12-21 14:49:43.497 [main] WARN  com.baomidou.mybatisplus.core.injector.DefaultSqlInjector - class com.geovis.cyyj.po.DistrictListPersonPO ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-12-21 14:49:43.555 [main] WARN  com.baomidou.mybatisplus.core.injector.DefaultSqlInjector - class com.geovis.cyyj.po.DistrictListPO ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-12-21 16:41:03.603 [main] WARN  com.baomidou.mybatisplus.core.injector.DefaultSqlInjector - class com.geovis.cyyj.po.DistrictListPersonPO ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-12-21 16:41:03.664 [main] WARN  com.baomidou.mybatisplus.core.injector.DefaultSqlInjector - class com.geovis.cyyj.po.DistrictListPO ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-12-21 16:53:08.653 [main] WARN  com.baomidou.mybatisplus.core.injector.DefaultSqlInjector - class com.geovis.cyyj.po.DistrictListPersonPO ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
+2023-12-21 16:53:08.735 [main] WARN  com.baomidou.mybatisplus.core.injector.DefaultSqlInjector - class com.geovis.cyyj.po.DistrictListPO ,Not found @TableId annotation, Cannot use Mybatis-Plus 'xxById' Method.
