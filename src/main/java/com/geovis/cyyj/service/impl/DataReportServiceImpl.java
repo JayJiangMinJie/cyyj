@@ -15,6 +15,7 @@ import com.geovis.cyyj.mapper.DataReportMapper;
 import com.geovis.cyyj.mapper.StatisticTaskProgressFeedbackMapper;
 import com.geovis.cyyj.po.DataReportPO;
 import com.geovis.cyyj.po.StatisticTaskProgressFeedbackPO;
+import com.geovis.cyyj.po.meeting.MeetingLogPO;
 import com.geovis.cyyj.service.IDataReportService;
 import com.geovis.cyyj.vo.DataReportVO;
 import lombok.RequiredArgsConstructor;
@@ -69,6 +70,7 @@ public class DataReportServiceImpl extends ServiceImpl<DataReportMapper, DataRep
         lqw.le(dataReportQueryDTO.getEndReleaseTime() != null, DataReportPO::getReleaseTime, dataReportQueryDTO.getEndReleaseTime());
         lqw.ge(dataReportQueryDTO.getStartLastFillTime() != null, DataReportPO::getLastFillTime, dataReportQueryDTO.getStartLastFillTime());
         lqw.le(dataReportQueryDTO.getEndLastFillTime() != null, DataReportPO::getLastFillTime, dataReportQueryDTO.getEndLastFillTime());
+        lqw.orderByDesc(DataReportPO::getCreateTime);
         return lqw;
     }
 

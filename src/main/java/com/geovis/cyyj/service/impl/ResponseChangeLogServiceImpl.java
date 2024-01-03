@@ -11,6 +11,7 @@ import com.geovis.cyyj.common.utils.StringUtils;
 import com.geovis.cyyj.dto.InsertResponseChangeLogDTO;
 import com.geovis.cyyj.dto.ResponseChangeLogQueryDTO;
 import com.geovis.cyyj.mapper.ResponseChangeLogMapper;
+import com.geovis.cyyj.po.PublicServerPO;
 import com.geovis.cyyj.po.ResponseChangeLogPO;
 import com.geovis.cyyj.service.IResponseChangeLogService;
 import com.geovis.cyyj.vo.ResponseChangeLogVO;
@@ -44,6 +45,7 @@ public class ResponseChangeLogServiceImpl extends ServiceImpl<ResponseChangeLogM
     @Override
     public TableDataInfo<ResponseChangeLogVO> queryMainList(ResponseChangeLogQueryDTO responseChangeLogQueryDTO, PageQuery pageQuery) {
         LambdaQueryWrapper<ResponseChangeLogPO> lqw = buildQueryWrapper(responseChangeLogQueryDTO);
+        lqw.orderByDesc(ResponseChangeLogPO::getCreateTime);
         Page<ResponseChangeLogVO> result = responseChangeLogMapper.selectVoPage(pageQuery.build(), lqw);
         return TableDataInfo.build(result);
     }
@@ -51,6 +53,7 @@ public class ResponseChangeLogServiceImpl extends ServiceImpl<ResponseChangeLogM
     @Override
     public List<ResponseChangeLogPO> queryLogList(ResponseChangeLogQueryDTO responseChangeLogQueryDTO) {
         LambdaQueryWrapper<ResponseChangeLogPO> lqw = new LambdaQueryWrapper<>();
+        lqw.orderByDesc(ResponseChangeLogPO::getCreateTime);
         lqw.eq(StringUtils.isNotBlank(responseChangeLogQueryDTO.getUserId()), ResponseChangeLogPO::getUserId, responseChangeLogQueryDTO.getUserId());
         lqw.eq(responseChangeLogQueryDTO.getResponseReleaseId() != 0, ResponseChangeLogPO::getResponseReleaseId, responseChangeLogQueryDTO.getResponseReleaseId());
         List<ResponseChangeLogPO> result = responseChangeLogMapper.selectList(lqw);
@@ -59,6 +62,7 @@ public class ResponseChangeLogServiceImpl extends ServiceImpl<ResponseChangeLogM
 
     private LambdaQueryWrapper<ResponseChangeLogPO> buildQueryWrapper(ResponseChangeLogQueryDTO responseChangeLogQueryDTO) {
         LambdaQueryWrapper<ResponseChangeLogPO> lqw = Wrappers.lambdaQuery();
+        lqw.orderByDesc(ResponseChangeLogPO::getCreateTime);
         lqw.eq(responseChangeLogQueryDTO.getResponseReleaseId() != 0, ResponseChangeLogPO::getResponseReleaseId, responseChangeLogQueryDTO.getResponseReleaseId());
         lqw.eq(StringUtils.isNotBlank(responseChangeLogQueryDTO.getUserId()), ResponseChangeLogPO::getUserId, responseChangeLogQueryDTO.getUserId());
         return lqw;

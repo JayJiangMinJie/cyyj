@@ -43,3 +43,7 @@ file:
   taskPath: D:\项目数据汇总\城阳项目\filepath\task\
 #font:
 #  chinese: C:\Windows\Fonts\
+
+token:
+  appId: 58f9d2af480f4c7e97a35842b4d314ef
+  appCertificate: 4c8502cfa4ad4c8b809136ec005e1245

@@ -14,10 +14,7 @@ import com.geovis.cyyj.dto.NoticeProgressFeedbackDTO;
 import com.geovis.cyyj.mapper.DistrictListPersonMapper;
 import com.geovis.cyyj.mapper.NoticeDistributeMapper;
 import com.geovis.cyyj.mapper.NoticeReceiveMapper;
-import com.geovis.cyyj.po.DistrictListPersonPO;
-import com.geovis.cyyj.po.NoticeDistributePO;
-import com.geovis.cyyj.po.NoticeReceivePO;
-import com.geovis.cyyj.po.ResponseReceivePO;
+import com.geovis.cyyj.po.*;
 import com.geovis.cyyj.service.INoticeDistributeService;
 import com.geovis.cyyj.service.INoticeProgressFeedbackService;
 import com.geovis.cyyj.service.INoticeReceiveService;
@@ -78,6 +75,7 @@ public class NoticeDistributeServiceImpl extends ServiceImpl<NoticeDistributeMap
         lqw.eq(StringUtils.isNotBlank(noticeDistributeQueryDTO.getUserId()), NoticeDistributePO::getUserId, noticeDistributeQueryDTO.getUserId());
         lqw.ge(noticeDistributeQueryDTO.getStartTime() != null, NoticeDistributePO::getStartTime, noticeDistributeQueryDTO.getStartTime());
         lqw.le(noticeDistributeQueryDTO.getEndTime() != null, NoticeDistributePO::getEndTime, noticeDistributeQueryDTO.getEndTime());
+        lqw.orderByDesc(NoticeDistributePO::getCreateTime);
         return lqw;
     }
 

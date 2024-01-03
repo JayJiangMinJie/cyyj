@@ -12,6 +12,7 @@ import com.geovis.cyyj.common.utils.StringUtils;
 import com.geovis.cyyj.dto.GroupInsertDTO;
 import com.geovis.cyyj.dto.GroupManagementQueryDTO;
 import com.geovis.cyyj.mapper.GroupManagementMapper;
+import com.geovis.cyyj.po.DisasterWarningPO;
 import com.geovis.cyyj.po.GroupManagementPO;
 import com.geovis.cyyj.service.IGroupManagementService;
 import com.geovis.cyyj.vo.GroupManagementVO;
@@ -50,6 +51,7 @@ public class GroupManagementServiceImpl extends ServiceImpl<GroupManagementMappe
         LambdaQueryWrapper<GroupManagementPO> lqw = Wrappers.lambdaQuery();
         lqw.like(StringUtils.isNotBlank(groupManagementQueryDTO.getKeyWord()), GroupManagementPO::getName, groupManagementQueryDTO.getKeyWord());
         lqw.eq(StringUtils.isNotBlank(groupManagementQueryDTO.getUserId()), GroupManagementPO::getUserId, groupManagementQueryDTO.getUserId());
+        lqw.orderByDesc(GroupManagementPO::getCreateTime);
         return lqw;
     }
 

@@ -15,10 +15,7 @@ import com.geovis.cyyj.dto.NoticeReceiveQueryDTO;
 import com.geovis.cyyj.dto.NoticeReceiveStatusDTO;
 import com.geovis.cyyj.mapper.NoticeProgressFeedbackMapper;
 import com.geovis.cyyj.mapper.NoticeReceiveMapper;
-import com.geovis.cyyj.po.DisasterWarningPO;
-import com.geovis.cyyj.po.NoticeProgressFeedbackPO;
-import com.geovis.cyyj.po.NoticeReceivePO;
-import com.geovis.cyyj.po.PublicServerPO;
+import com.geovis.cyyj.po.*;
 import com.geovis.cyyj.service.INoticeReceiveService;
 import com.geovis.cyyj.vo.NoticeReceiveVO;
 import lombok.RequiredArgsConstructor;
@@ -65,6 +62,7 @@ public class NoticeReceiveServiceImpl extends ServiceImpl<NoticeReceiveMapper, N
         lqw.eq(StringUtils.isNotBlank(noticeReceiveQueryDTO.getStatus()), NoticeReceivePO::getStatus, noticeReceiveQueryDTO.getStatus());
         lqw.ge(noticeReceiveQueryDTO.getStartTime() != null, NoticeReceivePO::getStartTime, noticeReceiveQueryDTO.getStartTime());
         lqw.le(noticeReceiveQueryDTO.getEndTime() != null, NoticeReceivePO::getEndTime, noticeReceiveQueryDTO.getEndTime());
+        lqw.orderByDesc(NoticeReceivePO::getCreateTime);
         return lqw;
     }
 

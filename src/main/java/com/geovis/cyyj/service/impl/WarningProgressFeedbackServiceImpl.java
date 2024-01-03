@@ -9,6 +9,7 @@ import com.geovis.cyyj.common.core.page.TableDataInfo;
 import com.geovis.cyyj.common.utils.BeanCopyUtils;
 import com.geovis.cyyj.dto.WarningProgressFeedbackDTO;
 import com.geovis.cyyj.mapper.WarningProgressFeedbackMapper;
+import com.geovis.cyyj.po.StatisticTaskPO;
 import com.geovis.cyyj.po.WarningProgressFeedbackPO;
 import com.geovis.cyyj.service.IWarningProgressFeedbackService;
 import com.geovis.cyyj.vo.WarningProgressFeedbackVO;
@@ -45,6 +46,7 @@ public class WarningProgressFeedbackServiceImpl extends ServiceImpl<WarningProgr
         LambdaQueryWrapper<WarningProgressFeedbackPO> lqw = Wrappers.lambdaQuery();
         lqw.eq(warningDistributeId != 0, WarningProgressFeedbackPO::getDisasterWarningId, warningDistributeId);
         lqw.eq(StringUtils.isNotBlank(parentUserId), WarningProgressFeedbackPO::getParentUserId, parentUserId);
+        lqw.orderByDesc(WarningProgressFeedbackPO::getCreateTime);
         Page<WarningProgressFeedbackVO> result = warningProgressFeedbackMapper.selectVoPage(pageQuery.build(), lqw);
         return TableDataInfo.build(result);
     }

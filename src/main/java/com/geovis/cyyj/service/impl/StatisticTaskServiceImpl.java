@@ -76,6 +76,7 @@ public class StatisticTaskServiceImpl extends ServiceImpl<StatisticTaskMapper, S
         lqw.eq(StringUtils.isNotBlank(statisticTaskQueryDTO.getStatus()), StatisticTaskPO::getStatus, statisticTaskQueryDTO.getStatus());
         lqw.ge(statisticTaskQueryDTO.getStartTime() != null, StatisticTaskPO::getLastFillTime, statisticTaskQueryDTO.getStartTime());
         lqw.le(statisticTaskQueryDTO.getEndTime() != null, StatisticTaskPO::getLastFillTime, statisticTaskQueryDTO.getEndTime());
+        lqw.orderByDesc(StatisticTaskPO::getCreateTime);
         return lqw;
     }
 

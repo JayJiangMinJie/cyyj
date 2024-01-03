@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @TableName("meeting_log")
 public class MeetingLogPO implements Serializable,Cloneable{
     @TableId(type = IdType.AUTO)
-    private int id;
+    private Integer id;
     private String connected;
     private String notConnectioned;
     private String host;
@@ -57,11 +57,11 @@ public class MeetingLogPO implements Serializable,Cloneable{
     public void setStatus(String status) {
         this.status = status;
     }
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

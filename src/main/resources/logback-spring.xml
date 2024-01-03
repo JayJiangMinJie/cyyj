@@ -103,7 +103,12 @@
 <!--    <logger name="com.springboot.web.dynamic_debug" level="debug" additivity="false">-->
 <!--        <appender-ref ref="console"/>-->
 <!--    </logger>-->
-
+    <root level="debug">
+        <appender-ref ref="console"/>
+        <appender-ref ref="errorFile"/>
+        <appender-ref ref="warnFile"/>
+        <appender-ref ref="infoFile"/>
+    </root>
     <!-- 开发环境 -->
     <springProfile name="dev">
         <root level="info">

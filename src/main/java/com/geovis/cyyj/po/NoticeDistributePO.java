@@ -22,6 +22,7 @@ public class NoticeDistributePO implements Serializable,Cloneable{
     private String title ;
     private LocalDateTime startTime ;
     private LocalDateTime endTime ;
+    private LocalDateTime createTime ;
     private String type ;
     private String status ;
     private String receiveUnit ;
@@ -30,6 +31,14 @@ public class NoticeDistributePO implements Serializable,Cloneable{
     private String userId;
     private String parentUserId;
     private String wordPath;
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
 
     public String getWordPath() {
         return wordPath;

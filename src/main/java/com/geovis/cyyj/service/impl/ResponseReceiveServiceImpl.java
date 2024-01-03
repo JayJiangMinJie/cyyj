@@ -12,6 +12,7 @@ import com.geovis.cyyj.dto.DeliverResponseDTO;
 import com.geovis.cyyj.dto.ResponseReceiveQueryDTO;
 import com.geovis.cyyj.dto.ResponseReceiveStatusDTO;
 import com.geovis.cyyj.mapper.ResponseReceiveMapper;
+import com.geovis.cyyj.po.ResponseProgressFeedbackPO;
 import com.geovis.cyyj.po.ResponseReceivePO;
 import com.geovis.cyyj.service.IResponseReceiveService;
 import com.geovis.cyyj.vo.ResponseReceiveVO;
@@ -58,6 +59,7 @@ public class ResponseReceiveServiceImpl extends ServiceImpl<ResponseReceiveMappe
         lqw.like(StringUtils.isNotBlank(responseReceiveQueryDTO.getRegion()), ResponseReceivePO::getRegion, responseReceiveQueryDTO.getRegion());
         lqw.ge(responseReceiveQueryDTO.getStartTime() != null, ResponseReceivePO::getCreateTime, responseReceiveQueryDTO.getStartTime());
         lqw.le(responseReceiveQueryDTO.getEndTime() != null, ResponseReceivePO::getCreateTime, responseReceiveQueryDTO.getEndTime());
+        lqw.orderByDesc(ResponseReceivePO::getCreateTime);
         return lqw;
     }
 

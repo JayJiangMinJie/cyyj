@@ -14,6 +14,7 @@ import com.geovis.cyyj.dto.DisasterWarningQueryDTO;
 import com.geovis.cyyj.mapper.DistrictListPersonMapper;
 import com.geovis.cyyj.mapper.DisasterWarningMapper;
 import com.geovis.cyyj.mapper.WarningReceiveMapper;
+import com.geovis.cyyj.po.DataReportPO;
 import com.geovis.cyyj.po.DistrictListPersonPO;
 import com.geovis.cyyj.po.DisasterWarningPO;
 import com.geovis.cyyj.po.WarningReceivePO;
@@ -76,6 +77,7 @@ public class DisasterWarningServiceImpl extends ServiceImpl<DisasterWarningMappe
         lqw.eq(StringUtils.isNotBlank(disasterWarningDTO.getType()), DisasterWarningPO::getType, disasterWarningDTO.getType());
         lqw.ge(disasterWarningDTO.getStartTime() != null, DisasterWarningPO::getCreateTime, disasterWarningDTO.getStartTime());
         lqw.le(disasterWarningDTO.getEndTime() != null, DisasterWarningPO::getCreateTime, disasterWarningDTO.getEndTime());
+        lqw.orderByDesc(DisasterWarningPO::getCreateTime);
         return lqw;
     }
 

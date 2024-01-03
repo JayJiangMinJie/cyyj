@@ -9,6 +9,7 @@ import com.geovis.cyyj.common.core.page.TableDataInfo;
 import com.geovis.cyyj.common.utils.BeanCopyUtils;
 import com.geovis.cyyj.dto.ResponseProgressFeedbackDTO;
 import com.geovis.cyyj.mapper.ResponseProgressFeedbackMapper;
+import com.geovis.cyyj.po.ResponseChangeLogPO;
 import com.geovis.cyyj.po.ResponseProgressFeedbackPO;
 import com.geovis.cyyj.service.IResponseProgressFeedbackService;
 import com.geovis.cyyj.vo.ResponseProgressFeedbackVO;
@@ -45,6 +46,7 @@ public class ResponseProgressFeedbackServiceImpl extends ServiceImpl<ResponsePro
         LambdaQueryWrapper<ResponseProgressFeedbackPO> lqw = Wrappers.lambdaQuery();
         lqw.eq(responseDistributeId != 0, ResponseProgressFeedbackPO::getResponseReleaseId, responseDistributeId);
         lqw.eq(StringUtils.isNotBlank(parentUserId), ResponseProgressFeedbackPO::getParentUserId, parentUserId);
+        lqw.orderByDesc(ResponseProgressFeedbackPO::getCreateTime);
         Page<ResponseProgressFeedbackVO> result = responseProgressFeedbackMapper.selectVoPage(pageQuery.build(), lqw);
         return TableDataInfo.build(result);
     }

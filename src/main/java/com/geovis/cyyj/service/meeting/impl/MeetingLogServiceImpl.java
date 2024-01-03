@@ -42,8 +42,9 @@ public class MeetingLogServiceImpl implements MeetingLogService {
     @Override
     public Boolean updateMeetingLog(MeetingLogDTO meetingLogDTO) {
         LambdaQueryWrapper<MeetingLogPO> lqw = new LambdaQueryWrapper<>();
+        lqw.eq(MeetingLogPO::getStatus,"进行中");
         MeetingLogPO meetingLogPOQuery = meetingLogMapper.selectOne(lqw);
-        int logId = meetingLogPOQuery.getId();
+        Integer logId = meetingLogPOQuery.getId();
         MeetingLogPO meetingLogPO = BeanCopyUtils.copy(meetingLogDTO, MeetingLogPO.class);
         LambdaUpdateWrapper<MeetingLogPO> luw = Wrappers.lambdaUpdate();
         luw.eq(MeetingLogPO::getId, logId);
@@ -66,6 +67,7 @@ public class MeetingLogServiceImpl implements MeetingLogService {
         LambdaQueryWrapper<MeetingLogPO> lqw = Wrappers.lambdaQuery();
         lqw.eq(StringUtils.isNotBlank(shouyingType), MeetingLogPO::getShouyingType, shouyingType);
         lqw.eq(StringUtils.isNotBlank(shouyingId), MeetingLogPO::getShouyingId, shouyingId);
+        lqw.orderByDesc(MeetingLogPO::getCreateTime);
         return lqw;
     }
 }

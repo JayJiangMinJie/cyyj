@@ -12,6 +12,7 @@ import com.geovis.cyyj.common.utils.StringUtils;
 import com.geovis.cyyj.dto.ArticleInsertDTO;
 import com.geovis.cyyj.dto.PublicServerQueryDTO;
 import com.geovis.cyyj.mapper.PublicServerMapper;
+import com.geovis.cyyj.po.NoticeReceivePO;
 import com.geovis.cyyj.po.PublicServerPO;
 import com.geovis.cyyj.service.IPublicServerService;
 import com.geovis.cyyj.vo.PublicServerVO;
@@ -53,6 +54,7 @@ public class PublicServerServiceImpl extends ServiceImpl<PublicServerMapper, Pub
         lqw.eq(StringUtils.isNotBlank(publicServerQueryDTO.getUserId()), PublicServerPO::getUserId, publicServerQueryDTO.getUserId());
         lqw.ge(publicServerQueryDTO.getStartTime() != null, PublicServerPO::getCreateTime, publicServerQueryDTO.getStartTime());
         lqw.le(publicServerQueryDTO.getEndTime() != null, PublicServerPO::getCreateTime, publicServerQueryDTO.getEndTime());
+        lqw.orderByDesc(PublicServerPO::getCreateTime);
         return lqw;
     }
 

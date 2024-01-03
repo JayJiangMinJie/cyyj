@@ -17,7 +17,7 @@ import java.util.List;
 @ApiModel("会议人员DTO")
 public class MeetingLogDTO {
     @ApiModelProperty(value = "id")
-    private int id;
+    private Integer id;
     @ApiModelProperty(value = "在线人")
     private String connected;
     @ApiModelProperty(value = "离线人")
@@ -54,11 +54,11 @@ public class MeetingLogDTO {
         this.status = status;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

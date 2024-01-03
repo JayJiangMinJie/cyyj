@@ -78,6 +78,7 @@ public class ResponseReleaseServiceImpl extends ServiceImpl<ResponseReleaseMappe
         lqw.eq(StringUtils.isNotBlank(responseReleaseQueryDTO.getStatus()), ResponseReleasePO::getStatus, responseReleaseQueryDTO.getStatus());
         lqw.ge(responseReleaseQueryDTO.getStartTime() != null, ResponseReleasePO::getCreateTime, responseReleaseQueryDTO.getStartTime());
         lqw.le(responseReleaseQueryDTO.getEndTime() != null, ResponseReleasePO::getCreateTime, responseReleaseQueryDTO.getEndTime());
+        lqw.orderByDesc(ResponseReleasePO::getCreateTime);
         return lqw;
     }
 
@@ -155,12 +156,12 @@ public class ResponseReleaseServiceImpl extends ServiceImpl<ResponseReleaseMappe
                     throw new RuntimeException("insert into receive unit failed, userid is : " + deliverResponse2ReceiveDTO.getUserId() + " parentid is : " + deliverResponse2ReceiveDTO.getParentUserId());
                 }
                 //进度反馈也要给各个单位默认发一个
-                responseProgressFeedbackDTO.setUserId(entry.getValue());
-                responseProgressFeedbackDTO.setOrgName(entry.getKey());
-                Boolean insertFeedbackResult = iResponseProgressFeedbackService.addOrUpdateResponseProgressFeedback(responseProgressFeedbackDTO);
-                if(!insertFeedbackResult){
-                    throw new RuntimeException("insert into feedback failed, userid is : " + responseProgressFeedbackDTO.getUserId() + " parentid is : " + responseProgressFeedbackDTO.getParentUserId());
-                }
+//                responseProgressFeedbackDTO.setUserId(entry.getValue());
+//                responseProgressFeedbackDTO.setOrgName(entry.getKey());
+//                Boolean insertFeedbackResult = iResponseProgressFeedbackService.addOrUpdateResponseProgressFeedback(responseProgressFeedbackDTO);
+//                if(!insertFeedbackResult){
+//                    throw new RuntimeException("insert into feedback failed, userid is : " + responseProgressFeedbackDTO.getUserId() + " parentid is : " + responseProgressFeedbackDTO.getParentUserId());
+//                }
             }
             return true;
         }else {

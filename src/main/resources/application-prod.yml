@@ -16,6 +16,7 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://10.1.110.96:5432/postgres?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
+#    url: jdbc:postgresql://127.0.0.1:5432/postgres?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
     username: postgres
     password: Hiko@20201204
   # 文件上传总配置
@@ -24,7 +25,8 @@ spring:
       enabled: true
       max-file-size: 100MB
       max-request-size: 256MB
-  static-dir: /mnt/vos-ev6rjhbg/project/chengyang/hlwfzjz/static
+#  static-dir: /mnt/data/project/hlwfzjz/static
+  static-dir: /mnt/vos-ev6rjhbg/project/hlwfzjz/static
   web:
     resources:
       static-locations:
@@ -34,11 +36,17 @@ spring:
         - classpath:/resources/
         - classpath:/META-INF/resources/
 
-#本地+一体机路径
+#云服务器
 file:
   uploadPath: /mnt/vos-ev6rjhbg/project/chengyang/hlwfzjz/java/filepath/
   uploadMediaPath: /mnt/vos-ev6rjhbg/project/chengyang/hlwfzjz/java/filepath/media/
   taskPath: /mnt/vos-ev6rjhbg/project/chengyang/hlwfzjz/java/filepath/task/
+
+#生产服务器
+#file:
+#  uploadPath: /mnt/data/project/hlwfzjz/java/filepath/
+#  uploadMediaPath: /mnt/data/project/hlwfzjz/java/filepath/media/
+#  taskPath: /mnt/data/project/hlwfzjz/java/filepath/task/
 #file:
 #  uploadPath: http://10.1.108.219:9004/filePath/
 #  uploadMediaPath: http://10.1.108.219:9004/filePath/media/

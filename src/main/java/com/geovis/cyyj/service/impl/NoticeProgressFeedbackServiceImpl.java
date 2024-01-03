@@ -10,6 +10,7 @@ import com.geovis.cyyj.common.utils.BeanCopyUtils;
 
 import com.geovis.cyyj.dto.NoticeProgressFeedbackDTO;
 import com.geovis.cyyj.mapper.NoticeProgressFeedbackMapper;
+import com.geovis.cyyj.po.NoticeDistributePO;
 import com.geovis.cyyj.po.NoticeProgressFeedbackPO;
 import com.geovis.cyyj.service.INoticeProgressFeedbackService;
 import com.geovis.cyyj.vo.NoticeProgressFeedbackVO;
@@ -45,6 +46,7 @@ public class NoticeProgressFeedbackServiceImpl extends ServiceImpl<NoticeProgres
     public TableDataInfo<NoticeProgressFeedbackVO> queryNoticeProgressFeedbackList(Integer noticeDistributeId, PageQuery pageQuery) {
         LambdaQueryWrapper<NoticeProgressFeedbackPO> lqw = Wrappers.lambdaQuery();
         lqw.eq(noticeDistributeId != 0, NoticeProgressFeedbackPO::getNoticeDistributeId, noticeDistributeId);
+        lqw.orderByDesc(NoticeProgressFeedbackPO::getCreateTime);
         Page<NoticeProgressFeedbackVO> result = noticeProgressFeedbackMapper.selectVoPage(pageQuery.build(), lqw);
         return TableDataInfo.build(result);
     }

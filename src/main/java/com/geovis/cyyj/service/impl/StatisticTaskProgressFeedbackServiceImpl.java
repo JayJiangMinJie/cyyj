@@ -11,6 +11,7 @@ import com.geovis.cyyj.common.utils.StringUtils;
 import com.geovis.cyyj.dto.StatisticTaskProgressFeedbackDTO;
 import com.geovis.cyyj.mapper.StatisticTaskMapper;
 import com.geovis.cyyj.mapper.StatisticTaskProgressFeedbackMapper;
+import com.geovis.cyyj.po.ResponseReleasePO;
 import com.geovis.cyyj.po.StatisticTaskPO;
 import com.geovis.cyyj.po.StatisticTaskProgressFeedbackPO;
 import com.geovis.cyyj.po.StatisticTaskProgressFeedbackPO;
@@ -51,6 +52,7 @@ public class StatisticTaskProgressFeedbackServiceImpl extends ServiceImpl<Statis
         LambdaQueryWrapper<StatisticTaskProgressFeedbackPO> lqw = Wrappers.lambdaQuery();
         lqw.eq(statisticTaskId != 0, StatisticTaskProgressFeedbackPO::getStatisticTaskId, statisticTaskId);
         lqw.eq(StringUtils.isNotEmpty(userId), StatisticTaskProgressFeedbackPO::getUserId, userId);
+        lqw.orderByDesc(StatisticTaskProgressFeedbackPO::getCreateTime);
         Page<StatisticTaskFeedbackListVO> result = statisticTaskProgressFeedbackMapper.selectVoPage(pageQuery.build(), lqw);
         return TableDataInfo.build(result);
     }

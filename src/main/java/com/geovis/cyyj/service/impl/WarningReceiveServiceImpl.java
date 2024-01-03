@@ -12,6 +12,7 @@ import com.geovis.cyyj.dto.DeliverWarningDTO;
 import com.geovis.cyyj.dto.WarningReceiveQueryDTO;
 import com.geovis.cyyj.dto.WarningReceiveStatusDTO;
 import com.geovis.cyyj.mapper.WarningReceiveMapper;
+import com.geovis.cyyj.po.WarningProgressFeedbackPO;
 import com.geovis.cyyj.po.WarningReceivePO;
 import com.geovis.cyyj.service.IWarningReceiveService;
 import com.geovis.cyyj.vo.WarningReceiveVO;
@@ -58,6 +59,7 @@ public class WarningReceiveServiceImpl extends ServiceImpl<WarningReceiveMapper,
         lqw.like(StringUtils.isNotBlank(warningReceiveQueryDTO.getRegion()), WarningReceivePO::getRegion, warningReceiveQueryDTO.getRegion());
         lqw.ge(warningReceiveQueryDTO.getStartTime() != null, WarningReceivePO::getCreateTime, warningReceiveQueryDTO.getStartTime());
         lqw.le(warningReceiveQueryDTO.getEndTime() != null, WarningReceivePO::getCreateTime, warningReceiveQueryDTO.getEndTime());
+        lqw.orderByDesc(WarningReceivePO::getCreateTime);
         return lqw;
     }
 

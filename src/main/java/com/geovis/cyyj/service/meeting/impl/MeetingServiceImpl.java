@@ -43,8 +43,8 @@ public class MeetingServiceImpl implements MeetingService {
     private LambdaQueryWrapper<MeetingPO> buildQueryWrapper(MeetingPeopleDTO meetingPeopleDTO) {
         LambdaQueryWrapper<MeetingPO> lqw = Wrappers.lambdaQuery();
         lqw.eq(StringUtils.isNotBlank(meetingPeopleDTO.getMeetingId()), MeetingPO::getMeetingId, meetingPeopleDTO.getMeetingId());
-        lqw.eq(StringUtils.isNotBlank(meetingPeopleDTO.getToken()), MeetingPO::getToken, meetingPeopleDTO.getToken());
-        lqw.eq(StringUtils.isNotBlank(meetingPeopleDTO.getChannel()), MeetingPO::getChannel, meetingPeopleDTO.getChannel());
+//        lqw.eq(StringUtils.isNotBlank(meetingPeopleDTO.getToken()), MeetingPO::getToken, meetingPeopleDTO.getToken());
+//        lqw.eq(StringUtils.isNotBlank(meetingPeopleDTO.getChannel()), MeetingPO::getChannel, meetingPeopleDTO.getChannel());
         return lqw;
     }
 
@@ -81,6 +81,7 @@ public class MeetingServiceImpl implements MeetingService {
             //如果数据存在，就更新参会人,直接覆盖
             meetingPO = BeanCopyUtils.copy(meetingPeopleDTO, MeetingPO.class);
             meetingPO.setCallee(memberJson);
+            meetingPO.setHost(hostJson);
             LambdaUpdateWrapper<MeetingPO> luw = Wrappers.lambdaUpdate();
             luw.eq(MeetingPO::getMeetingId, meetingPeopleDTO.getMeetingId());
             luw.eq(MeetingPO::getToken, meetingPeopleDTO.getToken());
@@ -211,6 +212,7 @@ public class MeetingServiceImpl implements MeetingService {
                 meetingLogDTO.setNotConnectioned("");
             }
             meetingLogDTO.setHost(hostJSON);
+            meetingLogDTO.setId(meetingLog.getId());
             meetingLogDTO.setStatus("已结束");
 //            meetingLogDTO.setShouyingType(meetingLog.getShouyingType());
 //            meetingLogDTO.setShouyingId(meetingLog.getShouyingId());
